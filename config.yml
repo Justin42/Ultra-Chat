@@ -1,0 +1,64 @@
+
+#Config for UltraChat
+#Developed by Ryandw11.
+Stop_Chat_Message: '&cThe chat has been stopped!'
+No_Permission: '&4You do not have permission for this command!'
+#(Breaking up lines)
+Plugin_Prefix: '&7[&aUltraChat&7]'
+Broadcast_Prefix: '&7[&aUltra Chat&7]&c'
+VIP_Deny_Chat_Message: '&aVip chat is currently enabled!'
+Staff_Mode_Deny_Chat_Message: '&9The chat is currently in staff mode!'
+Anti_Swear_Enabled: 'true'
+Blocked_Words:
+    - ******Swear Words****
+#Want other things config able? Tell me at https://www.spigotmc.org/resources/ultra-chat.13776/ !
+Swear_Message: '&4Swearing is not allowed on this server! You have been warned!'
+Staff_Chat_Prefix: '&7[&dStaff Chat&7]'
+Staff_Chat_Color: '&3'
+#Command spy settings:
+Command_Spy_Prefix: '&7[&6Cmd Spy&7]'
+Command_Spy_Color: '&b'
+#Clear Chat:
+Clear_Chat_Message: '&3The chat has been cleared!'
+#Command Blocker (Must include the /):
+Blocked_Command_Enabled: 'false'
+Blocked_Commands:
+    - /stop
+    - /restart
+Command_Message: '&cThat command is blocked!'
+
+#Join / Leave messages:
+Join_Message: '&e %player% has joined the server!'
+Leave_Message: '&e %player% has left the server!'
+
+#World Chat:
+World_Chat: 'false'
+World_Chat_Style: '&7[&aWorld Chat&7] %player% &8>>&f'
+#If chat color is enabled above then it is enabled in world chat.
+
+Op_Chat_Color: '&c'
+
+Silent_Join_Message: '%player% &7has joined the game silently!'
+Silent_Leave_Message: '%player% &7has left the game silently!'
+
+#Custom chat. *Recommended if no other chat plugin*
+Custom_Chat_Enabled: 'false'
+
+Custom_Chat:
+    Default_Chat: '&7[%world%&7]%player% &7>>&f '
+    Custom_Chat_1:
+        Permission: 'ultrachat.chat.1'
+        Format: '%player% &7>>&c '
+    Custom_Chat_2:
+        Permission: 'ultrachat.chat.2'
+        Format: '%player% &7> '
+    Custom_Chat_3:
+        Permission: 'ultrachat.chat.3'
+        Format: '%player% &7>> '
+    Custom_Chat_4:
+        Permission: 'ultrachat.chat.4'
+        Format: '%player% &7>> '
+    Custom_Chat_5:
+        Permission: 'ultrachat.chat.5'
+        Format: '%player% &7>> '
+    Op_Chat: '%player% &c>> '
