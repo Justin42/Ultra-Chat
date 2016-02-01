@@ -32,14 +32,7 @@ Clear_Chat_Message: '&3The chat has been cleared!'
 Anti_Swear_Enabled: 'true'
 
 Blocked_Words:
-    - fuck
-    - fu
-    - shit
-    - f*ck
-    - crap
-    - ass
-    - gay
-    - jackass
+    - *Swearwords*
 
 Swear_Message: '&4Swearing is not allowed on this server! You have been warned!'
 
