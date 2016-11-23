@@ -22,43 +22,46 @@ Staff_Chat_Color: '&3'
 Command_Spy_Prefix: '&7[&6Cmd Spy&7]'
 Command_Spy_Color: '&b'
 
-#Clear Chat:
-Clear_Chat_Message: '&3The chat has been cleared!'
+#Color GUI Settings:
+#If true the command will be /chat color instead of /color
+ChatColor_Command: false
+
+
 
 #############################################
 #               Anti - Swear                #
 #############################################
 
-Anti_Swear_Enabled: 'true'
+Anti_Swear_Enabled: 'false'
 
 Blocked_Words:
-    - *Swearwords*
+    - fuck
+    - fu
+    - shit
+    - f*ck
+    - crap
+    - ass
+    - gay
+    - jackass
+    - sh*t
+    - asshole
+    - fucker
 
 Swear_Message: '&4Swearing is not allowed on this server! You have been warned!'
 
-
-##########################################
-#           Anti - Command               #
-##########################################
-Blocked_Command_Enabled: 'false'
-
-Blocked_Commands:
-    - /stop
-    - /restart
-
-Command_Message: '&cThat command is blocked!'
-
 ##############################################
-#               World Chat                   #
+#                Channels                    #
 ##############################################
-#World Chat:
-World_Chat: 'false'
-World_Chat_Style: '&7[&aWorld Chat&7] %player% &8>>&f'
-#If chat color is enabled above then it is enabled in world chat.
-
+#Note: Custom Chat must be enabled for this to work!
+#Enable Channels:
+Channels: false
+#Default Channel. This is the channel the player first joins the server. It is also given when the channel the player is on does not exsist.
+Default_Channel: 'global'
 ##############################################
 #                    Chat                    #
 ##############################################
+#Clear Chat:
+Clear_Chat_Message: '&3The chat has been cleared by &9%player%&3!'
 
 #Join / Leave messages:
 Join_Message: '&e %player% has joined the server!'
@@ -70,24 +73,67 @@ Op_Chat_Color: '&c'
 Silent_Join_Message: '%player% &7has joined the game silently!'
 Silent_Leave_Message: '%player% &7has left the game silently!'
 
+#New player join. If the player hasn't joined the server before then this message will play. If you don't want it put none.
+New_Player: '&d%player% has just joined the server for the first time! Welcome!'
+
+#Moto of the day. You can use chat colors.
+#If you have PlaceholderAPI installed you can use these placeholders: https://www.spigotmc.org/wiki/placeholderapi-placeholders/!
+Motd_Enabled: true
+Motd:
+    - '&6Welcome to the server,&r %player_name%&6.'
+    - '&6There are currently&b %server_online% &6players online!'
+
 #Custom chat. *Recommended if no other chat plugin*
-Custom_Chat_Enabled: 'false'
-#Variables: %player% = player, %world% = world name.
+Custom_Chat_Enabled: true
+
+#Json is if you hover over the message it will give you a message.
+#Warning: JSON may not work with some other chat related plugins.
+JSON: false
+
+#Variables: %prefix% - Gives you the players prefix. %suffix% - gives you the player suffix!
+#You can use PlaceHolderAPI here! Check out the placeholders here: https://www.spigotmc.org/wiki/placeholderapi-placeholders/
+#You can have unlimited custom chat formats.
+#Note: If PlaceHolderAPI placeholders are not showing up please check to make sure you have the extension installed and that you reloaded the plugin. 
+#Notice: The JSON is only if the JSON above is set to true. JSON can also use PlaceHolderAPI!
 Custom_Chat:
-    Default_Chat: '&7[%world%&7]%player% &7>>&f '
-    Custom_Chat_1:
+    Chat_Count: 5
+    1:
         Permission: 'ultrachat.chat.1'
-        Format: '%player% &7>>&c '
-    Custom_Chat_2:
+        Format: '%prefix% %player% %suffix%&7>> '
+        JSON:
+            - Example
+            - Example 2
+    2:
         Permission: 'ultrachat.chat.2'
-        Format: '%player% &7> '
-    Custom_Chat_3:
+        Format: '%prefix% %player% %suffix% &7>> '
+        JSON:
+            - Example
+            - Example 2
+    3:
         Permission: 'ultrachat.chat.3'
-        Format: '%player% &7>> '
-    Custom_Chat_4:
+        Format: '%prefix% %player% %suffix%&7>> '
+        JSON:
+            - '&cNotice'
+            - '&7Use colorcodes in quotes'
+    4:
         Permission: 'ultrachat.chat.4'
-        Format: '%player% &7>> '
-    Custom_Chat_5:
+        Format: '%prefix% %player% %suffix%&7>> '
+        JSON:
+            - '45'
+            - Same with numbers
+    5:
         Permission: 'ultrachat.chat.5'
-        Format: '%player% &7>> '
-    Op_Chat: '%player% &c>> '
+        Format: '%prefix% %player% %suffix%&7>> '
+        JSON:
+            - Example
+            - Example 2
+    Op_Chat: 
+        Format: '%prefix% %player% %suffix%&c>> '
+        JSON:
+            - Example
+            - Example 2
+    Default_Chat: 
+        Format: '<%prefix% %player% %suffix%&f>'
+        JSON:
+            - Example
+            - Example 2
