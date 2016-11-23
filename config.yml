@@ -9,10 +9,6 @@ Plugin_Prefix: '&7[&aUltraChat&7]'
 
 Broadcast_Prefix: '&7[&aUltra Chat&7]&c'
 
-VIP_Deny_Chat_Message: '&aVip chat is currently enabled!'
-
-Staff_Mode_Deny_Chat_Message: '&9The chat is currently in staff mode!'
-
 #Staff Chat:
 Staff_Chat_Prefix: '&7[&dStaff Chat&7]'
 Staff_Chat_Color: '&3'
