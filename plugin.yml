@@ -1,0 +1,25 @@
+name: UltraChat
+version: 1.8.3
+main: me.ryandw11.ultrachat.core.UltraChat
+author: Ryandw11
+description: This is a Chat plugin!
+depend: [Vault, PlaceholderAPI]
+commands:
+    chat:
+     description: Main Command for UltraChat!
+     aliases: [UltraChat, uchat, ultrac, uc]
+    sc:
+      description: Staff Chat!
+      aliases: [Staffchat, schat, staffc]
+    sctoggle:
+      description: Toggle the staff chat!
+      aliases: [StaffchatToggle, schattoggle, staffct, sct]
+    spy:
+      description: Spy on other players commands!
+      aliases: [spycmd, cmds, uspy, ucspy]
+    color:
+      description: Change your chat color!
+      aliases: [ccolor, chatcolor, uchatcolor, uccolor, chat color]
+    channel:
+      description: Change the channel you are using.
+      aliases: [chan, cn]

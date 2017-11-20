@@ -28,7 +28,7 @@ ChatColor_Command: false
 #               Anti - Swear                #
 #############################################
 
-Anti_Swear_Enabled: 'false'
+Anti_Swear_Enabled: false
 
 Blocked_Words:
     - fuck
@@ -49,6 +49,7 @@ Swear_Message: '&4Swearing is not allowed on this server! You have been warned!'
 #                Channels                    #
 ##############################################
 #Note: Custom Chat must be enabled for this to work!
+#Edit the channels.yml when the server is stopped!
 #Enable Channels:
 Channels: false
 #Default Channel. This is the channel the player first joins the server. It is also given when the channel the player is on does not exsist.
@@ -91,14 +92,26 @@ JSON: false
 #You can have unlimited custom chat formats.
 #Note: If PlaceHolderAPI placeholders are not showing up please check to make sure you have the extension installed and that you reloaded the plugin. 
 #Notice: The JSON is only if the JSON above is set to true. JSON can also use PlaceHolderAPI!
+########################
+#   Important Note!    #
+########################
+# If you give a player the '*' permission they will have every single custom chat. 
+# When json is enabled the message is sent several times based on the number of custom formats you have!
+# To advoid this give them the permission -(yourpermission). Ex: -ultrachat.chat.1
 Custom_Chat:
+    #The Chat_Count number must represent how many custom chats you have.
     Chat_Count: 5
+    #Each new custom chat must be a single number and all of them must go 1 - (what ever number you have last). There can't be any numbers skipped.
     1:
+        #The permission node you want to give it. *Does not need to match up with the number above*
         Permission: 'ultrachat.chat.1'
+        #The custom format in the chat. The message is added after the end of the string.
         Format: '%prefix% %player% %suffix%&7>> '
+        #JSON formating if enabled. In order to use color codes surround the message in single quotes. ''
         JSON:
             - Example
             - Example 2
+        #You can now also suggest a command to a player who clicks it. %player% is the only valid placeholder.
     2:
         Permission: 'ultrachat.chat.2'
         Format: '%prefix% %player% %suffix% &7>> '
@@ -123,11 +136,14 @@ Custom_Chat:
         JSON:
             - Example
             - Example 2
+    #For any player opped.
     Op_Chat: 
+        #The format.
         Format: '%prefix% %player% %suffix%&c>> '
         JSON:
             - Example
             - Example 2
+    #The default chat when a player does not have a custom one.
     Default_Chat: 
         Format: '<%prefix% %player% %suffix%&f>'
         JSON:
