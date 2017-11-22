@@ -13,22 +13,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 /**
- * ================================{UltraChat}================================
- * Developed by: Ryandw11
- * ================================{UltraChat}================================
+ * @author Ryandw11
  */
 public class JoinListner implements Listener {
 	
 	private UltraChat plugin;
-	public JoinListner(UltraChat plugin){
-		this.plugin = plugin;
+	public JoinListner(){
+		plugin = UltraChat.plugin;
 	}
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event){
-		
-		
-		
 		Player p = event.getPlayer();
 		
 		if(plugin.data.contains(p.getUniqueId().toString())){
@@ -69,11 +64,9 @@ public class JoinListner implements Listener {
 		
 	}
 	
-	
-	
-	
-	
-	
+	/*
+	 * On leave event
+	 */
 	@EventHandler
 	public void onLeave(PlayerQuitEvent event){
 		
@@ -95,7 +88,9 @@ public class JoinListner implements Listener {
 	
 	
 	
-	
+	/*
+	 * For MOTD
+	 */
 	@EventHandler
 	public void MOTD(PlayerJoinEvent event){
 		Player p = event.getPlayer();
@@ -111,11 +106,13 @@ public class JoinListner implements Listener {
 		
 	}
 	
+	/*
+	 * If there is a new player.
+	 */
+	
 	@EventHandler
 	public void NewPlayer(PlayerJoinEvent event){
-		Player p = event.getPlayer();
-		
-		
+		Player p = event.getPlayer();	
 		if(!(p.hasPlayedBefore()) && !(plugin.getConfig().getString("New_Player").equalsIgnoreCase("none"))){
 			Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("New_Player").replace("%player%", p.getDisplayName())));
 		}

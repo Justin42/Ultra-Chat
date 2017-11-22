@@ -1,7 +1,8 @@
 package me.ryandw11.ultrachat;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.UUID;
 
 import me.ryandw11.ultrachat.commands.ChannelCmd;
 import me.ryandw11.ultrachat.commands.ChatCommand;
@@ -42,6 +43,8 @@ public class UltraChat extends JavaPlugin{
 	public Boolean channelEnabled;
 	public Boolean JSON;
 	public String defaultChannel;
+	public ArrayList<UUID> stafftoggle = new ArrayList<>();
+	public ArrayList<UUID> spytoggle = new ArrayList<>();
 	 
 	public File datafile = new File(getDataFolder() + "/data/players.yml");
 	public FileConfiguration data = YamlConfiguration.loadConfiguration(datafile);
@@ -59,7 +62,7 @@ public class UltraChat extends JavaPlugin{
 		 * Plugin setup area
 		 */
 		plugin = this;
-		 if (getServer().getPluginManager().getPlugin("Vault") == null) {
+		 if (getServer().getPluginManager().getPlugin("Vault") == null && !setupChat()) {
 			 	getLogger().info(String.format("[%s] - Vault is not found!", getDescription().getName()));
 				getLogger().severe("[UltraChat] Warning: You do not have Vault installed! This plugin has been disabled!");
 				Bukkit.getPluginManager().disablePlugin(this);
@@ -231,20 +234,20 @@ public class UltraChat extends JavaPlugin{
 	 * Loads all of the Events and Commands.
 	 */
 	public void loadMethod(){
-		getCommand("chat").setExecutor(new ChatCommand(this));
-		getCommand("sc").setExecutor(new StaffChat(this));
-		getCommand("sctoggle").setExecutor(new StaffChatToggle(this));
-		getCommand("spy").setExecutor(new SpyCommand(this));
+		getCommand("chat").setExecutor(new ChatCommand());
+		getCommand("sc").setExecutor(new StaffChat());
+		getCommand("sctoggle").setExecutor(new StaffChatToggle());
+		getCommand("spy").setExecutor(new SpyCommand());
 		if(!(plugin.getConfig().getBoolean("ChatColor_Command")))
-			getCommand("color").setExecutor(new ColorGUI(this));
-		getCommand("channel").setExecutor(new ChannelCmd(this));
-		Bukkit.getServer().getPluginManager().registerEvents(new StopChat(this), this);
-		Bukkit.getServer().getPluginManager().registerEvents(new NoSwear(this), this);
-		Bukkit.getServer().getPluginManager().registerEvents(new Spy(this), this);
-		Bukkit.getServer().getPluginManager().registerEvents(new JoinListner(this), this);
+			getCommand("color").setExecutor(new ColorGUI());
+		getCommand("channel").setExecutor(new ChannelCmd());
+		Bukkit.getServer().getPluginManager().registerEvents(new StopChat(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new NoSwear(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new Spy(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new JoinListner(), this);
 		//Bukkit.getServer().getPluginManager().registerEvents(new Format(this), this);
-		Bukkit.getServer().getPluginManager().registerEvents(new ColorGUI(this), this);
-		Bukkit.getServer().getPluginManager().registerEvents(new Notify(this), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new ColorGUI(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new Notify(), this);
 		
 		this.prefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Plugin_Prefix"));
 		
