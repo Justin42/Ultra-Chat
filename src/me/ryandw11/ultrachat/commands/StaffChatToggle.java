@@ -7,44 +7,37 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.ryandw11.ultrachat.UltraChat;
-
+/**
+ * StaffChat Toggle command.
+ * @author Ryandw11
+ *
+ */
 public class StaffChatToggle implements CommandExecutor {
 	
-@SuppressWarnings("unused")
-private UltraChat plugin;
-	
-	public StaffChatToggle(UltraChat plugin){
-		this.plugin = plugin;
+	private UltraChat plugin;
+	public StaffChatToggle(){
+		plugin = UltraChat.plugin;
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String s, String[] arg3s) {
-		
+	public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {	
+		if(!(sender instanceof Player)){
+			plugin.getLogger().info("That command is for players only!");
+			return true;
+		}
 		Player p = (Player) sender;
-		if(cmd.getName().equalsIgnoreCase("sctoggle")){
-			if(!(p instanceof Player)) return true;
-			if(p.hasPermission("ultrachat.staffchat.toggle") || p.isOp()){
+		if(p.hasPermission("ultrachat.staffchat.toggle")){
 				
-				if(StaffChat.stafftoggle.contains(p.getUniqueId())){
-					StaffChat.stafftoggle.remove(p.getUniqueId());
-					p.sendMessage(ChatColor.LIGHT_PURPLE + "Staff chat enabled!");
+			if(plugin.stafftoggle.contains(p.getUniqueId())){
+				plugin.stafftoggle.remove(p.getUniqueId());
+				p.sendMessage(ChatColor.LIGHT_PURPLE + "Staff chat enabled!");
 					
-				}
-				else{
-					StaffChat.stafftoggle.add(p.getUniqueId());
-					p.sendMessage(ChatColor.LIGHT_PURPLE + "Staff chat disabled!");
-				}
-				
-				
-				
-				
-				
-				
-			}//end of perm check
-			
-		}//end of name check
-		
-		
+			}
+			else{
+				plugin.stafftoggle.add(p.getUniqueId());
+				p.sendMessage(ChatColor.LIGHT_PURPLE + "Staff chat disabled!");
+			}
+		}//end of perm check
 		return false;
 	}
 

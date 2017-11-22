@@ -16,8 +16,8 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 public class NoSwear implements Listener {
 	
 	private UltraChat plugin;
-	public NoSwear(UltraChat plugin){
-		this.plugin = plugin;
+	public NoSwear(){
+		plugin = UltraChat.plugin;
 	}
 	
 
@@ -26,8 +26,6 @@ public class NoSwear implements Listener {
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		
 		if(plugin.getConfig().getBoolean("Anti_Swear_Enabled")){	
-			
-			
 			Player p = event.getPlayer();
 		
 		
@@ -50,9 +48,7 @@ public class NoSwear implements Listener {
 	
 	@EventHandler
 	public void onJsonChat(JsonChatEvent event){
-		if(plugin.getConfig().getBoolean("Anti_Swear_Enabled")){	
-			
-			
+		if(plugin.getConfig().getBoolean("Anti_Swear_Enabled")){		
 			Player p = event.getPlayer();
 		
 		
