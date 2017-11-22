@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.bukkit.entity.Player;
 
-import me.ryandw11.ultrachat.core.UltraChat;
+import me.ryandw11.ultrachat.UltraChat;
 /**
  * UltraChatAPI
  * @author Ryandw11
