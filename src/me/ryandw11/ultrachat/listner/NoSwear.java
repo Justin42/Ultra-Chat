@@ -2,17 +2,16 @@ package me.ryandw11.ultrachat.listner;
 
 import java.util.List;
 
-import me.ryandw11.ultrachat.core.UltraChat;
+import me.ryandw11.ultrachat.UltraChat;
+import me.ryandw11.ultrachat.api.JsonChatEvent;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-/*
- * ================================{UltraChat}================================
- * Developed by: Ryandw11
- * ================================{UltraChat}================================
+/**
+ * @author Ryandw11
  */
 public class NoSwear implements Listener {
 	
@@ -43,12 +42,35 @@ public class NoSwear implements Listener {
 				//else do this:
 				event.setCancelled(true);
 				p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Swear_Message")));
-				
+				break;
 			}
+		}
+		}
+	}
+	
+	@EventHandler
+	public void onJsonChat(JsonChatEvent event){
+		if(plugin.getConfig().getBoolean("Anti_Swear_Enabled")){	
 			
-			else{}
+			
+			Player p = event.getPlayer();
+		
+		
+			List <String> swear = plugin.getConfig().getStringList("Blocked_Words");
+			int times = 0;
+		
+			String Message = " " + event.getMessage().toLowerCase().replace(".", "") + " ";
+		
+			for(String swearWord : swear){
+				//Check if world chat is enabled
+				if(Message.contains(swearWord + " ") && times == 0 || Message.contains(" " + swearWord + " ") && times == 0 || Message.contains(" " + swearWord) && times == 0 || Message.contains(swearWord)){
+					//else do this:
+					event.setCancelled(true);
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Swear_Message")));
+					break;
+				}
+			}
 		}
-		}
-	}//
+	}
 
 }

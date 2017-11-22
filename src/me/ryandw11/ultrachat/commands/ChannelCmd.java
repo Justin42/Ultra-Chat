@@ -1,12 +1,12 @@
 package me.ryandw11.ultrachat.commands;
 
-import me.ryandw11.ultrachat.core.UltraChat;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import me.ryandw11.ultrachat.UltraChat;
 /**
  * 
  * @author Ryandw11
