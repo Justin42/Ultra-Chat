@@ -1,9 +1,9 @@
 package me.ryandw11.ultrachat.listner;
 
 import me.ryandw11.ultrachat.UltraChat;
+import me.ryandw11.ultrachat.api.Lang;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,9 +23,7 @@ public class Spy implements Listener{
 		
 			for(Player p : Bukkit.getOnlinePlayers()){
 				if(plugin.spytoggle.contains(p.getUniqueId())){
-				p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Command_Spy_Prefix")) + ChatColor.DARK_AQUA + p1.getName() + ": " + ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Command_Spy_Color")) + msg);                                  
-				
-				
+					p.sendMessage(Lang.CMD_SPY_FORMAT.toString().replace("%p", p1.getName()).replace("%s", msg));
 				}// end of if
 				
 			

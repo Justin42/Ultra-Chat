@@ -1,6 +1,5 @@
 package me.ryandw11.ultrachat.listner;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -8,6 +7,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import me.ryandw11.ultrachat.UltraChat;
 import me.ryandw11.ultrachat.api.JsonChatEvent;
+import me.ryandw11.ultrachat.api.Lang;
 /**
  * Prevent players from chatting when the chat is stopped.
  * @author Ryandw11
@@ -26,7 +26,7 @@ public class StopChat implements Listener {
 		if(plugin.chatStop){
 			if(!p.hasPermission("ultrachat.stopchat.bypass")){
 				event.setCancelled(true);
-				p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Stop_Chat_Message")));
+				p.sendMessage(Lang.STOP_CHAT_MESSAGE.toString());
 			}
 		}
 	}
@@ -37,7 +37,7 @@ public class StopChat implements Listener {
 		if(plugin.chatStop){
 			if(!p.hasPermission("ultrachat.stopchat.bypass")){
 				e.setCancelled(true);
-				p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Stop_Chat_Message")));
+				p.sendMessage(Lang.STOP_CHAT_MESSAGE.toString());
 			}
 		}
 	}
