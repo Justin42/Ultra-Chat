@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Wool;
 
 import me.ryandw11.ultrachat.UltraChat;
+import me.ryandw11.ultrachat.api.Lang;
 
 /**
  * ColorGUI class.
@@ -30,7 +31,7 @@ public class ColorGUI implements CommandExecutor, Listener{
 		plugin = UltraChat.plugin;
 	}
 	public static void openGUI(Player p){
-		Inventory i = Bukkit.createInventory(null, 9*2, ChatColor.GREEN + "Chat Color");
+		Inventory i = Bukkit.createInventory(null, 9*2, Lang.COLOR_GUI.toString());
 		
 		Wool darkblue = new Wool(DyeColor.BLUE);
 		ItemStack darkblueitem = darkblue.toItemStack(1);
@@ -174,7 +175,7 @@ public class ColorGUI implements CommandExecutor, Listener{
 			openGUI(p.getPlayer());
 		}
 		else{
-			p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("No_Permission")));
+			p.sendMessage(Lang.NO_PERM.toString());
 		}
 		return false;
 		
@@ -185,7 +186,7 @@ public class ColorGUI implements CommandExecutor, Listener{
 	
 	@EventHandler
 	public void onInventoryClickEvent(InventoryClickEvent e){
-		if(!ChatColor.stripColor(e.getInventory().getName()).equalsIgnoreCase("Chat Color")) return;
+		if(!e.getInventory().getName().equalsIgnoreCase(Lang.COLOR_GUI.toString())) return;
 		
 		Player p = (Player) e.getWhoClicked();
 		e.setCancelled(true);

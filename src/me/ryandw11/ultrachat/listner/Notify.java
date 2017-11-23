@@ -1,7 +1,6 @@
 package me.ryandw11.ultrachat.listner;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,6 +9,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 //import me.ryandw11.ultrachat.UltraChat;
 import me.ryandw11.ultrachat.api.JsonChatEvent;
+import me.ryandw11.ultrachat.api.Lang;
 
 public class Notify implements Listener {
 
@@ -24,7 +24,7 @@ public class Notify implements Listener {
 		for(Player p : Bukkit.getOnlinePlayers()){
 			if(event.getMessage().contains("@" + p.getName())){
 				p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 10, 0);
-				p.sendMessage(ChatColor.GREEN + "Someone has mentioned you!");
+				p.sendMessage(Lang.MENTION.toString().replace("%p", event.getPlayer().getDisplayName()));
 			}
 		}
 	}
@@ -34,7 +34,7 @@ public class Notify implements Listener {
 		for(Player p : Bukkit.getOnlinePlayers()){
 			if(e.getMessage().contains("@" + p.getName())){
 				p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 10, 0);
-				p.sendMessage(ChatColor.GREEN + "Someone has mentioned you!");
+				p.sendMessage(Lang.MENTION.toString().replace("%p", e.getPlayer().getDisplayName()));
 			}
 		}
 	}
