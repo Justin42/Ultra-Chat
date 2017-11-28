@@ -1,6 +1,7 @@
 package me.ryandw11.ultrachat.formatting;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -36,10 +37,10 @@ public class Chat_Json implements Listener{
 			e.setCancelled(true);
 			String channel = plugin.data.getString(p.getUniqueId() + ".channel");
 			if(!plugin.channel.getBoolean(channel + ".always_appear")){
-				JsonChatEvent event = new JsonChatEvent(p, e.getMessage());
+				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), (Set<Player>) Bukkit.getOnlinePlayers());
 				Bukkit.getServer().getPluginManager().callEvent(event);
 				if(!event.isCancelled())
-				for(Player pl : Bukkit.getOnlinePlayers()){
+				for(Player pl : event.getRecipients()){
 					if(plugin.data.getString(pl.getUniqueId() + ".channel").equals(channel)){
 						if(pl.hasPermission(plugin.channel.getString(channel + ".permission")) || plugin.channel.getString(channel + ".permission").equalsIgnoreCase("none")){
 							
@@ -50,10 +51,10 @@ public class Chat_Json implements Listener{
 					}
 				}
 			else{
-				JsonChatEvent event = new JsonChatEvent(p, e.getMessage());
+				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), (Set<Player>) Bukkit.getOnlinePlayers());
 				Bukkit.getServer().getPluginManager().callEvent(event);
 				if(!event.isCancelled())
-					for(Player pl : Bukkit.getOnlinePlayers()){
+					for(Player pl : event.getRecipients()){
 						pl.spigot().sendMessage(json.hoverMessage(plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format").replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getPrefix()).replace("%player%", p.getDisplayName()),  (ArrayList<String>) plugin.channel.get(channel + ".JSON"), event.getMessage(), pf.getColor(), p));
 					}
 			}
@@ -61,20 +62,20 @@ public class Chat_Json implements Listener{
 			boolean complete = false;
 			e.setCancelled(true);
 			if(p.isOp()){
-				JsonChatEvent event = new JsonChatEvent(p, e.getMessage());
+				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), (Set<Player>) Bukkit.getOnlinePlayers());
 				Bukkit.getServer().getPluginManager().callEvent(event);
 				if(!event.isCancelled())
-					for(Player pl : Bukkit.getOnlinePlayers()){
+					for(Player pl : event.getRecipients()){
 						pl.spigot().sendMessage(json.hoverMessage(pf.getOpFormat().replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace("%player%", p.getDisplayName()), (ArrayList<String>) plugin.getConfig().get("Custom_Chat.Op_Chat.JSON"), event.getMessage(), pf.getColor(), p));
 					}
 			}else{
 				int i = 1;
-				JsonChatEvent event = new JsonChatEvent(p, e.getMessage());
+				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), (Set<Player>) Bukkit.getOnlinePlayers());
 				Bukkit.getServer().getPluginManager().callEvent(event);
 				if(!event.isCancelled()){
 					while(i <= plugin.getConfig().getInt("Custom_Chat.Chat_Count")){
 						if(p.hasPermission(plugin.getConfig().getString("Custom_Chat." + i + ".Permission"))){
-							for(Player pl : Bukkit.getOnlinePlayers()){
+							for(Player pl : event.getRecipients()){
 								pl.spigot().sendMessage(json.hoverMessage(plugin.getConfig().getString("Custom_Chat." + i +".Format").replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()), (ArrayList<String>) plugin.getConfig().get("Custom_Chat." + i +".JSON"), event.getMessage(), pf.getSuffix(), p));
 								complete = true;
 							}
@@ -86,10 +87,10 @@ public class Chat_Json implements Listener{
 				 * Normal player check
 				 */
 				if(!complete){
-					JsonChatEvent events = new JsonChatEvent(p, e.getMessage());
+					JsonChatEvent events = new JsonChatEvent(p, e.getMessage(), (Set<Player>) Bukkit.getOnlinePlayers());
 					Bukkit.getServer().getPluginManager().callEvent(events);
 					if(!event.isCancelled())
-						for(Player pl : Bukkit.getOnlinePlayers()){ // Fixed for normal players
+						for(Player pl : event.getRecipients()){ // Fixed for normal players
 							pl.spigot().sendMessage(json.hoverMessage(pf.getDefaultFormat().replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace("%player%", p.getDisplayName()), (ArrayList<String>) plugin.getConfig().get("Custom_Chat.Default_Chat.JSON"), event.getMessage(), pf.getColor(), p));
 						}
 				}
