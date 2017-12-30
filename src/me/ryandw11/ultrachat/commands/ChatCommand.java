@@ -1,7 +1,6 @@
 package me.ryandw11.ultrachat.commands;
 
 import me.ryandw11.ultrachat.UltraChat;
-import me.ryandw11.ultrachat.api.Lang;
 import me.ryandw11.ultrachat.gui.ColorGUI;
 
 import org.bukkit.Bukkit;
@@ -50,23 +49,23 @@ public class ChatCommand implements CommandExecutor {
 					
 					if(plugin.chatStop == true){
 						plugin.chatStop = false;
-						p.sendMessage(ChatColor.GREEN + "Chat Unstopped");
-						Bukkit.getServer().broadcastMessage(Lang.CHAT_STOP_OFF.toString().replace("%p", p.getDisplayName()));
+						p.sendMessage(ChatColor.GREEN + "Chat Unstoped");
+						Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Plugin_Prefix")) + ChatColor.translateAlternateColorCodes('&', " &eThe chat has been &2Enabled &eby: &5") + p.getDisplayName() + ChatColor.YELLOW + "!");
 					}
 					else if(plugin.chatStop == false){
 						plugin.chatStop = true;
-						p.sendMessage(ChatColor.GREEN + "Chat Stopped");
-						Bukkit.getServer().broadcastMessage(Lang.CHAT_STOP_ON.toString().replace("%p", p.getDisplayName()));
+						p.sendMessage(ChatColor.GREEN + "Chat Stoped");
+						Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Plugin_Prefix")) + ChatColor.translateAlternateColorCodes('&', " &eThe chat has been &4disabled &eby: &5") + p.getDisplayName() + ChatColor.YELLOW + "!");
 					}
 					else{
-						p.sendMessage("An error has occured!");
+						p.sendMessage("An error has occured");
 					}
 					
 					
 					
 				}
 				else{
-					p.sendMessage(Lang.NO_PERM.toString());
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("No_Permission")));
 				}
 				
 				
@@ -79,10 +78,10 @@ public class ChatCommand implements CommandExecutor {
 						for (int i = 1; i < args.length; i++){
 							Message = Message + " " + args[i];
 						}
-						Bukkit.getServer().broadcastMessage(Lang.BROADCAST_PREFIX.toString() + ChatColor.translateAlternateColorCodes('&', Message));
+						Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Broadcast_Prefix")) + ChatColor.translateAlternateColorCodes('&', Message));
 					}
 					else{
-						p.sendMessage(Lang.NO_PERM.toString());
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("No_Permission")));
 					}
 					
 				}
@@ -91,7 +90,7 @@ public class ChatCommand implements CommandExecutor {
 						p.sendMessage(ChatColor.RED + "Invalid Usage: /chat broadcast (broadcast)");
 					}
 					else{
-						p.sendMessage(Lang.NO_PERM.toString());
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("No_Permission")));
 					}
 				}//end of broadcast======================================================================================
 			//
@@ -104,11 +103,11 @@ public class ChatCommand implements CommandExecutor {
 			                  pl.sendMessage(" ");
 							}
 			            }
-					Bukkit.getServer().broadcastMessage(Lang.CHAT_CLEAR.toString());
+					Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Plugin_Prefix")) + ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Clear_Chat_Message").replace("%player%", p.getDisplayName())));
 					
 					}
 					else{
-						p.sendMessage(Lang.NO_PERM.toString());
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("No_Permission")));
 					}
 				}
 			//========================================================
@@ -129,7 +128,7 @@ public class ChatCommand implements CommandExecutor {
 						}
 					}
 					else{
-						p.sendMessage(Lang.NO_PERM.toString());
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("No_Permission")));
 					}
 					
 				}
@@ -149,7 +148,7 @@ public class ChatCommand implements CommandExecutor {
 						}
 					}
 					else{
-						p.sendMessage(Lang.NO_PERM.toString());
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("No_Permission")));
 					}
 					
 				}
@@ -165,7 +164,7 @@ public class ChatCommand implements CommandExecutor {
 						
 					}
 					else{
-						p.sendMessage(Lang.NO_PERM.toString());
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("No_Permission")));
 					}
 				}//end of fake join
 				
@@ -175,7 +174,7 @@ public class ChatCommand implements CommandExecutor {
 						
 					}
 					else{
-						p.sendMessage(Lang.NO_PERM.toString());
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("No_Permission")));
 					}
 				}//end of fake leave
 			//====================================================================
@@ -227,7 +226,7 @@ public class ChatCommand implements CommandExecutor {
 						Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.translateAlternateColorCodes('&', Message)));
 					}
 					else{
-						p.sendMessage(Lang.NO_PERM.toString());
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("No_Permission")));
 					}
 				}
 			
@@ -236,10 +235,10 @@ public class ChatCommand implements CommandExecutor {
 						plugin.reloadConfig();
 						plugin.saveChannel();
 						plugin.loadChannel();
-						p.sendMessage(Lang.CONFIG_RELOAD.toString());
+						p.sendMessage(ChatColor.GREEN + "The config has been reloaded!");
 					}
 					else{
-						p.sendMessage(Lang.NO_PERM.toString());
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("No_Permission")));
 					}
 				}
 				else if(args.length == 1 && args[0].equalsIgnoreCase("color")){
@@ -247,12 +246,12 @@ public class ChatCommand implements CommandExecutor {
 						ColorGUI.openGUI(p.getPlayer());
 					}
 					else{
-						p.sendMessage(Lang.NO_PERM.toString());
+						p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("No_Permission")));
 					}
 				}
 //=========================================----------------------------------------===========================================
 			else{
-				p.sendMessage(Lang.CHAT_CMD_NOT_VALID.toString());
+				p.sendMessage(ChatColor.RED + "That is not a valid command do /chat for help.");
 			}
 		
 		return false;

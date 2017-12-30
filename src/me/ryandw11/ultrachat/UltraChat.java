@@ -1,11 +1,9 @@
 package me.ryandw11.ultrachat;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import me.ryandw11.ultrachat.api.Lang;
 import me.ryandw11.ultrachat.commands.ChannelCmd;
 import me.ryandw11.ultrachat.commands.ChatCommand;
 import me.ryandw11.ultrachat.commands.StaffChat;
@@ -24,6 +22,7 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -52,8 +51,6 @@ public class UltraChat extends JavaPlugin{
 	public File channelfile;
 	public FileConfiguration channel;
 	public String prefix;
-	public static YamlConfiguration LANG;
-	public static File LANG_FILE;
 
 	
 
@@ -88,7 +85,6 @@ public class UltraChat extends JavaPlugin{
 		setupPermissions();
 		setupChat();
 		setupFormatting();
-		loadLang();
 	}
 	
 	@Override
@@ -210,52 +206,6 @@ public class UltraChat extends JavaPlugin{
 				e.printStackTrace();
 			}
 	}
-	public File getLangFile() {
-	    return LANG_FILE;
-	}
-	public YamlConfiguration getLang() {
-	    return LANG;
-	}
-	/**
-	 * 
-	 */
-	@SuppressWarnings("static-access")
-	public void loadLang() {
-	    File lang = new File(getDataFolder(), "lang.yml");
-	    if (!lang.exists()) {
-	        try {
-	            getDataFolder().mkdir();
-	            lang.createNewFile();
-	            InputStream defConfigStream = this.getResource("lang.yml");
-	            if (defConfigStream != null) {
-	                @SuppressWarnings("deprecation")
-					YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-	                defConfig.save(lang);
-	                Lang.setFile(defConfig);
-	                return;
-	            }
-	        } catch(IOException e) {
-	            e.printStackTrace(); // So they notice
-	            getLogger().severe("The language file could not be created. Disabling plugin.");
-	            this.setEnabled(false);
-	        }
-	    }
-	    YamlConfiguration conf = YamlConfiguration.loadConfiguration(lang);
-	    for(Lang item:Lang.values()) {
-	        if (conf.getString(item.getPath()) == null) {
-	            conf.set(item.getPath(), item.getDefault());
-	        }
-	    }
-	    Lang.setFile(conf);
-	    this.LANG = conf;
-	    this.LANG_FILE = lang;
-	    try {
-	        conf.save(getLangFile());
-	    } catch(IOException e) {
-	        getLogger().warning( "Failed to save lang.yml.");
-	        e.printStackTrace();
-	    }
-	}
 	
 	
 	
@@ -298,6 +248,8 @@ public class UltraChat extends JavaPlugin{
 		//Bukkit.getServer().getPluginManager().registerEvents(new Format(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new ColorGUI(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new Notify(), this);
+		
+		this.prefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Plugin_Prefix"));
 		
 	}
 

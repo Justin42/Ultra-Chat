@@ -20,12 +20,3 @@ global:
     JSON:
         - 'Wow'
         - 'No Way!'
-#Example Channel:
-vip:
-    prefix: '&a[&6VIP&a]&r'
-    permission: 'channel.vip'
-    always_appear: false
-    format: '%prefix% %player% %suffix%&7>> '
-    JSON:
-        - '&3Money: $&b%vault_eco_balance_fixed%'
-        - '&3Username: &f%player_name%'

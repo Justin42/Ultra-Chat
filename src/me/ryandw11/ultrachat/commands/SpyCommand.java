@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.ryandw11.ultrachat.UltraChat;
-import me.ryandw11.ultrachat.api.Lang;
 
 /**
  * Spy Command class.
@@ -40,14 +39,14 @@ public class SpyCommand implements CommandExecutor {
 			}
 			else{
 				if(plugin.spytoggle.contains(p.getUniqueId())){
-					p.sendMessage(Lang.CMD_SPY_OFF.toString());
+					p.sendMessage(plugin.prefix + ChatColor.AQUA + "Command Spy Disabled!");
 					plugin.spytoggle.remove(p.getUniqueId());
 					plugin.data.set(p.getUniqueId().toString() + ".spy", false);
 					plugin.saveFile();
 				}
 				else{
 					plugin.spytoggle.add(p.getUniqueId());
-					p.sendMessage(Lang.CMD_SPY_ON.toString()); 
+					p.sendMessage(plugin.prefix + ChatColor.AQUA + "Command Spy Enabled"); 
 					plugin.data.set(p.getUniqueId().toString() + ".spy", true);
 					plugin.saveFile();
 				}
@@ -60,13 +59,13 @@ public class SpyCommand implements CommandExecutor {
 				Player pl = (Player) Bukkit.getServer().getPlayer(args[0]);
 				if(plugin.spytoggle.contains(pl.getUniqueId())){
 					plugin.spytoggle.remove(pl.getUniqueId());
-					p.sendMessage(Lang.OTH_CMD_SPY_OFF.toString().replace("%p", args[0]));
+					p.sendMessage(plugin.prefix + ChatColor.BLUE + args[0] + " spy has been disabled!");
 					plugin.data.set(pl.getUniqueId().toString() + ".spy", false);
 					plugin.saveFile();
 				}
 				else{
 					plugin.spytoggle.add(pl.getUniqueId());
-					p.sendMessage(Lang.OTH_CMD_SPY_ON.toString().replace("%p", args[0]));
+					p.sendMessage(plugin.prefix + ChatColor.BLUE + args[0] + " spy has been enabled!");
 					plugin.data.set(pl.getUniqueId().toString() + ".spy", true);
 					plugin.saveFile();
 				}

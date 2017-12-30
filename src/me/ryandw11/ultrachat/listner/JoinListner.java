@@ -4,7 +4,6 @@ import java.util.List;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.ryandw11.ultrachat.UltraChat;
-import me.ryandw11.ultrachat.api.Lang;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -52,7 +51,7 @@ public class JoinListner implements Listener {
 			event.setJoinMessage("");
 			for(Player pl : Bukkit.getOnlinePlayers()){
 				if(pl.hasPermission("ultrachat.sjoin.alert")){
-					pl.sendMessage(Lang.SILENT_JOIN_MESSAGE.toString().replace("%p", p.getDisplayName()));
+					pl.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Silent_Join_Message")).replace("%player%", p.getDisplayName()));
 				}
 			}
 			
@@ -76,7 +75,7 @@ public class JoinListner implements Listener {
 			event.setQuitMessage("");
 			for(Player pl : Bukkit.getOnlinePlayers()){
 				if(pl.hasPermission("ultrachat.sjoin.alert")){
-					pl.sendMessage(Lang.SILENT_LEAVE_MESSAGE.toString().replace("%p",  p.getDisplayName()));
+					pl.sendMessage(ChatColor.translateAlternateColorCodes('&',plugin.getConfig().getString("Silent_Leave_Message")).replace("%player%", p.getDisplayName()));
 				}
 			}
 		}else{

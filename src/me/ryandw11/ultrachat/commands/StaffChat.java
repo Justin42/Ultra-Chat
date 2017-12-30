@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.ryandw11.ultrachat.UltraChat;
-import me.ryandw11.ultrachat.api.Lang;
 
 public class StaffChat implements CommandExecutor {
 	private UltraChat plugin;
@@ -22,31 +21,31 @@ public class StaffChat implements CommandExecutor {
 		
 		CommandSender p = sender;
 		if(p.hasPermission("ultrachat.staffchat")){
-			String message = "";
+			String Message = "";
 				
 			if(args.length > 0){
 				
 				for (int i = 0; i < args.length; i++){
-					message = message + " " + args[i];
+					Message = Message + " " + args[i];
 					
 				}
 				for(Player p1 : Bukkit.getOnlinePlayers()){
 					if(p1.hasPermission("ultrachat.staffchat")){
 						if(!plugin.stafftoggle.contains(p1.getUniqueId())){
-							p1.sendMessage(Lang.STAFF_CHAT_FORMAT.toString().replace("%p", p.getName()).replace("%s", message));
+							p1.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Staff_Chat_Prefix")) + ChatColor.DARK_AQUA + p.getName() + ":" + ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Staff_Chat_Color")) + Message);
 						}// end of if
 					}
 				}//end of for
-				plugin.getLogger().info(Lang.STAFF_CHAT_FORMAT.toString().replace("%p", p.getName()).replace("%s", message));
+				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Staff_Chat_Prefix")) + ChatColor.DARK_AQUA + p.getName() + ":" + ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Staff_Chat_Color")) + Message);
 			}//end
 			else{
-				p.sendMessage(ChatColor.RED + "Not enough words. Ussage: /sc (message)");
+				p.sendMessage(ChatColor.RED + "Not enough words. Ussage: /sc (Message)");
 			}
 				
 			
 		}//end of perm check
 		else{
-			p.sendMessage(Lang.NO_PERM.toString());
+			p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("No_Permission")));
 				
 		}
 		

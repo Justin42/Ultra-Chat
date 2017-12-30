@@ -1,6 +1,23 @@
 ##############################################
 #               Ultra Chat                   #
 ##############################################
+Stop_Chat_Message: '&cThe chat has been stopped!'
+
+No_Permission: '&4You do not have permission for this command!'
+
+Plugin_Prefix: '&7[&aUltraChat&7]'
+
+Broadcast_Prefix: '&7[&aUltra Chat&7]&c'
+
+#Staff Chat:
+Staff_Chat_Prefix: '&7[&dStaff Chat&7]'
+Staff_Chat_Color: '&3'
+
+#Command spy settings:
+
+Command_Spy_Prefix: '&7[&6Cmd Spy&7]'
+Command_Spy_Color: '&b'
+
 #Color GUI Settings:
 #If true the command will be /chat color instead of /color
 ChatColor_Command: false
@@ -20,10 +37,14 @@ Blocked_Words:
     - f*ck
     - crap
     - ass
+    - gay
     - jackass
     - sh*t
     - asshole
     - fucker
+
+Swear_Message: '&4Swearing is not allowed on this server! You have been warned!'
+
 ##############################################
 #                Channels                    #
 ##############################################
@@ -33,19 +54,21 @@ Blocked_Words:
 Channels: false
 #Default Channel. This is the channel the player first joins the server. It is also given when the channel the player is on does not exsist.
 Default_Channel: 'global'
-#This is a list for the channels. It will only affect the list of channels. (Name should match the same as the one in the channels.yml)
-Channel_List:
-- global
-- vip
 ##############################################
 #                    Chat                    #
 ##############################################
+#Clear Chat:
+Clear_Chat_Message: '&3The chat has been cleared by &9%player%&3!'
+
 #Join / Leave messages:
 Join_Message: '&e %player% has joined the server!'
 Leave_Message: '&e %player% has left the server!'
 
 #The default color that opped players chat in. Do &r for none.
 Op_Chat_Color: '&c'
+
+Silent_Join_Message: '%player% &7has joined the game silently!'
+Silent_Leave_Message: '%player% &7has left the game silently!'
 
 #New player join. If the player hasn't joined the server before then this message will play. If you don't want it put none.
 New_Player: '&d%player% has just joined the server for the first time! Welcome!'

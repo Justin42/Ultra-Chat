@@ -4,8 +4,8 @@ import java.util.List;
 
 import me.ryandw11.ultrachat.UltraChat;
 import me.ryandw11.ultrachat.api.JsonChatEvent;
-import me.ryandw11.ultrachat.api.Lang;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -39,7 +39,7 @@ public class NoSwear implements Listener {
 			if(Message.contains(swearWord + " ") && times == 0 || Message.contains(" " + swearWord + " ") && times == 0 || Message.contains(" " + swearWord) && times == 0 || Message.contains(swearWord)){
 				//else do this:
 				event.setCancelled(true);
-				p.sendMessage(Lang.NO_SWEAR.toString());
+				p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Swear_Message")));
 				break;
 			}
 		}
@@ -62,7 +62,7 @@ public class NoSwear implements Listener {
 				if(Message.contains(swearWord + " ") && times == 0 || Message.contains(" " + swearWord + " ") && times == 0 || Message.contains(" " + swearWord) && times == 0 || Message.contains(swearWord)){
 					//else do this:
 					event.setCancelled(true);
-					p.sendMessage(Lang.NO_SWEAR.toString());
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Swear_Message")));
 					break;
 				}
 			}
