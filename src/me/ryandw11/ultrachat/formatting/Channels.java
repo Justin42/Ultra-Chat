@@ -28,6 +28,9 @@ public class Channels implements Listener {
 		String channel = plugin.data.getString(p.getUniqueId() + ".channel");
 		if(!plugin.channel.getBoolean(channel + ".always_appear")){
 			e.getRecipients().removeAll(Bukkit.getOnlinePlayers());
+			if(p.hasPermission("ultrachat.chat.color")){
+				e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
+			}
 			for(Player pl : Bukkit.getOnlinePlayers()){
 				if(plugin.data.getString(pl.getUniqueId() + ".channel").equals(channel)){
 					if(pl.hasPermission(plugin.channel.getString(channel + ".permission")) || plugin.channel.getString(channel + ".permission").equalsIgnoreCase("none")){

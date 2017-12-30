@@ -31,7 +31,8 @@ public enum Lang {
 	NO_SWEAR("no-swear", "&cSwearing is not allowed on this server!"),
 	MENTION("mention", "&aSomeone has mentioned you!"),
 	CMD_SPY_FORMAT("cmd-spy-format", "&3[&6CommandSpy&3]&b %p: &3%s"),
-	STOP_CHAT_MESSAGE("stop-chat-message", "&cThe chat is currently not active.");
+	STOP_CHAT_MESSAGE("stop-chat-message", "&cThe chat is currently not active."),
+	CONSOLE_CHAT_LOG("console-chat-log", "%p: %s");
 
 	
 	 private String path;

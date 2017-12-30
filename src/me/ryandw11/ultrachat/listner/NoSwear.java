@@ -24,6 +24,7 @@ public class NoSwear implements Listener {
 	
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
+		if(plugin.JSON) return;
 		
 		if(plugin.getConfig().getBoolean("Anti_Swear_Enabled")){	
 			Player p = event.getPlayer();

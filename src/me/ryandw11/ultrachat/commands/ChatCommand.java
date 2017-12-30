@@ -34,12 +34,12 @@ public class ChatCommand implements CommandExecutor {
 		
 			
 			if(args.length == 0){
-				p.sendMessage(ChatColor.BLUE + "=============={" + ChatColor.GOLD + "Ultra Chat" + ChatColor.BLUE + "}==============");
-				p.sendMessage(ChatColor.BLUE + "Plugin developed by:" + ChatColor.GOLD + " Ryandw11");
-				p.sendMessage(ChatColor.BLUE + "Version: " + ChatColor.GOLD + String.format("%s", plugin.getDescription().getVersion()));
-				p.sendMessage(ChatColor.BLUE + "Plugin wiki:" + ChatColor.GOLD + " https://github.com/ryandw11/Ultra-Chat/wiki");
-				p.sendMessage(ChatColor.BLUE + "Do " + ChatColor.GOLD + " /chat help " + ChatColor.BLUE + "for the list of commands!");
-				p.sendMessage(ChatColor.BLUE + "=============={" + ChatColor.GOLD + "Ultra Chat" + ChatColor.BLUE + "}==============");
+				p.sendMessage(ChatColor.BLUE + "=============={" + ChatColor.GREEN + "Ultra Chat" + ChatColor.BLUE + "}==============");
+				p.sendMessage(ChatColor.BLUE + "Plugin developed by:" + ChatColor.GREEN + " Ryandw11");
+				p.sendMessage(ChatColor.BLUE + "Version: " + ChatColor.GREEN + String.format("%s", plugin.getDescription().getVersion()));
+				p.sendMessage(ChatColor.BLUE + "Plugin wiki:" + ChatColor.GREEN + " https://github.com/ryandw11/Ultra-Chat/wiki");
+				p.sendMessage(ChatColor.BLUE + "Do " + ChatColor.GREEN + " /chat help " + ChatColor.BLUE + "for the list of commands!");
+				p.sendMessage(ChatColor.BLUE + "=============={" + ChatColor.GREEN + "Ultra Chat" + ChatColor.BLUE + "}==============");
 				
 			}
 			
@@ -104,7 +104,7 @@ public class ChatCommand implements CommandExecutor {
 			                  pl.sendMessage(" ");
 							}
 			            }
-					Bukkit.getServer().broadcastMessage(Lang.CHAT_CLEAR.toString());
+					Bukkit.getServer().broadcastMessage(Lang.CHAT_CLEAR.toString().replace("%p", p.getName()));
 					
 					}
 					else{
@@ -183,19 +183,19 @@ public class ChatCommand implements CommandExecutor {
 			//================================================================
 				else if(args.length == 1 && args[0].equalsIgnoreCase("help")){
 						if(!p.hasPermission("ultrachat.help"))
-						p.sendMessage(ChatColor.BLUE + "-------------------=[" + ChatColor.GOLD + "Utlra Chat" + ChatColor.BLUE + "]=-------------------");
-						p.sendMessage(ChatColor.GOLD + "/chat help" + ChatColor.BLUE + "  The help command.");
-						p.sendMessage(ChatColor.GOLD + "/chat stop" + ChatColor.BLUE + "  Stop the chat.");
-						p.sendMessage(ChatColor.GOLD + "/chat broadcast (message)" + ChatColor.BLUE + "  Send a message to every player.");
-						p.sendMessage(ChatColor.GOLD + "/sc (message)" + ChatColor.BLUE + "  Talk in staff chat.");
-						p.sendMessage(ChatColor.GOLD + "/sctoggle" + ChatColor.BLUE + "  Toggle staff chat.");
-						p.sendMessage(ChatColor.GOLD + "/spy" + ChatColor.BLUE + "  Enable or disable command spy.");
-						p.sendMessage(ChatColor.GOLD + "/chat clear" + ChatColor.BLUE + "  Clear the chat.");
-						p.sendMessage(ChatColor.GOLD + "/chat sjoin" + ChatColor.BLUE + "  Silently join and leave the server.");
-						p.sendMessage(ChatColor.GOLD + "/chat leave (player)" + ChatColor.BLUE + "  Send a fake leave message.");
-						p.sendMessage(ChatColor.GOLD + "/chat join (player) " + ChatColor.BLUE + "  Send a fake join message.");
-						p.sendMessage(ChatColor.BLUE + "Do" + ChatColor.GOLD + " /chat help 2" + ChatColor.BLUE + " for more help pages!");
-						p.sendMessage(ChatColor.BLUE + "Plugin made by: " + ChatColor.GOLD + "Ryandw11" + ChatColor.BLUE + "! Help Page: " + ChatColor.GOLD + "1/2" + ChatColor.BLUE + ".");
+						p.sendMessage(ChatColor.BLUE + "-------------------=[" + ChatColor.GREEN + "Utlra Chat" + ChatColor.BLUE + "]=-------------------");
+						p.sendMessage(ChatColor.GREEN + "/chat help" + ChatColor.BLUE + "  The help command.");
+						p.sendMessage(ChatColor.GREEN + "/chat stop" + ChatColor.BLUE + "  Stop the chat.");
+						p.sendMessage(ChatColor.GREEN + "/chat broadcast (message)" + ChatColor.BLUE + "  Send a message to every player.");
+						p.sendMessage(ChatColor.GREEN + "/sc (message)" + ChatColor.BLUE + "  Talk in staff chat.");
+						p.sendMessage(ChatColor.GREEN + "/sctoggle" + ChatColor.BLUE + "  Toggle staff chat.");
+						p.sendMessage(ChatColor.GREEN + "/spy" + ChatColor.BLUE + "  Enable or disable command spy.");
+						p.sendMessage(ChatColor.GREEN + "/chat clear" + ChatColor.BLUE + "  Clear the chat.");
+						p.sendMessage(ChatColor.GREEN + "/chat sjoin" + ChatColor.BLUE + "  Silently join and leave the server.");
+						p.sendMessage(ChatColor.GREEN + "/chat leave (player)" + ChatColor.BLUE + "  Send a fake leave message.");
+						p.sendMessage(ChatColor.GREEN + "/chat join (player) " + ChatColor.BLUE + "  Send a fake join message.");
+						p.sendMessage(ChatColor.BLUE + "Do" + ChatColor.GREEN + " /chat help 2" + ChatColor.BLUE + " for more help pages!");
+						p.sendMessage(ChatColor.BLUE + "Plugin made by: " + ChatColor.GREEN + "Ryandw11" + ChatColor.BLUE + "! Help Page: " + ChatColor.GREEN + "1/2" + ChatColor.BLUE + ".");
 						p.sendMessage(ChatColor.BLUE + "---------------------------------------------------");
 					
 				}//end of  help
@@ -203,12 +203,12 @@ public class ChatCommand implements CommandExecutor {
 				else if(args.length == 2 && args[0].equalsIgnoreCase("help")){
 					if(p.hasPermission("ultrachat.help")){
 						if(args[1].equals("2")){
-							p.sendMessage(ChatColor.BLUE + "-------------------=[" + ChatColor.GOLD + "Utlra Chat" + ChatColor.BLUE + "]=-------------------");
-							p.sendMessage(ChatColor.GOLD + "/chat color" + ChatColor.BLUE + "  Change your chat color.");
-							p.sendMessage(ChatColor.GOLD + "/chat raw {Message}" + ChatColor.BLUE + "  Send a message in the chat without a prefix.");
-							p.sendMessage(ChatColor.GOLD + "/chat reload" + ChatColor.BLUE + "  Reload the config file.");
-							p.sendMessage(ChatColor.GOLD + "/channels" + ChatColor.BLUE + "  The channel command.");
-							p.sendMessage(ChatColor.BLUE + "Plugin made by: " + ChatColor.GOLD + "Ryandw11" + ChatColor.BLUE + "! Help Page: " + ChatColor.GOLD + "2/2" + ChatColor.BLUE + ".");
+							p.sendMessage(ChatColor.BLUE + "-------------------=[" + ChatColor.GREEN + "Utlra Chat" + ChatColor.BLUE + "]=-------------------");
+							p.sendMessage(ChatColor.GREEN + "/chat color" + ChatColor.BLUE + "  Change your chat color.");
+							p.sendMessage(ChatColor.GREEN + "/chat raw {Message}" + ChatColor.BLUE + "  Send a message in the chat without a prefix.");
+							p.sendMessage(ChatColor.GREEN + "/chat reload" + ChatColor.BLUE + "  Reload the config file.");
+							p.sendMessage(ChatColor.GREEN + "/channels" + ChatColor.BLUE + "  The channel command.");
+							p.sendMessage(ChatColor.BLUE + "Plugin made by: " + ChatColor.GREEN + "Ryandw11" + ChatColor.BLUE + "! Help Page: " + ChatColor.GREEN + "2/2" + ChatColor.BLUE + ".");
 							p.sendMessage(ChatColor.BLUE + "---------------------------------------------------");
 						}
 						if(!(args[1].equals("1") || args[1].equals("2"))){
@@ -224,7 +224,11 @@ public class ChatCommand implements CommandExecutor {
 					if(p.hasPermission("ultrachat.raw")){
 						String Message = "";
 						for (int i = 1; i < args.length; i++){
-							Message = Message + " " + args[i];
+							if(i == 1){
+								Message = Message + args[i]; // Fixed bugs
+							}else{
+								Message = Message + " " + args[i];
+							}
 						}
 						Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.translateAlternateColorCodes('&', Message)));
 					}

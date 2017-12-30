@@ -25,4 +25,5 @@ silent-join-message: '%p &7has joined the game silently!'
 silent-leave-message: '%p &7has left the game silently!'
 no-swear: '&cSwearing is not allowed on this server!'
 mention: '&aSomeone has mentioned you!'
+conosle-chat-log: '%p: %s'
 

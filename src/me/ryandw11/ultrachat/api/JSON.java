@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import org.bukkit.entity.Player;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.ryandw11.ultrachat.formatting.PlayerFormatting;
 //import me.ryandw11.ultrachat.UltraChat;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder.FormatRetention;
 
 
@@ -29,7 +31,8 @@ public class JSON {
 	 * @param p The player it is being applied to.
 	 * @return TextComponent with hover message.
 	 */
-	public BaseComponent[] hoverMessage(String msg, ArrayList<String> lore, String chat, String color, Player p){
+	public BaseComponent[] hoverMessage(String msg, ArrayList<String> lore, String chat, ChatColor color, Player p){
+		PlayerFormatting pf = new PlayerFormatting(p);
 		int i = 0;
 		int l = lore.size() - 1;
 		msg = ChatColor.translateAlternateColorCodes('&', msg);
@@ -42,7 +45,15 @@ public class JSON {
 		}
 		ComponentBuilder name = new ComponentBuilder(msg);
 		name.event( new HoverEvent( HoverEvent.Action.SHOW_TEXT, build.create() ) );
-		name.append(this.getMsg(chat, color), FormatRetention.FORMATTING);
+		TextComponent chatMsg;
+		if(color != null){
+			chatMsg = new TextComponent(chat); //Important May break!
+			chatMsg.setColor(color); 
+		}else{
+			String smgsd = ChatColor.translateAlternateColorCodes('&', pf.color + chat);
+			chatMsg = new TextComponent(smgsd);
+		}
+		name.append(this.getMsg(chat, color, p), FormatRetention.FORMATTING);
 		return name.create();
 	}
 	/**
@@ -51,8 +62,17 @@ public class JSON {
 	 * @param color The player's chat color
 	 * @return Chat message with string.
 	 */
-	public String getMsg(String chat, String color){
-		String msg = ChatColor.translateAlternateColorCodes('&', color + chat);
+	public String getMsg(String chat, ChatColor color, Player p){
+		String msg = "";
+		if(color != null){
+			if(p.hasPermission("ultrachat.chat.color")){
+				msg = ChatColor.translateAlternateColorCodes('&', color + chat);
+			}else{
+				msg = ChatColor.translateAlternateColorCodes('&', color + chat);
+			}
+		}else{
+			msg = ChatColor.translateAlternateColorCodes('&', chat);
+		}
 		return msg;
 	}
 }

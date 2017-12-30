@@ -22,6 +22,7 @@ public class StopChat implements Listener {
 	
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent event) {	
+		if(plugin.JSON) return;
 		Player p = event.getPlayer();
 		if(plugin.chatStop){
 			if(!p.hasPermission("ultrachat.stopchat.bypass")){

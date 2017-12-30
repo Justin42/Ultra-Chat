@@ -8,7 +8,7 @@ import me.ryandw11.ultrachat.UltraChat;
 /**
  * UltraChatAPI
  * @author Ryandw11
- * @version 1.8.3
+ * @version 2.1.0
  */
 
 public class UltraChatAPI{
@@ -219,6 +219,37 @@ public class UltraChatAPI{
 	public static UltraChat getPlugin(){
 		return UltraChat.plugin;
 	}
+	/**
+	 * Get the current formatting type.
+	 * @return The value of the config.
+	 */
+	public String getFormattingType(){
+		return plugin.getConfig().getString("chat_format");
+	}
+	/**
+	 * Get if the channel has json enabled or not.
+	 * @return True or false.
+	 */
+	public boolean isChannelJson(){
+		return plugin.getConfig().getBoolean("Channel_Json");
+	}
 	
+	/**
+	 * See if default channel exists.
+	 * @param chan - The channel in the config.
+	 * @return True if it does, false if not.
+	 */
+	public boolean legitDefaultChannel(String chan){
+		if(plugin.channel.contains(chan))
+			return true;
+		return false;
+	}
+	/**
+	 * Get if range has json or not.
+	 * @return True or False.
+	 */
+	public boolean isRangeJson(){
+		return plugin.getConfig().getBoolean("Range_Json");
+	}
 	
 }

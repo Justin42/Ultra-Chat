@@ -8,18 +8,23 @@ import java.util.UUID;
 import me.ryandw11.ultrachat.api.Lang;
 import me.ryandw11.ultrachat.commands.ChannelCmd;
 import me.ryandw11.ultrachat.commands.ChatCommand;
+import me.ryandw11.ultrachat.commands.Global;
 import me.ryandw11.ultrachat.commands.StaffChat;
 import me.ryandw11.ultrachat.commands.StaffChatToggle;
+import me.ryandw11.ultrachat.commands.World;
 import me.ryandw11.ultrachat.commands.SpyCommand;
 import me.ryandw11.ultrachat.formatting.Channels;
 import me.ryandw11.ultrachat.formatting.Chat_Json;
 import me.ryandw11.ultrachat.formatting.Normal;
+import me.ryandw11.ultrachat.formatting.Range;
 import me.ryandw11.ultrachat.gui.ColorGUI;
+import me.ryandw11.ultrachat.listner.ConsoleLogChat;
 import me.ryandw11.ultrachat.listner.JoinListner;
 import me.ryandw11.ultrachat.listner.NoSwear;
 import me.ryandw11.ultrachat.listner.Notify;
 import me.ryandw11.ultrachat.listner.Spy;
 import me.ryandw11.ultrachat.listner.StopChat;
+import me.ryandw11.ultrachat.util.Metrics;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 
@@ -41,8 +46,8 @@ public class UltraChat extends JavaPlugin{
 	public Chat chat = null;
 	public Boolean Vault;
 	public Boolean chatStop = false;
-	public Boolean channelEnabled;
-	public Boolean JSON;
+	public Boolean channelEnabled = false;
+	public Boolean JSON = false;
 	public String defaultChannel;
 	public ArrayList<UUID> stafftoggle = new ArrayList<>();
 	public ArrayList<UUID> spytoggle = new ArrayList<>();
@@ -67,18 +72,18 @@ public class UltraChat extends JavaPlugin{
 		plugin = this;
 		 if (getServer().getPluginManager().getPlugin("Vault") == null && !setupChat()) {
 			 	getLogger().info(String.format("[%s] - Vault is not found!", getDescription().getName()));
-				getLogger().severe("[UltraChat] Warning: You do not have Vault installed! This plugin has been disabled!");
+				getLogger().severe("§cWarning: You do not have Vault installed! This plugin has been disabled!");
 				Bukkit.getPluginManager().disablePlugin(this);
 				return;
 	        }
 		 if (getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
-			 getLogger().severe("[UltraChat] Warning: You do not have PlaceholderAPI installed! This plugin has been disabled!");
+			 getLogger().severe("§cWarning: You do not have PlaceholderAPI installed! This plugin has been disabled!");
 	          Bukkit.getPluginManager().disablePlugin(this);
 	          return;
 		 }
 		 else{
-			 getLogger().info(String.format("[UltraChat] is enabled and running fine! V: %s", getDescription().getVersion())); 
-			 getLogger().info("[UltraChat] Hooked into PlaceholderAPI! You can use the place holders!");
+			 getLogger().info(String.format("UltraChat is enabled and running fine! V: %s", getDescription().getVersion())); 
+			 getLogger().info("Hooked into PlaceholderAPI! You can use the place holders!");
 		 }
 		loadMethod();
 		registerConfig();
@@ -89,6 +94,10 @@ public class UltraChat extends JavaPlugin{
 		setupChat();
 		setupFormatting();
 		loadLang();
+		if(plugin.getConfig().getBoolean("bstats")){
+			@SuppressWarnings("unused")
+			Metrics m = new Metrics(this);
+		}
 	}
 	
 	@Override
@@ -101,33 +110,77 @@ public class UltraChat extends JavaPlugin{
 	 * Setup the chat formatting.
 	 */
 	public void setupFormatting(){
-		channelEnabled = getConfig().getBoolean("Channels");
-		if(channelEnabled){
-			if(legitDefaultChannel(getConfig().getString("Default_Channel"))){
-				defaultChannel = getConfig().getString("Default_Channel");
-			}
-			else{
-				channelEnabled = false;
-			}
-
+		String type = getConfig().getString("chat_format");
+		if(type.equals("")){
+			getLogger().info("UltraChat will not format the chat. To change this go into the config.");
+			return;
 		}
-		if(getConfig().getBoolean("JSON")){
-			JSON = true;
-		}
-		else{
-			JSON = false;
-		}
-		if(!getConfig().getBoolean("Custom_Chat_Enabled")){
-			getLogger().info("Custom chat is not enabled. The chat will not be modified!");
-		}
-		if(JSON){
-			Bukkit.getServer().getPluginManager().registerEvents(new Chat_Json(), this);
-			
-		}else if(channelEnabled){
-			Bukkit.getServer().getPluginManager().registerEvents(new Channels(), this);
-		}else{
+		switch(type.toLowerCase()){
+		case "normal":
 			Bukkit.getServer().getPluginManager().registerEvents(new Normal(), this);
+			JSON = false;
+			channelEnabled = false;
+			getLogger().info("Normal chat mode activated!");
+			break;
+		case "json":
+			Bukkit.getServer().getPluginManager().registerEvents(new Chat_Json(), this);
+			JSON = true;
+			channelEnabled = false;
+			getLogger().info("Json chat activated!");
+			break;
+		case "channel":
+			if(getConfig().getBoolean("Channel_Json")){
+				JSON = true;
+				channelEnabled = true;
+				Bukkit.getServer().getPluginManager().registerEvents(new Chat_Json(), this);
+				getLogger().info("Channel chat mode enabled with json.");
+			}else{
+				channelEnabled = true;
+				JSON = false;
+				Bukkit.getServer().getPluginManager().registerEvents(new Channels(), this);
+				getLogger().info("Channel chat mode enabled.");
+			}
+			break;
+		case "range":
+			Bukkit.getServer().getPluginManager().registerEvents(new Range(), this);
+			getCommand("global").setExecutor(new Global());
+			getCommand("world").setExecutor(new World());
+			getLogger().info("Range chat mode enabled. The commands /global and /world are now also active.");
+			break;
+		default:
+			getLogger().warning("§cThe chat format value is not correct!");
+			getLogger().warning("§cIt most be one of the following: Normal, Json, Channel, Range. (Caps do not matter)");
+			getLogger().warning("§cNo formatting has been enabled!");
+			break;
 		}
+		
+//		channelEnabled = getConfig().getBoolean("Channels");
+//		if(channelEnabled){
+//			if(legitDefaultChannel(getConfig().getString("Default_Channel"))){
+//				defaultChannel = getConfig().getString("Default_Channel");
+//			}
+//			else{
+//				channelEnabled = false;
+//			}
+//
+//		}
+//		if(getConfig().getBoolean("JSON")){
+//			JSON = true;
+//		}
+//		else{
+//			JSON = false;
+//		}
+//		if(!getConfig().getBoolean("Custom_Chat_Enabled")){
+//			getLogger().info("Custom chat is not enabled. The chat will not be modified!");
+//		}
+//		if(JSON){
+//			Bukkit.getServer().getPluginManager().registerEvents(new Chat_Json(), this);
+//			
+//		}else if(channelEnabled){
+//			Bukkit.getServer().getPluginManager().registerEvents(new Channels(), this);
+//		}else{
+//			Bukkit.getServer().getPluginManager().registerEvents(new Normal(), this);
+//		}
 	}
 	
 	//Vault set-up =========================================================
@@ -265,21 +318,7 @@ public class UltraChat extends JavaPlugin{
 	private void registerConfig() {
 		saveDefaultConfig();
 	}
-	/**
-	 * See if default channel exists.
-	 * @param chan - The channel in the config.
-	 * @return True if it does, false if not.
-	 */
-	private boolean legitDefaultChannel(String chan){
-		if(channel.contains(chan)){
-			return true;
-		}
-		else{
-			getLogger().warning("Error: The channel, " + chan + ", does not exsist!");
-			getLogger().warning("Please fix this by going into the config and fixing the default channel.");
-			return false;
-		}
-	}
+	
 	/**
 	 * Loads all of the Events and Commands.
 	 */
@@ -298,8 +337,11 @@ public class UltraChat extends JavaPlugin{
 		//Bukkit.getServer().getPluginManager().registerEvents(new Format(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new ColorGUI(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new Notify(), this);
+		if(getConfig().getBoolean("console_log"))
+			Bukkit.getServer().getPluginManager().registerEvents(new ConsoleLogChat(), this);
 		
 	}
+	
 
 
 }

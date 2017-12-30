@@ -1,5 +1,8 @@
 package me.ryandw11.ultrachat.formatting;
 
+import java.util.UnknownFormatConversionException;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,22 +21,46 @@ public class Normal implements Listener {
 	public Normal(){
 		plugin = UltraChat.plugin;
 	}
+	//TODO Fix this and make it work
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent e){
 		PlayerFormatting pf = new PlayerFormatting(e.getPlayer());
 		Player p = e.getPlayer();
+		if(p.hasPermission("ultrachat.chat.color")){
+			e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
+		}
 		if(p.isOp()){
-			e.setFormat(pf.getOpFormat().replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace("%player%", "%s") + pf.getColor() + "%s");
+			try{
+				e.setFormat(pf.getOpFormat().replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace("%player%", "%s") + pf.getColor() + "%s");
+			}catch (UnknownFormatConversionException ex){
+				p.sendMessage(ChatColor.RED + "A fatal error has occured. Check the console for more info!");
+				Bukkit.getLogger().warning(ChatColor.RED + "A fatal error has occured!");
+				Bukkit.getLogger().warning(ChatColor.RED + "Your formatting seems to be a bit off! Check the config.yml Fortmat: OP");
+			}
 		}else{
 			int i = 1;
-			e.setFormat(pf.getDefaultFormat().replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace("%player%", "%s") + pf.getColor() + "%s");
 			while(i <= plugin.getConfig().getInt("Custom_Chat.Chat_Count")){
 				if(p.hasPermission(plugin.getConfig().getString("Custom_Chat." + i + ".Permission"))){
-					e.setFormat(PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Custom_Chat." + i +".Format").replace("%player%", "%s").replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix())) + pf.getColor() + "%s"));	
+					try{
+						e.setFormat(PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Custom_Chat." + i +".Format").replace("%player%", "%s").replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix())) + pf.getColor() + "%s"));	
+					}catch (UnknownFormatConversionException ex){
+						p.sendMessage(ChatColor.RED + "A fatal error has occured. Contact an administrator!");
+						Bukkit.getLogger().warning(ChatColor.RED + "A fatal error has occured!");
+						Bukkit.getLogger().warning(ChatColor.RED + "Your formatting seems to be a bit off! Check the config.yml Fortmat #: " + i);
+					}
+					
+					return;
 				}
 				i++;
-			}	
+			}
+			try{
+				e.setFormat(pf.getDefaultFormat().replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace("%player%", "%s") + pf.getColor() + "%s");
+			}catch(UnknownFormatConversionException ex){
+				p.sendMessage(ChatColor.RED + "A fatal error has occured. Contact an administrator!");
+				Bukkit.getLogger().warning(ChatColor.RED + "A fatal error has occured!");
+				Bukkit.getLogger().warning(ChatColor.RED + "Your formatting seems to be a bit off! Check the config.yml Fortmat: Defualt");
+			}
 		}
 	}
 

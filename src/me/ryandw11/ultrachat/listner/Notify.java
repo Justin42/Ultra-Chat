@@ -7,20 +7,21 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-//import me.ryandw11.ultrachat.UltraChat;
+import me.ryandw11.ultrachat.UltraChat;
 import me.ryandw11.ultrachat.api.JsonChatEvent;
 import me.ryandw11.ultrachat.api.Lang;
 
 public class Notify implements Listener {
 
-	//private UltraChat plugin;
+	private UltraChat plugin;
 	public Notify(){
-		//plugin = UltraChat.plugin;
+		plugin = UltraChat.plugin;
 	}
 	
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event){
+		if(plugin.JSON) return;
 		for(Player p : Bukkit.getOnlinePlayers()){
 			if(event.getMessage().contains("@" + p.getName())){
 				p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 10, 0);

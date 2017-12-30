@@ -76,8 +76,9 @@ public class Chat_Json implements Listener{
 					while(i <= plugin.getConfig().getInt("Custom_Chat.Chat_Count")){
 						if(p.hasPermission(plugin.getConfig().getString("Custom_Chat." + i + ".Permission"))){
 							for(Player pl : event.getRecipients()){
-								pl.spigot().sendMessage(json.hoverMessage(plugin.getConfig().getString("Custom_Chat." + i +".Format").replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()), (ArrayList<String>) plugin.getConfig().get("Custom_Chat." + i +".JSON"), event.getMessage(), pf.getSuffix(), p));
+								pl.spigot().sendMessage(json.hoverMessage(plugin.getConfig().getString("Custom_Chat." + i +".Format").replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()), (ArrayList<String>) plugin.getConfig().get("Custom_Chat." + i +".JSON"), event.getMessage(), pf.getColor(), p)); //fixed error.
 								complete = true;
+								break;
 							}
 						}
 						i++;
