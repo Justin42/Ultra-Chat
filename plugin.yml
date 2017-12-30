@@ -1,6 +1,6 @@
 name: UltraChat
-version: 2.0
-main: me.ryandw11.ultrachat.UltraChat
+version: 1.8.3
+main: me.ryandw11.ultrachat.core.UltraChat
 author: Ryandw11
 description: This is a Chat plugin!
 depend: [Vault, PlaceholderAPI]

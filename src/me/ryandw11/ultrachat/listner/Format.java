@@ -4,9 +4,9 @@ package me.ryandw11.ultrachat.listner;
 import java.util.ArrayList;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.ryandw11.ultrachat.UltraChat;
-import me.ryandw11.ultrachat.api.JSON;
 import me.ryandw11.ultrachat.api.JsonChatEvent;
+import me.ryandw11.ultrachat.core.JSON;
+import me.ryandw11.ultrachat.core.UltraChat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

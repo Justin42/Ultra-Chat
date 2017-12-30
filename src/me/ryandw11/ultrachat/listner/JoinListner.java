@@ -3,7 +3,7 @@ package me.ryandw11.ultrachat.listner;
 import java.util.List;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.ryandw11.ultrachat.UltraChat;
+import me.ryandw11.ultrachat.core.UltraChat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

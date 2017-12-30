@@ -1,7 +1,7 @@
 package me.ryandw11.ultrachat.commands;
 
-import me.ryandw11.ultrachat.UltraChat;
-import me.ryandw11.ultrachat.gui.ColorGUI;
+import me.ryandw11.ultrachat.GUI.ColorGUI;
+import me.ryandw11.ultrachat.core.UltraChat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
