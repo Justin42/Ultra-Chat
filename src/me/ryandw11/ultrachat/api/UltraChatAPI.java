@@ -14,7 +14,7 @@ import me.ryandw11.ultrachat.UltraChat;
 public class UltraChatAPI{
 	/*
 	 * 
-	 * 		UltraChatAPI ch = new UltraChatAPI(UltraChat.plugin); < Method
+	 * 		UltraChatAPI ch = new UltraChatAPI(UltraChat.plugin); <Method
 	 * 
 	 * 
 	 * 
