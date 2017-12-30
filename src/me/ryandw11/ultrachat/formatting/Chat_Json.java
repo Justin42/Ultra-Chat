@@ -1,7 +1,7 @@
 package me.ryandw11.ultrachat.formatting;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -37,7 +37,7 @@ public class Chat_Json implements Listener{
 			e.setCancelled(true);
 			String channel = plugin.data.getString(p.getUniqueId() + ".channel");
 			if(!plugin.channel.getBoolean(channel + ".always_appear")){
-				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>(Bukkit.getOnlinePlayers()));
+				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), (Set<Player>) Bukkit.getOnlinePlayers());
 				Bukkit.getServer().getPluginManager().callEvent(event);
 				if(!event.isCancelled())
 				for(Player pl : event.getRecipients()){
@@ -51,7 +51,7 @@ public class Chat_Json implements Listener{
 					}
 				}
 			else{
-				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>(Bukkit.getOnlinePlayers()));
+				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), (Set<Player>) Bukkit.getOnlinePlayers());
 				Bukkit.getServer().getPluginManager().callEvent(event);
 				if(!event.isCancelled())
 					for(Player pl : event.getRecipients()){
@@ -62,7 +62,7 @@ public class Chat_Json implements Listener{
 			boolean complete = false;
 			e.setCancelled(true);
 			if(p.isOp()){
-				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>(Bukkit.getOnlinePlayers()));
+				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), (Set<Player>) Bukkit.getOnlinePlayers());
 				Bukkit.getServer().getPluginManager().callEvent(event);
 				if(!event.isCancelled())
 					for(Player pl : event.getRecipients()){
@@ -70,7 +70,7 @@ public class Chat_Json implements Listener{
 					}
 			}else{
 				int i = 1;
-				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>(Bukkit.getOnlinePlayers()));
+				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), (Set<Player>) Bukkit.getOnlinePlayers());
 				Bukkit.getServer().getPluginManager().callEvent(event);
 				if(!event.isCancelled()){
 					while(i <= plugin.getConfig().getInt("Custom_Chat.Chat_Count")){
@@ -87,7 +87,7 @@ public class Chat_Json implements Listener{
 				 * Normal player check
 				 */
 				if(!complete){
-					JsonChatEvent events = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>(Bukkit.getOnlinePlayers()));
+					JsonChatEvent events = new JsonChatEvent(p, e.getMessage(), (Set<Player>) Bukkit.getOnlinePlayers());
 					Bukkit.getServer().getPluginManager().callEvent(events);
 					if(!event.isCancelled())
 						for(Player pl : event.getRecipients()){ // Fixed for normal players
