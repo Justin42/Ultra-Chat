@@ -1,5 +1,7 @@
 package me.ryandw11.ultrachat.gui;
 
+
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -18,16 +20,11 @@ import org.bukkit.material.Wool;
 
 import me.ryandw11.ultrachat.UltraChat;
 
-/**
- * ColorGUI class.
- * @author Ryandw11
- *
- */
 public class ColorGUI implements CommandExecutor, Listener{
 	
 	private UltraChat plugin;
-	public ColorGUI(){
-		plugin = UltraChat.plugin;
+	public ColorGUI(UltraChat plugin){
+		this.plugin = plugin;
 	}
 	public static void openGUI(Player p){
 		Inventory i = Bukkit.createInventory(null, 9*2, ChatColor.GREEN + "Chat Color");
@@ -159,29 +156,26 @@ public class ColorGUI implements CommandExecutor, Listener{
 		
 		p.openInventory(i);
 	}
-	/*
-	 * Command
-	 */
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
-		if(!(sender instanceof Player)){
-			plugin.getLogger().info("This command is for players only!");
-			return true;
-		}
 		Player p = (Player) sender;
-		if(p.hasPermission("ultrachat.color")){
-			openGUI(p.getPlayer());
-		}
-		else{
-			p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("No_Permission")));
-		}
+
+			if(cmd.getName().equalsIgnoreCase("color")){
+				if(!(p instanceof Player )) return true;
+				if(p.hasPermission("ultrachat.color")){
+					openGUI(p.getPlayer());
+				}
+				else{
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("No_Permission")));
+				}
+			}
+		
+
+
 		return false;
 		
 	}
-	/*
-	 * Event
-	 */
 	
 	@EventHandler
 	public void onInventoryClickEvent(InventoryClickEvent e){

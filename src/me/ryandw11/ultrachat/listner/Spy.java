@@ -1,6 +1,7 @@
 package me.ryandw11.ultrachat.listner;
 
 import me.ryandw11.ultrachat.UltraChat;
+import me.ryandw11.ultrachat.commands.SpyCommand;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,8 +13,8 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 public class Spy implements Listener{
 	
 	private UltraChat plugin;
-	public Spy(){
-		plugin = UltraChat.plugin;
+	public Spy(UltraChat plugin){
+		this.plugin = plugin;
 	}
 	
 	@EventHandler
@@ -22,7 +23,7 @@ public class Spy implements Listener{
 		String msg = event.getMessage();//get user name
 		
 			for(Player p : Bukkit.getOnlinePlayers()){
-				if(plugin.spytoggle.contains(p.getUniqueId())){
+				if(SpyCommand.spytoggle.contains(p.getUniqueId())){
 				p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Command_Spy_Prefix")) + ChatColor.DARK_AQUA + p1.getName() + ": " + ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Command_Spy_Color")) + msg);                                  
 				
 				

@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import org.bukkit.entity.Player;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-//import me.ryandw11.ultrachat.UltraChat;
+import me.ryandw11.ultrachat.UltraChat;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder.FormatRetention;
 
 
@@ -17,9 +18,9 @@ import net.md_5.bungee.api.chat.ComponentBuilder.FormatRetention;
 
 public class JSON {
 	
-	//private UltraChat plugin;
+	private UltraChat plugin;
 	public JSON(){
-		//plugin = UltraChat.plugin;
+		plugin = UltraChat.plugin;
 	}
 	
 	/**

@@ -14,8 +14,8 @@ import me.ryandw11.ultrachat.UltraChat;
  */
 public class ChannelCmd implements CommandExecutor {
 	private UltraChat plugin;
-	public ChannelCmd(){
-		plugin = UltraChat.plugin;
+	public ChannelCmd(UltraChat plugin){
+		this.plugin = plugin;
 	}
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {

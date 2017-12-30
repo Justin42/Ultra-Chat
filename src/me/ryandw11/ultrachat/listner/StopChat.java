@@ -7,39 +7,29 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import me.ryandw11.ultrachat.UltraChat;
-import me.ryandw11.ultrachat.api.JsonChatEvent;
-/**
- * Prevent players from chatting when the chat is stopped.
- * @author Ryandw11
- *
- */
+
 public class StopChat implements Listener {
 	
 	private UltraChat plugin;
-	public StopChat(){
-		plugin = UltraChat.plugin;
+	public StopChat(UltraChat plugin){
+		this.plugin = plugin;
 	}
 	
 	@EventHandler
-	public void onPlayerChat(AsyncPlayerChatEvent event) {	
+	public void onPlayerChat(AsyncPlayerChatEvent event) {
+		
 		Player p = event.getPlayer();
-		if(plugin.chatStop){
-			if(!p.hasPermission("ultrachat.stopchat.bypass")){
+		if(plugin.chatStop == true){
+			if(!(p.hasPermission("ultrachat.stopchat.bypass"))){
 				event.setCancelled(true);
-				p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Stop_Chat_Message")));
-			}
+			
+			String Stop_Chat_Message = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Stop_Chat_Message"));
+			
+			p.sendMessage(Stop_Chat_Message);
 		}
-	}
-	
-	@EventHandler
-	public void onChat(JsonChatEvent e){
-		Player p = e.getPlayer();
-		if(plugin.chatStop){
-			if(!p.hasPermission("ultrachat.stopchat.bypass")){
-				e.setCancelled(true);
-				p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Stop_Chat_Message")));
-			}
-		}
+		}//============================================================================================
+		
+		
 	}
 	
 	

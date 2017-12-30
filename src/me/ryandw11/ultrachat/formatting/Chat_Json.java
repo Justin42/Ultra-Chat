@@ -24,7 +24,6 @@ public class Chat_Json implements Listener{
 		json = new JSON();
 	}
 	
-	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent e){
 		Player p = e.getPlayer();

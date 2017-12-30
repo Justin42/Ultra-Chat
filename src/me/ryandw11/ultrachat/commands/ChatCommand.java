@@ -19,17 +19,17 @@ public class ChatCommand implements CommandExecutor {
 
 	
 	private UltraChat plugin;
-	public ChatCommand(){
-		plugin = UltraChat.plugin;
+	public ChatCommand(UltraChat plugin){
+		this.plugin = plugin;
 	}
-	
+	//=====================================
+	//======================================================
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
-		if(!(sender instanceof Player )){
-			plugin.getLogger().info(ChatColor.RED + "This command is for players only!");
-			return true;
-		}
+		
 		Player p = (Player) sender;
+		
+		if(!(p instanceof Player )) return true;
 		
 			
 			if(args.length == 0){
@@ -45,7 +45,7 @@ public class ChatCommand implements CommandExecutor {
 			
 			//Chat Stop Command
 			else if(args.length == 1 && args[0].equalsIgnoreCase("stop")){
-				if(p.hasPermission("ultrachat.stopchat")){
+				if(p.hasPermission("ultrachat.stopchat") || p.hasPermission("ultrachat.staff")){
 					
 					if(plugin.chatStop == true){
 						plugin.chatStop = false;
@@ -86,7 +86,7 @@ public class ChatCommand implements CommandExecutor {
 					
 				}
 				else if(args.length == 1 && args[0].equalsIgnoreCase("broadcast")){
-					if(p.hasPermission("ultrachat.broadcast")){
+					if(p.hasPermission("ultrachat.broadcast") || p.hasPermission("ultrachat.staff")){
 						p.sendMessage(ChatColor.RED + "Invalid Usage: /chat broadcast (broadcast)");
 					}
 					else{
@@ -218,7 +218,7 @@ public class ChatCommand implements CommandExecutor {
 				}//end of help page ========
 			
 				else if(args.length > 1 && args[0].equalsIgnoreCase("raw")){
-					if(p.hasPermission("ultrachat.raw")){
+					if(p.hasPermission("ultrachat.raw")|| p.hasPermission("ultrachat.admin")){
 						String Message = "";
 						for (int i = 1; i < args.length; i++){
 							Message = Message + " " + args[i];
