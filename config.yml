@@ -8,7 +8,14 @@ ChatColor_Command: false
 #Used for assistance in development. Read more about it here:
 # https://bstats.org/getting-started
 bstats: true
-
+#Some of the chat formats break the mute function in plugins.
+#This plugin hooks into ban/mute plugins and allow it to work.
+#If set to true then the plugin will hook into that plugin.
+#Suggest more ban plugins here: https://github.com/ryandw11/Ultra-Chat/issues !
+#Or ask the ban plugin author.
+pluginhooks:
+    Essentials: true
+    AdvancedBan: true
 #Join / Leave messages:
 Join_Message: '&e %player% has joined the server!'
 Leave_Message: '&e %player% has left the server!'

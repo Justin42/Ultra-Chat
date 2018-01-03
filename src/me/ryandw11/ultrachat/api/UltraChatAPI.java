@@ -1,7 +1,10 @@
 package me.ryandw11.ultrachat.api;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import me.ryandw11.ultrachat.UltraChat;
@@ -250,6 +253,21 @@ public class UltraChatAPI{
 	 */
 	public boolean isRangeJson(){
 		return plugin.getConfig().getBoolean("Range_Json");
+	}
+	/**
+	 * Get the current active hooks.
+	 * @return The set witht the names of the plugins. Returns null if no hooks are active.
+	 */
+	public Set<String> getActiveHooks(){
+		Set<String> s = new HashSet<String>();
+		if(Bukkit.getServer().getPluginManager().getPlugin("AdvancedBan") != null && plugin.getConfig().getBoolean("pluginhooks.Essentials")){
+			s.add("Essentials");
+		}
+		if(Bukkit.getServer().getPluginManager().getPlugin("Essentials") != null && plugin.getConfig().getBoolean("pluginhooks.AdvancedBan")){
+			s.add("AdvancedBan");
+		}
+		
+		return s;
 	}
 	
 }

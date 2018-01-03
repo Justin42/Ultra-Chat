@@ -2,6 +2,7 @@ package me.ryandw11.ultrachat.commands;
 
 import me.ryandw11.ultrachat.UltraChat;
 import me.ryandw11.ultrachat.api.Lang;
+import me.ryandw11.ultrachat.api.UltraChatAPI;
 import me.ryandw11.ultrachat.gui.ColorGUI;
 
 import org.bukkit.Bukkit;
@@ -207,6 +208,7 @@ public class ChatCommand implements CommandExecutor {
 							p.sendMessage(ChatColor.GREEN + "/chat color" + ChatColor.BLUE + "  Change your chat color.");
 							p.sendMessage(ChatColor.GREEN + "/chat raw {Message}" + ChatColor.BLUE + "  Send a message in the chat without a prefix.");
 							p.sendMessage(ChatColor.GREEN + "/chat reload" + ChatColor.BLUE + "  Reload the config file.");
+							p.sendMessage(ChatColor.GREEN + "/chat hooks" + ChatColor.BLUE + "  Get the current plugin hooks!");
 							p.sendMessage(ChatColor.GREEN + "/channels" + ChatColor.BLUE + "  The channel command.");
 							p.sendMessage(ChatColor.BLUE + "Plugin made by: " + ChatColor.GREEN + "Ryandw11" + ChatColor.BLUE + "! Help Page: " + ChatColor.GREEN + "2/2" + ChatColor.BLUE + ".");
 							p.sendMessage(ChatColor.BLUE + "---------------------------------------------------");
@@ -240,7 +242,6 @@ public class ChatCommand implements CommandExecutor {
 				else if(args.length == 1 && args[0].equalsIgnoreCase("reload")){
 					if(p.hasPermission("ultrachat.reload")){
 						plugin.reloadConfig();
-						plugin.saveChannel();
 						plugin.loadChannel();
 						p.sendMessage(Lang.CONFIG_RELOAD.toString());
 					}
@@ -251,6 +252,22 @@ public class ChatCommand implements CommandExecutor {
 				else if(args.length == 1 && args[0].equalsIgnoreCase("color")){
 					if(p.hasPermission("ultrachat.color")){
 						ColorGUI.openGUI(p.getPlayer());
+					}
+					else{
+						p.sendMessage(Lang.NO_PERM.toString());
+					}
+				}
+				else if(args.length == 1 && args[0].equalsIgnoreCase("hooks")){
+					if(p.hasPermission("ultrachat.hooks")){
+						UltraChatAPI uapi = new UltraChatAPI(plugin);
+						p.sendMessage(ChatColor.BLUE + "Ultra Chat Hooks:");
+						if(uapi.getActiveHooks() == null){
+							p.sendMessage(ChatColor.GREEN + "No hooks are currently active!");
+						}else{
+							for(String st : uapi.getActiveHooks()){
+								p.sendMessage(ChatColor.GREEN + " - " + st);
+							}
+						}
 					}
 					else{
 						p.sendMessage(Lang.NO_PERM.toString());

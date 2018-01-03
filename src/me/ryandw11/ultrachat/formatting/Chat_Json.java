@@ -55,24 +55,22 @@ public class Chat_Json implements Listener{
 				Bukkit.getServer().getPluginManager().callEvent(event);
 				if(!event.isCancelled())
 					for(Player pl : event.getRecipients()){
-						pl.spigot().sendMessage(json.hoverMessage(plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format").replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getPrefix()).replace("%player%", p.getDisplayName()),  (ArrayList<String>) plugin.channel.get(channel + ".JSON"), event.getMessage(), pf.getColor(), p));
+						pl.spigot().sendMessage(json.hoverMessage(plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format").replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace("%player%", p.getDisplayName()),  (ArrayList<String>) plugin.channel.get(channel + ".JSON"), event.getMessage(), pf.getColor(), p)); //fixed suffix bug
 					}
 			}
 		}else{ //if Channel is not enabled.
 			boolean complete = false;
 			e.setCancelled(true);
+			JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>(Bukkit.getOnlinePlayers()));
+			Bukkit.getServer().getPluginManager().callEvent(event);
+			if(!event.isCancelled()){
 			if(p.isOp()){
-				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>(Bukkit.getOnlinePlayers()));
-				Bukkit.getServer().getPluginManager().callEvent(event);
-				if(!event.isCancelled())
-					for(Player pl : event.getRecipients()){
+				for(Player pl : event.getRecipients()){
 						pl.spigot().sendMessage(json.hoverMessage(pf.getOpFormat().replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace("%player%", p.getDisplayName()), (ArrayList<String>) plugin.getConfig().get("Custom_Chat.Op_Chat.JSON"), event.getMessage(), pf.getColor(), p));
-					}
+				}
+				return;
 			}else{
 				int i = 1;
-				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>(Bukkit.getOnlinePlayers()));
-				Bukkit.getServer().getPluginManager().callEvent(event);
-				if(!event.isCancelled()){
 					while(i <= plugin.getConfig().getInt("Custom_Chat.Chat_Count")){
 						if(p.hasPermission(plugin.getConfig().getString("Custom_Chat." + i + ".Permission"))){
 							for(Player pl : event.getRecipients()){
@@ -84,19 +82,18 @@ public class Chat_Json implements Listener{
 						i++;
 					}
 				}
+				if(complete)
+					return;
 				/*
 				 * Normal player check
 				 */
 				if(!complete){
-					JsonChatEvent events = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>(Bukkit.getOnlinePlayers()));
-					Bukkit.getServer().getPluginManager().callEvent(events);
-					if(!event.isCancelled())
-						for(Player pl : event.getRecipients()){ // Fixed for normal players
-							pl.spigot().sendMessage(json.hoverMessage(pf.getDefaultFormat().replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace("%player%", p.getDisplayName()), (ArrayList<String>) plugin.getConfig().get("Custom_Chat.Default_Chat.JSON"), event.getMessage(), pf.getColor(), p));
-						}
+					for(Player pl : event.getRecipients()){ // Fixed for normal players
+						pl.spigot().sendMessage(json.hoverMessage(pf.getDefaultFormat().replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace("%player%", p.getDisplayName()), (ArrayList<String>) plugin.getConfig().get("Custom_Chat.Default_Chat.JSON"), event.getMessage(), pf.getColor(), p));
+					}
 				}
-			}
+			} // if the vent is canccels
 		}
 	}
-
 }
+

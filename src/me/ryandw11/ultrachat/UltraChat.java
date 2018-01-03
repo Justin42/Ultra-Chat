@@ -24,6 +24,8 @@ import me.ryandw11.ultrachat.listner.NoSwear;
 import me.ryandw11.ultrachat.listner.Notify;
 import me.ryandw11.ultrachat.listner.Spy;
 import me.ryandw11.ultrachat.listner.StopChat;
+import me.ryandw11.ultrachat.pluginhooks.AdvancedBanMute;
+import me.ryandw11.ultrachat.pluginhooks.EssentialsMute;
 import me.ryandw11.ultrachat.util.Metrics;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
@@ -84,6 +86,16 @@ public class UltraChat extends JavaPlugin{
 		 else{
 			 getLogger().info(String.format("UltraChat is enabled and running fine! V: %s", getDescription().getVersion())); 
 			 getLogger().info("Hooked into PlaceholderAPI! You can use the place holders!");
+		 }
+		 if(getServer().getPluginManager().getPlugin("AdvancedBan") != null && getConfig().getBoolean("pluginhooks.AdvancedBan")){
+			 getLogger().info("AdvancedBan detected! Activating hook!");
+			 getLogger().info("Mutes will now work witht he chat types.");
+			 Bukkit.getServer().getPluginManager().registerEvents(new AdvancedBanMute(), this);
+		 }
+		 if(getServer().getPluginManager().getPlugin("Essentials") != null && getConfig().getBoolean("pluginhooks.Essentials")){
+			 getLogger().info("Essentials detected! Activating hook!");
+			 getLogger().info("Mutes will now work witht he chat types.");
+			 Bukkit.getServer().getPluginManager().registerEvents(new EssentialsMute(), this);
 		 }
 		loadMethod();
 		registerConfig();
