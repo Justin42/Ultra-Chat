@@ -2,6 +2,7 @@ package me.ryandw11.ultrachat;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -39,7 +40,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 /**
  * Main Class
  * @author Ryandw11
- * @version 2.0
+ * @version 2.2-Pre1
+ * Updated for 1.13.
+ * (Finally updated the yamlconfig)
+ * 
  */
 public class UltraChat extends JavaPlugin{
 	
@@ -293,8 +297,8 @@ public class UltraChat extends JavaPlugin{
 	            lang.createNewFile();
 	            InputStream defConfigStream = this.getResource("lang.yml");
 	            if (defConfigStream != null) {
-	                @SuppressWarnings("deprecation")
-					YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+					YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream));
+	                
 	                defConfig.save(lang);
 	                Lang.setFile(defConfig);
 	                return;
