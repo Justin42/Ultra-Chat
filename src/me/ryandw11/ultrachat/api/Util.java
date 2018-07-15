@@ -12,7 +12,7 @@ public class Util {
 		String b = s.substring(1);
 		switch (b){
 		case "1":
-			return ChatColor.BLUE;
+			return ChatColor.DARK_BLUE;
 		case "2":
 			return ChatColor.DARK_GREEN;
 		case "3":

@@ -2,7 +2,6 @@ package me.ryandw11.ultrachat.gui;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,13 +13,13 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.Wool;
 
 import me.ryandw11.ultrachat.UltraChat;
 import me.ryandw11.ultrachat.api.Lang;
 
 /**
  * ColorGUI class.
+ * Updated for 1.13.
  * @author Ryandw11
  *
  */
@@ -33,63 +32,49 @@ public class ColorGUI implements CommandExecutor, Listener{
 	public static void openGUI(Player p){
 		Inventory i = Bukkit.createInventory(null, 9*2, Lang.COLOR_GUI.toString());
 		
-		Wool darkblue = new Wool(DyeColor.BLUE);
-		ItemStack darkblueitem = darkblue.toItemStack(1);
+		ItemStack darkblueitem = new ItemStack(Material.BLUE_WOOL);
 		ItemMeta darkbluemeta = darkblueitem.getItemMeta();
 		
-		Wool green = new Wool(DyeColor.GREEN);
-		ItemStack greenitem = green.toItemStack(1);
+		ItemStack greenitem = new ItemStack(Material.GREEN_WOOL);
 		ItemMeta greenmeta = greenitem.getItemMeta();
 		
-		Wool lightblue = new Wool(DyeColor.CYAN);
-		ItemStack lightblueitem = lightblue.toItemStack(1);
+		ItemStack lightblueitem = new ItemStack(Material.CYAN_WOOL);
 		ItemMeta lightbluemeta = lightblueitem.getItemMeta();
 		
-		Wool red = new Wool(DyeColor.RED);
-		ItemStack reditem = red.toItemStack(1);
+		ItemStack reditem = new ItemStack(Material.RED_WOOL);
 		ItemMeta redmeta = reditem.getItemMeta();
 		
-		Wool purple = new Wool(DyeColor.PURPLE);
-		ItemStack purpleitem = purple.toItemStack(1);
+		ItemStack purpleitem = new ItemStack(Material.PURPLE_WOOL);
 		ItemMeta purplemeta = purpleitem.getItemMeta();
 		
-		Wool gold = new Wool(DyeColor.ORANGE);
-		ItemStack golditem = gold.toItemStack(1);
+		ItemStack golditem = new ItemStack(Material.ORANGE_WOOL);
 		ItemMeta goldmeta = golditem.getItemMeta();
 		
-		Wool lightgray = new Wool(DyeColor.SILVER);
-		ItemStack lightgrayitem = lightgray.toItemStack(1);
+		ItemStack lightgrayitem = new ItemStack(Material.LIGHT_GRAY_WOOL);
 		ItemMeta lightgraymeta = lightgrayitem.getItemMeta();
 		
-		Wool gray = new Wool(DyeColor.GRAY);
-		ItemStack grayitem = gray.toItemStack(1);
+		ItemStack grayitem = new ItemStack(Material.GRAY_WOOL);
 		ItemMeta graymeta = grayitem.getItemMeta();
 		
 		ItemStack blueitem = new ItemStack(Material.LAPIS_BLOCK);
 		ItemMeta bluemeta = blueitem.getItemMeta();
 		
-		Wool lightgreen = new Wool(DyeColor.LIME);
-		ItemStack lightgreenitem = lightgreen.toItemStack(1);
+		ItemStack lightgreenitem = new ItemStack(Material.LIME_WOOL);
 		ItemMeta lightgreenmeta = lightgreenitem.getItemMeta();
 		
-		Wool aqua = new Wool(DyeColor.LIGHT_BLUE);
-		ItemStack aquaitem = aqua.toItemStack(1);
+		ItemStack aquaitem = new ItemStack(Material.LIGHT_BLUE_WOOL);
 		ItemMeta aquameta = aquaitem.getItemMeta();
 		
-		Wool lightred = new Wool(DyeColor.PINK);
-		ItemStack lightreditem = lightred.toItemStack(1);
+		ItemStack lightreditem = new ItemStack(Material.PINK_WOOL);
 		ItemMeta lightredmeta = lightreditem.getItemMeta();
 		
-		Wool pink = new Wool(DyeColor.MAGENTA);
-		ItemStack pinkitem = pink.toItemStack(1);
+		ItemStack pinkitem = new ItemStack(Material.MAGENTA_WOOL);
 		ItemMeta pinkmeta = pinkitem.getItemMeta();
 		
-		Wool yellow = new Wool(DyeColor.YELLOW);
-		ItemStack yellowitem = yellow.toItemStack(1);
+		ItemStack yellowitem = new ItemStack(Material.YELLOW_WOOL);
 		ItemMeta yellowmeta = yellowitem.getItemMeta();
 		
-		Wool white = new Wool(DyeColor.WHITE);
-		ItemStack whiteitem = white.toItemStack(1);
+		ItemStack whiteitem = new ItemStack(Material.WHITE_WOOL);
 		ItemMeta whitemeta = whiteitem.getItemMeta();
 		
 		//==========================================================
@@ -136,7 +121,7 @@ public class ColorGUI implements CommandExecutor, Listener{
 		yellowmeta.setDisplayName("§eYellow Color Chat");
 		yellowitem.setItemMeta(yellowmeta);
 		
-		whitemeta.setDisplayName("§fWhite Chat");
+		whitemeta.setDisplayName("§fWhite Color Chat");
 		whiteitem.setItemMeta(whitemeta);
 		//==========================================================
 
@@ -197,29 +182,26 @@ public class ColorGUI implements CommandExecutor, Listener{
 		}
 		//================
 		ItemStack item = e.getCurrentItem();
-		int data = item.getDurability();
 		
-		if(item.getType() == Material.LAPIS_BLOCK){
+		switch(item.getType()) {
+		case LAPIS_BLOCK:
 			if(p.hasPermission("ultrachat.color.blue")){
-			 p.sendMessage(ChatColor.BLUE + "You choose blue chat color!");
-	            p.closeInventory();
-	            plugin.data.set(p.getUniqueId() + ".color", "&9");
-	            plugin.saveFile();
-			}
-			else{
-				p.sendMessage(ChatColor.RED + "You do not have permission for this color!");
-			}
-		}
-		else{
-		
-		switch(data) {
-        case 0:
-            p.sendMessage(ChatColor.WHITE + "You choose white chat color!");
+				 p.sendMessage(ChatColor.BLUE + "You choose blue color chat!");
+		            p.closeInventory();
+		            plugin.data.set(p.getUniqueId() + ".color", "&9");
+		            plugin.saveFile();
+				}
+				else{
+					p.sendMessage(ChatColor.RED + "You do not have permission for this color!");
+				}
+			break;
+        case WHITE_WOOL:
+            p.sendMessage(ChatColor.WHITE + "You choose white color chat!");
             p.closeInventory();
             plugin.data.set(p.getUniqueId() + ".color", "&f");
             plugin.saveFile();
             break;
-        case 1:
+        case ORANGE_WOOL:
         	if(p.hasPermission("ultrachat.color.gold")){
         		p.sendMessage(ChatColor.GOLD + "You choose gold color chat!");
             	p.closeInventory();
@@ -230,7 +212,7 @@ public class ColorGUI implements CommandExecutor, Listener{
         	}
             	break;
 
-        case 2:
+        case MAGENTA_WOOL:
         	if(p.hasPermission("ultrachat.color.magenta")){
             p.sendMessage(ChatColor.LIGHT_PURPLE + "You choose magenta color chat!");
             p.closeInventory();
@@ -244,7 +226,7 @@ public class ColorGUI implements CommandExecutor, Listener{
             
         	
 
-        case 3:
+        case LIGHT_BLUE_WOOL:
         	if(p.hasPermission("ultrachat.color.aqua")){
             p.sendMessage(ChatColor.AQUA + "You choose Aqua color chat!");
             p.closeInventory();
@@ -258,7 +240,7 @@ public class ColorGUI implements CommandExecutor, Listener{
         	
         	
         	
-        case 4:
+        case YELLOW_WOOL:
         	if(p.hasPermission("ultrachat.color.yellow")){
             p.sendMessage(ChatColor.YELLOW + "You choose yellow color chat!");
             p.closeInventory();
@@ -269,7 +251,7 @@ public class ColorGUI implements CommandExecutor, Listener{
         	}
             break;
         	
-        case 5:
+        case LIME_WOOL:
         	if(p.hasPermission("ultrachat.color.lightgreen")){
             p.sendMessage(ChatColor.GREEN + "You choose light green color chat!");
             p.closeInventory();
@@ -279,7 +261,7 @@ public class ColorGUI implements CommandExecutor, Listener{
         		p.sendMessage(ChatColor.RED + "You do not have permission for this color!");
         	}
             break;
-        case 6:
+        case PINK_WOOL:
         	if(p.hasPermission("ultrachat.color.lightred")){
             p.sendMessage(ChatColor.RED + "You choose light red color chat!");
             p.closeInventory();
@@ -289,7 +271,7 @@ public class ColorGUI implements CommandExecutor, Listener{
         		p.sendMessage(ChatColor.RED + "You do not have permission for this color!");
         	}
             break;
-        case 7:
+        case GRAY_WOOL:
         	if(p.hasPermission("ultrachat.color.gray")){
             p.sendMessage(ChatColor.DARK_GRAY + "You choose gray color chat!");
             p.closeInventory();
@@ -299,7 +281,7 @@ public class ColorGUI implements CommandExecutor, Listener{
         		p.sendMessage(ChatColor.RED + "You do not have permission for this color!");
         	}
             break;
-        case 8:
+        case LIGHT_GRAY_WOOL:
         	if(p.hasPermission("ultrachat.color.lightgray")){
             p.sendMessage(ChatColor.GRAY + "You choose light gray color chat!");
             p.closeInventory();
@@ -309,7 +291,7 @@ public class ColorGUI implements CommandExecutor, Listener{
         		p.sendMessage(ChatColor.RED + "You do not have permission for this color!");
         	}
             break;
-        case 9:
+        case CYAN_WOOL:
         	if(p.hasPermission("ultrachat.color.cyan")){
             p.sendMessage(ChatColor.DARK_AQUA + "You choose cyan color chat!");
             p.closeInventory();
@@ -319,7 +301,7 @@ public class ColorGUI implements CommandExecutor, Listener{
         		p.sendMessage(ChatColor.RED + "You do not have permission for this color!");
         	}
             break;
-        case 10:
+        case PURPLE_WOOL:
         	if(p.hasPermission("ultrachat.color.purple")){
             p.sendMessage(ChatColor.DARK_PURPLE + "You choose purple color chat!");
             p.closeInventory();
@@ -329,7 +311,7 @@ public class ColorGUI implements CommandExecutor, Listener{
         		p.sendMessage(ChatColor.RED + "You do not have permission for this color!");
         	}
             break;
-        case 11:
+        case BLUE_WOOL:
         	if(p.hasPermission("ultrachat.color.darkblue")){
             p.sendMessage(ChatColor.DARK_BLUE + "You choose dark blue color chat!");
             p.closeInventory();
@@ -339,7 +321,7 @@ public class ColorGUI implements CommandExecutor, Listener{
         		p.sendMessage(ChatColor.RED + "You do not have permission for this color!");
         	}
             break;
-        case 13:
+        case GREEN_WOOL:
         	if(p.hasPermission("ultrachat.color.green")){
             p.sendMessage(ChatColor.DARK_GREEN + "You choose green color chat!");
             p.closeInventory();
@@ -349,7 +331,7 @@ public class ColorGUI implements CommandExecutor, Listener{
         		p.sendMessage(ChatColor.RED + "You do not have permission for this color!");
         	}
             break;
-        case 14:
+        case RED_WOOL:
         	if(p.hasPermission("ultrachat.color.red")){
             p.sendMessage(ChatColor.DARK_RED + "You choose red color chat!");
             p.closeInventory();
@@ -359,7 +341,12 @@ public class ColorGUI implements CommandExecutor, Listener{
         		p.sendMessage(ChatColor.RED + "You do not have permission for this color!");
         	}
             break;
-		}
+		default:
+			 p.sendMessage(ChatColor.WHITE + "You choose white color chat!");
+	         p.closeInventory();
+	         plugin.data.set(p.getUniqueId() + ".color", "&f");
+	         plugin.saveFile();
+			break;
 		}
 		
 	}
