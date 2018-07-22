@@ -60,6 +60,10 @@ public enum Lang {
 	    public String toString() {
 	        return ChatColor.translateAlternateColorCodes('&', LANG.getString(this.path, def));
 	    }
+	    
+	    public String toDefaultString(){
+	    	return LANG.getString(this.path, def);
+	    }
 	 
 	    /**
 	    * Get the default value of the path.

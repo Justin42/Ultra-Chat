@@ -9,6 +9,7 @@ import java.util.UUID;
 import me.ryandw11.ultrachat.api.Lang;
 import me.ryandw11.ultrachat.commands.ChannelCmd;
 import me.ryandw11.ultrachat.commands.ChatCommand;
+import me.ryandw11.ultrachat.commands.CommandTabCompleter;
 import me.ryandw11.ultrachat.commands.Global;
 import me.ryandw11.ultrachat.commands.StaffChat;
 import me.ryandw11.ultrachat.commands.StaffChatToggle;
@@ -40,7 +41,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 /**
  * Main Class
  * @author Ryandw11
- * @version 2.2-Pre1
+ * @version 2.2
  * Updated for 1.13.
  * (Finally updated the yamlconfig)
  * 
@@ -93,12 +94,12 @@ public class UltraChat extends JavaPlugin{
 		 }
 		 if(getServer().getPluginManager().getPlugin("AdvancedBan") != null && getConfig().getBoolean("pluginhooks.AdvancedBan")){
 			 getLogger().info("AdvancedBan detected! Activating hook!");
-			 getLogger().info("Mutes will now work witht he chat types.");
+			 getLogger().info("Mutes will now work with the chat types.");
 			 Bukkit.getServer().getPluginManager().registerEvents(new AdvancedBanMute(), this);
 		 }
 		 if(getServer().getPluginManager().getPlugin("Essentials") != null && getConfig().getBoolean("pluginhooks.Essentials")){
 			 getLogger().info("Essentials detected! Activating hook!");
-			 getLogger().info("Mutes will now work witht he chat types.");
+			 getLogger().info("Mutes will now work with the chat types.");
 			 Bukkit.getServer().getPluginManager().registerEvents(new EssentialsMute(), this);
 		 }
 		loadMethod();
@@ -340,6 +341,7 @@ public class UltraChat extends JavaPlugin{
 	 */
 	public void loadMethod(){
 		getCommand("chat").setExecutor(new ChatCommand());
+		getCommand("chat").setTabCompleter(new CommandTabCompleter());
 		getCommand("sc").setExecutor(new StaffChat());
 		getCommand("sctoggle").setExecutor(new StaffChatToggle());
 		getCommand("spy").setExecutor(new SpyCommand());
