@@ -9,6 +9,9 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.ryandw11.ultrachat.UltraChat;
+
+import java.util.UnknownFormatConversionException;
+
 /**
  * Channels without any kind of json involved.
  * @author Ryandw11
@@ -33,12 +36,25 @@ public class Channels implements Listener {
 			}
 			for(Player pl : Bukkit.getOnlinePlayers()){
 				if(plugin.data.getString(pl.getUniqueId() + ".channel").equals(channel)){
-					if(pl.hasPermission(plugin.channel.getString(channel + ".permission")) || plugin.channel.getString(channel + ".permission").equalsIgnoreCase("none")){
+					if (pl.hasPermission(plugin.channel.getString(channel + ".permission"))) {
+						e.getRecipients().add(pl);
+					} else if (plugin.channel.getString(channel + ".permission").equalsIgnoreCase("none")) {
 						e.getRecipients().add(pl);
 					}
 				}
 			}
 		}
-		e.setFormat(PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', plugin.channel.getString(channel + ".prefix")) + ChatColor.translateAlternateColorCodes('&', plugin.channel.getString(channel + ".format").replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace("%player%", "%s") + pf.getColor() + "%s")));	
+		try {
+			e.setFormat(PlaceholderAPI.setPlaceholders(p,
+					ChatColor.translateAlternateColorCodes('&', plugin.channel.getString(channel + ".prefix"))
+							+ ChatColor.translateAlternateColorCodes('&', plugin.channel.getString(channel + ".format")
+							.replace("%prefix%", pf.getPrefix())
+							.replace("%suffix%", pf.getSuffix())
+							.replace("%player%", "%s")
+							+ pf.getColor() + "%s")));
+		}
+		catch(UnknownFormatConversionException ex) {
+			System.out.println(String.format("Unable to format chat message\nMessage: %s\nFormat: %s", e.getMessage(), e.getFormat()));
+        }
 	}
 }
