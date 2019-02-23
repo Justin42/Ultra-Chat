@@ -15,7 +15,7 @@ public class ConsoleLogChat implements Listener{
 	public void jsonChat(JsonChatEvent e){
 		String msg = e.getMessage();
 		String pname = e.getPlayer().getDisplayName();
-		Bukkit.getLogger().log(Level.INFO, Lang.CONSOLE_CHAT_LOG.toString().replace("%p", pname).replace("%s", msg).replace('&', '§'));
+		Bukkit.getLogger().log(Level.INFO, Lang.CONSOLE_CHAT_LOG.toString().replace("%p", pname).replace("%s", msg).replace('&', 'ï¿½'));
 	}
 
 }
