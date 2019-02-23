@@ -52,7 +52,7 @@ public class Range implements Listener{
 			if(!event.isCancelled()){
 				JSON j = new JSON();
 				for(Player pl : event.getRecipients()){
-					pl.spigot().sendMessage(j.hoverMessage(pf.getLocal().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()), (ArrayList<String>) plugin.getConfig().get("Local.json"), event.getMessage(), pf.getColor(), p));
+					pl.sendRawMessage(j.hoverMessage(pf.getLocal().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()), (ArrayList<String>) plugin.getConfig().get("Local.json"), event.getMessage(), pf.getColor(), p).toString());
 				}
 			}
 		}

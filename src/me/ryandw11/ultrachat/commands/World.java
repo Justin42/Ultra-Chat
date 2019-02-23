@@ -27,7 +27,7 @@ public class World implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
 		if(!(sender instanceof Player)){
-			sender.sendMessage("§cThis command is for players only!");
+			sender.sendMessage("ï¿½cThis command is for players only!");
 			return true;
 		}
 		Player p = (Player) sender;
@@ -44,7 +44,7 @@ public class World implements CommandExecutor {
 				for(Player pl : e.getRecipients()){
 					pl.sendMessage(pf.getWorld().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()) + pf.getColor() + e.getMessage());
 				}
-				Bukkit.getLogger().info(pf.getWorld().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace('&', '§') + pf.getColor() + e.getMessage().replace('&', '§'));
+				Bukkit.getLogger().info(pf.getWorld().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace('&', 'ï¿½') + pf.getColor() + e.getMessage().replace('&', 'ï¿½'));
 			}
 		}else{
 			WorldChatEvent e = new WorldChatEvent(p, this.getMessage(args, p), new HashSet<Player>( p.getWorld().getPlayers()));
@@ -52,9 +52,9 @@ public class World implements CommandExecutor {
 			if(!e.isCancelled()){
 				JSON j = new JSON();
 				for(Player pl : e.getRecipients()){
-					pl.spigot().sendMessage(j.hoverMessage(pf.getWorld().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()), (ArrayList<String>) plugin.getConfig().get("World.json"), e.getMessage(), pf.getColor(), p));
+					pl.sendRawMessage(j.hoverMessage(pf.getWorld().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()), (ArrayList<String>) plugin.getConfig().get("World.json"), e.getMessage(), pf.getColor(), p).toString());
 				}
-				Bukkit.getLogger().info(pf.getWorld().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace('&', '§') + pf.getColor() + e.getMessage().replace('&', '§'));
+				Bukkit.getLogger().info(pf.getWorld().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace('&', 'ï¿½') + pf.getColor() + e.getMessage().replace('&', 'ï¿½'));
 			}
 		}
 		

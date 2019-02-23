@@ -1,18 +1,15 @@
 package me.ryandw11.ultrachat.commands;
 
-import java.util.ArrayList;
-
+import me.clip.placeholderapi.util.jsonmessage.JSONMessage;
+import me.ryandw11.ultrachat.UltraChat;
+import me.ryandw11.ultrachat.api.Lang;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.ryandw11.ultrachat.UltraChat;
-import me.ryandw11.ultrachat.api.Lang;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
+import java.util.ArrayList;
 /**
  * 
  * @author Ryandw11
@@ -53,11 +50,11 @@ public class ChannelCmd implements CommandExecutor {
 			ArrayList<String> chnls = (ArrayList<String>) plugin.getConfig().get("Channel_List");
 			p.sendMessage(ChatColor.BLUE + "-------------Channels List--------------");
 			for(String st : chnls){
-				ComponentBuilder cnl = new ComponentBuilder("- " + st);
-				cnl.event(new HoverEvent( HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', Lang.CHANNEL_JSON_HOVER.toString())).create() ) );
-				cnl.event(new ClickEvent( ClickEvent.Action.RUN_COMMAND, "/channel " + st));
+				JSONMessage cnl = JSONMessage.create("- ");
+				cnl.tooltip(ChatColor.translateAlternateColorCodes('&', Lang.CHANNEL_JSON_HOVER.toString()));
+				cnl.runCommand("/channel " + st);
 				cnl.color(ChatColor.GREEN);
-				p.spigot().sendMessage(cnl.create());
+				p.sendRawMessage(cnl.toString());
 			}
 			p.sendMessage(ChatColor.BLUE + "--------------------------------------");
 		}

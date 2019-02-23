@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="AdvancedBan-2.1.5-RELEASE">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../lib/AdvancedBan-2.1.5-RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

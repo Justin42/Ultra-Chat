@@ -49,7 +49,7 @@ public class Global implements CommandExecutor {
 			if(!e.isCancelled()){
 				JSON j = new JSON();
 				for(Player pl : Bukkit.getOnlinePlayers()){
-					pl.sendRawMessage(j.hoverMessage(pf.getGlobal().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()), (ArrayList<String>) plugin.getConfig().get("Global.json"), e.getMessage(), pf.getColor(), p));
+					pl.sendRawMessage(j.hoverMessage(pf.getGlobal().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()), (ArrayList<String>) plugin.getConfig().get("Global.json"), e.getMessage(), pf.getColor(), p).toString());
 				}
 				Bukkit.getLogger().info(pf.getGlobal().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace('&', '�') + pf.getColor() + e.getMessage().replace('&', '�'));
 			}

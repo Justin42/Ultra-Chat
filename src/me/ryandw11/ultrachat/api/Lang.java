@@ -1,8 +1,8 @@
 package me.ryandw11.ultrachat.api;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
 /**
  * Language file
  */

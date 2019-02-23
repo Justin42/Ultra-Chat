@@ -2,6 +2,9 @@ package me.ryandw11.ultrachat.listner;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.ryandw11.ultrachat.UltraChat;
@@ -32,7 +35,7 @@ public class Format implements Listener {
 	
 	private String prefix;
 	private String suffix;
-	private String color;
+	private ChatColor color;
 	private String formatOp;
 	private String defaults;
 	
@@ -43,7 +46,7 @@ public class Format implements Listener {
 		if(!plugin.getConfig().getBoolean("Custom_Chat_Enabled")) return;
 		
 		Player p = e.getPlayer();
-		color = ChatColor.translateAlternateColorCodes('&', plugin.data.getString(p.getUniqueId() + ".color"));	
+		color = ChatColor.getByChar(ChatColor.translateAlternateColorCodes('&', plugin.data.getString(p.getUniqueId() + ".color")).replace("&", ""));
 		
 		prefix = ChatColor.translateAlternateColorCodes('&', plugin.chat.getPlayerPrefix(p));
 		suffix = ChatColor.translateAlternateColorCodes('&', plugin.chat.getPlayerSuffix(p));
@@ -60,25 +63,25 @@ public class Format implements Listener {
 				e.setCancelled(true);
 				String channel = plugin.data.getString(p.getUniqueId() + ".channel");
 				if(!plugin.channel.getBoolean(channel + ".always_appear")){
-					JsonChatEvent event = new JsonChatEvent(p, e.getMessage());
+					JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>());
 					Bukkit.getServer().getPluginManager().callEvent(event);
 					if(!event.isCancelled())
 					for(Player pl : Bukkit.getOnlinePlayers()){
 						if(plugin.data.getString(pl.getUniqueId() + ".channel").equals(channel)){
 							if(pl.hasPermission(plugin.channel.getString(channel + ".permission")) || plugin.channel.getString(channel + ".permission").equalsIgnoreCase("none")){
 								
-									pl.spigot().sendMessage(json.hoverMessage(plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format").replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", p.getDisplayName()),  (ArrayList<String>) plugin.channel.get(channel + ".JSON"), event.getMessage(), color, p));
+									pl.sendRawMessage(json.hoverMessage(plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format").replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", p.getDisplayName()),  (ArrayList<String>) plugin.channel.get(channel + ".JSON"), event.getMessage(), color, p).toString());
 							}
 						}
 
 						}
 					}
 				else{
-					JsonChatEvent event = new JsonChatEvent(p, e.getMessage());
+					JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>());
 					Bukkit.getServer().getPluginManager().callEvent(event);
 					if(!event.isCancelled())
 						for(Player pl : Bukkit.getOnlinePlayers()){
-							pl.spigot().sendMessage(json.hoverMessage(plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format").replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", p.getDisplayName()),  (ArrayList<String>) plugin.channel.get(channel + ".JSON"), event.getMessage(), color, p));
+							pl.sendRawMessage(json.hoverMessage(plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format").replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", p.getDisplayName()),  (ArrayList<String>) plugin.channel.get(channel + ".JSON"), event.getMessage(), color, p).toString());
 						}
 				}
 			}
@@ -112,21 +115,21 @@ public class Format implements Listener {
 				boolean complete = false;
 				e.setCancelled(true);
 				if(p.isOp()){
-					JsonChatEvent event = new JsonChatEvent(p, e.getMessage());
+					JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>());
 					Bukkit.getServer().getPluginManager().callEvent(event);
 					if(!event.isCancelled())
 						for(Player pl : Bukkit.getOnlinePlayers()){
-							pl.spigot().sendMessage(json.hoverMessage(formatOp.replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", p.getDisplayName()), (ArrayList<String>) plugin.getConfig().get("Custom_Chat.Op_Chat.JSON"), event.getMessage(), color, p));
+							pl.sendRawMessage(json.hoverMessage(formatOp.replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", p.getDisplayName()), (ArrayList<String>) plugin.getConfig().get("Custom_Chat.Op_Chat.JSON"), event.getMessage(), color, p).toString());
 						}
 				}else{
 					int i = 1;
-					JsonChatEvent event = new JsonChatEvent(p, e.getMessage());
+					JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>());
 					Bukkit.getServer().getPluginManager().callEvent(event);
 					if(!event.isCancelled()){
 						while(i <= plugin.getConfig().getInt("Custom_Chat.Chat_Count")){
 							if(p.hasPermission(plugin.getConfig().getString("Custom_Chat." + i + ".Permission"))){
 								for(Player pl : Bukkit.getOnlinePlayers()){
-									pl.spigot().sendMessage(json.hoverMessage(plugin.getConfig().getString("Custom_Chat." + i +".Format").replace("%player%", p.getDisplayName()).replace("%prefix%", prefix).replace("%suffix%", suffix), (ArrayList<String>) plugin.getConfig().get("Custom_Chat." + i +".JSON"), event.getMessage(), color, p));
+									pl.sendMessage(json.hoverMessage(plugin.getConfig().getString("Custom_Chat." + i +".Format").replace("%player%", p.getDisplayName()).replace("%prefix%", prefix).replace("%suffix%", suffix), (ArrayList<String>) plugin.getConfig().get("Custom_Chat." + i +".JSON"), event.getMessage(), color, p).toString());
 									complete = true;
 								}
 							}
@@ -137,11 +140,11 @@ public class Format implements Listener {
 					 * Normal player check
 					 */
 					if(!complete){
-						JsonChatEvent events = new JsonChatEvent(p, e.getMessage());
+						JsonChatEvent events = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>());
 						Bukkit.getServer().getPluginManager().callEvent(events);
 						if(!event.isCancelled())
 							for(Player pl : Bukkit.getOnlinePlayers()){ // Fixed for normal players
-								pl.spigot().sendMessage(json.hoverMessage(defaults.replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", p.getDisplayName()), (ArrayList<String>) plugin.getConfig().get("Custom_Chat.Default_Chat.JSON"), event.getMessage(), color, p));
+								pl.sendMessage(json.hoverMessage(defaults.replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", p.getDisplayName()), (ArrayList<String>) plugin.getConfig().get("Custom_Chat.Default_Chat.JSON"), event.getMessage(), color, p).toString());
 							}
 					}
 				}
