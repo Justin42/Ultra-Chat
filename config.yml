@@ -156,6 +156,7 @@ Custom_Chat:
     Op_Chat: 
         #The format.
         Format: '%prefix% %player% %suffix%&c>> '
+        Enabled: True
         JSON:
             - Example
             - Example 2

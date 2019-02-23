@@ -11,6 +11,7 @@ import me.ryandw11.ultrachat.UltraChat;
 import me.ryandw11.ultrachat.api.JSON;
 import me.ryandw11.ultrachat.api.JsonChatEvent;
 
+import me.ryandw11.ultrachat.formatting.PlayerFormatting;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -51,7 +52,7 @@ public class Format implements Listener {
 		prefix = ChatColor.translateAlternateColorCodes('&', plugin.chat.getPlayerPrefix(p));
 		suffix = ChatColor.translateAlternateColorCodes('&', plugin.chat.getPlayerSuffix(p));
 
-
+		PlayerFormatting pFormat = new PlayerFormatting(e.getPlayer());
 		formatOp = PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Custom_Chat.Op_Chat.Format")));
 		defaults = PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Custom_Chat.Default_Chat.Format")));
 		
@@ -114,7 +115,7 @@ public class Format implements Listener {
 			if(plugin.JSON){
 				boolean complete = false;
 				e.setCancelled(true);
-				if(p.isOp()){
+				if(p.isOp() && pFormat.getOpFormatEnabled()){
 					JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>());
 					Bukkit.getServer().getPluginManager().callEvent(event);
 					if(!event.isCancelled())
@@ -153,7 +154,7 @@ public class Format implements Listener {
 			 * Normal chat with no JSON and channels.
 			 */
 			else{
-				if(p.isOp()){
+				if(p.isOp() && pFormat.getOpFormatEnabled()){
 					e.setFormat(formatOp.replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", "%s") + color + "%s");
 				}else{
 					int i = 1;

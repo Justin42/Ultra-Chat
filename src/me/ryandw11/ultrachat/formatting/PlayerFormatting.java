@@ -13,6 +13,17 @@ import me.ryandw11.ultrachat.api.Util;
  */
 public class PlayerFormatting {
 	private UltraChat plugin;
+
+	private String prefix;
+	private String suffix;
+	public String color;
+	private String formatOp;
+	private boolean formatOpEnabled;
+	private String defaults;
+	private String global;
+	private String world;
+	private String local;
+
 	public PlayerFormatting(Player p){
 		plugin = UltraChat.plugin;
 		
@@ -20,19 +31,12 @@ public class PlayerFormatting {
 		prefix = ChatColor.translateAlternateColorCodes('&', plugin.chat.getPlayerPrefix(p));
 		suffix = ChatColor.translateAlternateColorCodes('&', plugin.chat.getPlayerSuffix(p));
 		formatOp = PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Custom_Chat.Op_Chat.Format")));
+		formatOpEnabled = plugin.getConfig().getBoolean("Custom_Chat.Op_Chat.Enabled", true);
 		defaults = PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Custom_Chat.Default_Chat.Format")));
 		global = PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Global.format")));
 		world = PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("World.format")));
 		local = PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Local.format")));
 	}
-	private String prefix;
-	private String suffix;
-	public String color;
-	private String formatOp;
-	private String defaults;
-	private String global;
-	private String world;
-	private String local;
 	
 	public String getGlobal(){
 		return global;
@@ -55,11 +59,8 @@ public class PlayerFormatting {
 	public ChatColor getColor(){
 		return Util.getColorFromCode(color);
 	}
-	public String getOpFormat(){
-		return formatOp;
-	}
-	public String getDefaultFormat(){
-		return defaults;
-	}
+	public String getOpFormat(){ return formatOp; }
+	public Boolean getOpFormatEnabled() { return formatOpEnabled; }
+	public String getDefaultFormat(){ return defaults; }
 	
 }

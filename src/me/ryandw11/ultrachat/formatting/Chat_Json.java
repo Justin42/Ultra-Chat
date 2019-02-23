@@ -63,7 +63,7 @@ public class Chat_Json implements Listener{
 			JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>(Bukkit.getOnlinePlayers()));
 			Bukkit.getServer().getPluginManager().callEvent(event);
 			if(!event.isCancelled()){
-			if(p.isOp()){
+			if(p.isOp() && pf.getOpFormatEnabled()){
 				for(Player pl : event.getRecipients()){
 						pl.sendRawMessage(json.hoverMessage(pf.getOpFormat().replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace("%player%", p.getDisplayName()), (ArrayList<String>) plugin.getConfig().get("Custom_Chat.Op_Chat.JSON"), event.getMessage(), pf.getColor(), p).toString());
 				}

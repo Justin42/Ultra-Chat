@@ -30,7 +30,7 @@ public class Normal implements Listener {
 		if(p.hasPermission("ultrachat.chat.color")){
 			e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
 		}
-		if(p.isOp()){
+		if(p.isOp() && pf.getOpFormatEnabled()){
 			try{
 				e.setFormat(pf.getOpFormat().replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace("%player%", "%s") + pf.getColor() + "%s");
 			}catch (UnknownFormatConversionException ex){
