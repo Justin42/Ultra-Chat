@@ -10,5 +10,6 @@
     <orderEntry type="library" name="paperclip-524" level="project" />
     <orderEntry type="library" name="craftbukkit-1.13.2" level="project" />
     <orderEntry type="library" name="PlaceholderAPI-2.9.2" level="project" />
+    <orderEntry type="library" name="Vault" level="project" />
   </component>
 </module>

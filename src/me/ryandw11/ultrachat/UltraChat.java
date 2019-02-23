@@ -79,12 +79,12 @@ public class UltraChat extends JavaPlugin{
 		plugin = this;
 		 if (getServer().getPluginManager().getPlugin("Vault") == null && !setupChat()) {
 			 	getLogger().info(String.format("[%s] - Vault is not found!", getDescription().getName()));
-				getLogger().severe("§cWarning: You do not have Vault installed! This plugin has been disabled!");
+				getLogger().severe("ï¿½cWarning: You do not have Vault installed! This plugin has been disabled!");
 				Bukkit.getPluginManager().disablePlugin(this);
 				return;
 	        }
 		 if (getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
-			 getLogger().severe("§cWarning: You do not have PlaceholderAPI installed! This plugin has been disabled!");
+			 getLogger().severe("ï¿½cWarning: You do not have PlaceholderAPI installed! This plugin has been disabled!");
 	          Bukkit.getPluginManager().disablePlugin(this);
 	          return;
 		 }
@@ -165,9 +165,9 @@ public class UltraChat extends JavaPlugin{
 			getLogger().info("Range chat mode enabled. The commands /global and /world are now also active.");
 			break;
 		default:
-			getLogger().warning("§cThe chat format value is not correct!");
-			getLogger().warning("§cIt most be one of the following: Normal, Json, Channel, Range. (Caps do not matter)");
-			getLogger().warning("§cNo formatting has been enabled!");
+			getLogger().warning("ï¿½cThe chat format value is not correct!");
+			getLogger().warning("ï¿½cIt most be one of the following: Normal, Json, Channel, Range. (Caps do not matter)");
+			getLogger().warning("ï¿½cNo formatting has been enabled!");
 			break;
 		}
 		
