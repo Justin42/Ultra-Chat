@@ -1,20 +1,14 @@
 package me.ryandw11.ultrachat.api;
 
-import java.util.ArrayList;
-
+import me.clip.placeholderapi.PlaceholderAPI;
+import me.clip.placeholderapi.util.jsonmessage.JSONMessage;
+import me.ryandw11.ultrachat.formatting.PlayerFormatting;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import me.clip.placeholderapi.PlaceholderAPI;
-import me.ryandw11.ultrachat.formatting.PlayerFormatting;
+import java.util.ArrayList;
+
 //import me.ryandw11.ultrachat.UltraChat;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder.FormatRetention;
-
-
 
 
 public class JSON {
@@ -31,30 +25,28 @@ public class JSON {
 	 * @param p The player it is being applied to.
 	 * @return TextComponent with hover message.
 	 */
-	public BaseComponent[] hoverMessage(String msg, ArrayList<String> lore, String chat, ChatColor color, Player p){
+	public JSONMessage hoverMessage(String msg, ArrayList<String> lore, String chat, ChatColor color, Player p){
 		PlayerFormatting pf = new PlayerFormatting(p);
 		int i = 0;
 		int l = lore.size() - 1;
 		msg = ChatColor.translateAlternateColorCodes('&', msg);
-		ComponentBuilder build = new ComponentBuilder("");
+		JSONMessage chatMessage = JSONMessage.create(msg);
+		JSONMessage hoverTooltip = JSONMessage.create();
 		for(String s : lore){
-			build.append(PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', s)));
+			hoverTooltip.then(PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', s)));
 			if(i<l)
-				build.append("\n");
+				hoverTooltip.newline();
 			i++;
 		}
-		ComponentBuilder name = new ComponentBuilder(msg);
-		name.event( new HoverEvent( HoverEvent.Action.SHOW_TEXT, build.create() ) );
-		TextComponent chatMsg;
+		chatMessage.tooltip(hoverTooltip);
 		if(color != null){
-			chatMsg = new TextComponent(chat); //Important May break!
-			chatMsg.setColor(color); 
+			chatMessage.then(chat).color(color);
 		}else{
 			String smgsd = ChatColor.translateAlternateColorCodes('&', pf.color + chat);
-			chatMsg = new TextComponent(smgsd);
+			chatMessage.then(smgsd);
 		}
-		name.append(this.getMsg(chat, color, p), FormatRetention.FORMATTING);
-		return name.create();
+		chatMessage.then(this.getMsg(chat, color, p));
+		return chatMessage;
 	}
 	/**
 	 * Format the chat.

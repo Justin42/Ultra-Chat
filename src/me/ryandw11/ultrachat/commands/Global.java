@@ -26,7 +26,7 @@ public class Global implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
 		if(!(sender instanceof Player)){
-			sender.sendMessage("§cThis command is for players only!");
+			sender.sendMessage("ï¿½cThis command is for players only!");
 			return true;
 		}
 		Player p = (Player) sender;
@@ -41,7 +41,7 @@ public class Global implements CommandExecutor {
 			Bukkit.getServer().getPluginManager().callEvent(e);
 			if(!e.isCancelled()){
 				Bukkit.broadcastMessage(pf.getGlobal().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()) + pf.getColor() + e.getMessage());
-				Bukkit.getLogger().info(pf.getGlobal().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace('&', '§') + pf.getColor() + e.getMessage().replace('&', '§'));
+				Bukkit.getLogger().info(pf.getGlobal().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace('&', 'ï¿½') + pf.getColor() + e.getMessage().replace('&', 'ï¿½'));
 			}
 		}else{
 			GlobalChatEvent e = new GlobalChatEvent(p, this.getMessage(args, p));
@@ -49,9 +49,9 @@ public class Global implements CommandExecutor {
 			if(!e.isCancelled()){
 				JSON j = new JSON();
 				for(Player pl : Bukkit.getOnlinePlayers()){
-					pl.spigot().sendMessage(j.hoverMessage(pf.getGlobal().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()), (ArrayList<String>) plugin.getConfig().get("Global.json"), e.getMessage(), pf.getColor(), p));
+					pl.sendRawMessage(j.hoverMessage(pf.getGlobal().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()), (ArrayList<String>) plugin.getConfig().get("Global.json"), e.getMessage(), pf.getColor(), p));
 				}
-				Bukkit.getLogger().info(pf.getGlobal().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace('&', '§') + pf.getColor() + e.getMessage().replace('&', '§'));
+				Bukkit.getLogger().info(pf.getGlobal().replace("%player%", p.getDisplayName()).replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace('&', 'ï¿½') + pf.getColor() + e.getMessage().replace('&', 'ï¿½'));
 			}
 		}
 		
