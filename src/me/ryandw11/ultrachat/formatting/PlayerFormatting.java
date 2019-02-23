@@ -1,11 +1,11 @@
 package me.ryandw11.ultrachat.formatting;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.ryandw11.ultrachat.UltraChat;
 import me.ryandw11.ultrachat.api.Util;
-import net.md_5.bungee.api.ChatColor;
 /**
  * Class for formatting player chat easily. (Demo: May not stay).
  * @author Ryandw11
