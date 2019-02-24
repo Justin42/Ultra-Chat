@@ -15,17 +15,12 @@ import me.ryandw11.ultrachat.commands.StaffChat;
 import me.ryandw11.ultrachat.commands.StaffChatToggle;
 import me.ryandw11.ultrachat.commands.World;
 import me.ryandw11.ultrachat.commands.SpyCommand;
-import me.ryandw11.ultrachat.formatting.Channels;
+import me.ryandw11.ultrachat.listener.*;
+import me.ryandw11.ultrachat.listener.ChannelChatListener;
 import me.ryandw11.ultrachat.formatting.Chat_Json;
 import me.ryandw11.ultrachat.formatting.Normal;
 import me.ryandw11.ultrachat.formatting.Range;
 import me.ryandw11.ultrachat.gui.ColorGUI;
-import me.ryandw11.ultrachat.listener.ConsoleLogChat;
-import me.ryandw11.ultrachat.listener.JoinListner;
-import me.ryandw11.ultrachat.listener.NoSwear;
-import me.ryandw11.ultrachat.listener.Notify;
-import me.ryandw11.ultrachat.listener.Spy;
-import me.ryandw11.ultrachat.listener.StopChat;
 import me.ryandw11.ultrachat.pluginhooks.AdvancedBanMute;
 import me.ryandw11.ultrachat.pluginhooks.EssentialsMute;
 import me.ryandw11.ultrachat.util.Metrics;
@@ -154,7 +149,7 @@ public class UltraChat extends JavaPlugin{
 			}else{
 				channelEnabled = true;
 				JSON = false;
-				Bukkit.getServer().getPluginManager().registerEvents(new Channels(), this);
+				Bukkit.getServer().getPluginManager().registerEvents(new ChannelChatListener(), this);
 				getLogger().info("Channel chat mode enabled.");
 			}
 			break;
@@ -171,7 +166,7 @@ public class UltraChat extends JavaPlugin{
 			break;
 		}
 		
-//		channelEnabled = getConfig().getBoolean("Channels");
+//		channelEnabled = getConfig().getBoolean("ChannelChatListener");
 //		if(channelEnabled){
 //			if(legitDefaultChannel(getConfig().getString("Default_Channel"))){
 //				defaultChannel = getConfig().getString("Default_Channel");
@@ -194,7 +189,7 @@ public class UltraChat extends JavaPlugin{
 //			Bukkit.getServer().getPluginManager().registerEvents(new Chat_Json(), this);
 //			
 //		}else if(channelEnabled){
-//			Bukkit.getServer().getPluginManager().registerEvents(new Channels(), this);
+//			Bukkit.getServer().getPluginManager().registerEvents(new ChannelChatListener(), this);
 //		}else{
 //			Bukkit.getServer().getPluginManager().registerEvents(new Normal(), this);
 //		}

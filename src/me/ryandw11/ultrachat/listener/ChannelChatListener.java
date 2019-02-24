@@ -1,6 +1,7 @@
-package me.ryandw11.ultrachat.formatting;
+package me.ryandw11.ultrachat.listener;
 
 import me.ryandw11.ultrachat.api.ChannelChatEvent;
+import me.ryandw11.ultrachat.formatting.PlayerFormatting;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -12,13 +13,13 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.ryandw11.ultrachat.UltraChat;
 
 /**
- * Channels without any kind of json involved.
+ * ChannelChatListener without any kind of json involved.
  * @author Ryandw11
  *
  */
-public class Channels implements Listener {
+public class ChannelChatListener implements Listener {
 	private UltraChat plugin;
-	public Channels(){
+	public ChannelChatListener(){
 		plugin = UltraChat.plugin;
 	}
 	

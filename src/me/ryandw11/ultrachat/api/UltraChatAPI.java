@@ -109,7 +109,7 @@ public class UltraChatAPI{
 	 * @return boolean
 	 */
 	public boolean isChannelEnabled(){
-		return plugin.getConfig().getBoolean("Channels");
+		return plugin.getConfig().getBoolean("ChannelChatListener");
 	}
 	/**
 	 * Check to see if json is enabled.

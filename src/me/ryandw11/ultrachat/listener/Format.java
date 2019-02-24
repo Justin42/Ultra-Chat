@@ -84,10 +84,10 @@ public class Format implements Listener {
 						}
 				}
 			}
-			// Non-JSON channel handling moved to Channels.java
+			// Non-JSON channel handling moved to ChannelChatListener.java
 		}
 		/*
-		 * Channels are not enabled
+		 * ChannelChatListener are not enabled
 		 */
 		else {
 			/*

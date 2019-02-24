@@ -38,7 +38,7 @@ public class ChannelCmd implements CommandExecutor {
 			p.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.ERROR_CHANNEL_USAGE.toString()));
 		}
 		else if(args.length == 0){
-			p.sendMessage(ChatColor.BLUE + "-------------Chat Channels--------------");
+			p.sendMessage(ChatColor.BLUE + "-------------Chat ChannelChatListener--------------");
 			p.sendMessage(ChatColor.GREEN + "/channel {channel} - Change you channel. [Case Sensitive!]");
 			p.sendMessage(ChatColor.GREEN + "/channel list - List the channels.");
 		}else if(args.length == 1 && args[0].equalsIgnoreCase("list")){
@@ -48,7 +48,7 @@ public class ChannelCmd implements CommandExecutor {
 			}
 			@SuppressWarnings("unchecked")
 			ArrayList<String> chnls = (ArrayList<String>) plugin.getConfig().get("Channel_List");
-			p.sendMessage(ChatColor.BLUE + "-------------Channels List--------------");
+			p.sendMessage(ChatColor.BLUE + "-------------ChannelChatListener List--------------");
 			for(String st : chnls){
 				JSONMessage cnl = JSONMessage.create("- ");
 				cnl.tooltip(ChatColor.translateAlternateColorCodes('&', Lang.CHANNEL_JSON_HOVER.toString()));
