@@ -1,4 +1,4 @@
-package me.ryandw11.ultrachat.listner;
+package me.ryandw11.ultrachat.listener;
 
 import me.ryandw11.ultrachat.UltraChat;
 import me.ryandw11.ultrachat.api.Lang;

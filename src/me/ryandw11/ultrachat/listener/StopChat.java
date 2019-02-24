@@ -1,4 +1,4 @@
-package me.ryandw11.ultrachat.listner;
+package me.ryandw11.ultrachat.listener;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -3,6 +3,6 @@
   <component name="Encoding" addBOMForNewFiles="with NO BOM">
     <file url="file://$PROJECT_DIR$/src/me/ryandw11/ultrachat/UltraChat.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/me/ryandw11/ultrachat/commands/World.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/me/ryandw11/ultrachat/listner/ConsoleLogChat.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/me/ryandw11/ultrachat/listener/ConsoleLogChat.java" charset="UTF-8" />
   </component>
 </project>

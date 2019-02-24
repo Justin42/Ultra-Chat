@@ -1,10 +1,8 @@
-package me.ryandw11.ultrachat.listner;
+package me.ryandw11.ultrachat.listener;
 
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.ryandw11.ultrachat.UltraChat;

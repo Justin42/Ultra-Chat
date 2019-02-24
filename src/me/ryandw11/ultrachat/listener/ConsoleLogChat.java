@@ -1,4 +1,4 @@
-package me.ryandw11.ultrachat.listner;
+package me.ryandw11.ultrachat.listener;
 
 import java.util.logging.Level;
 
