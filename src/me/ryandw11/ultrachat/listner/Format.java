@@ -55,7 +55,7 @@ public class Format implements Listener {
 		PlayerFormatting pFormat = new PlayerFormatting(e.getPlayer());
 		formatOp = PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Custom_Chat.Op_Chat.Format")));
 		defaults = PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Custom_Chat.Default_Chat.Format")));
-		
+
 		if(plugin.channelEnabled){
 			/*
 			 * If json and channels are enabled
@@ -70,7 +70,7 @@ public class Format implements Listener {
 					for(Player pl : Bukkit.getOnlinePlayers()){
 						if(plugin.data.getString(pl.getUniqueId() + ".channel").equals(channel)){
 							if(pl.hasPermission(plugin.channel.getString(channel + ".permission")) || plugin.channel.getString(channel + ".permission").equalsIgnoreCase("none")){
-								
+
 									pl.sendRawMessage(json.hoverMessage(plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format").replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", p.getDisplayName()),  (ArrayList<String>) plugin.channel.get(channel + ".JSON"), event.getMessage(), color, p).toString());
 							}
 						}
@@ -86,29 +86,12 @@ public class Format implements Listener {
 						}
 				}
 			}
-			else{
-				/*
-				 * If channels are enabled and json is not.
-				 */
-				String channel = plugin.data.getString(p.getUniqueId() + ".channel");
-				if(!plugin.channel.getBoolean(channel + ".always_appear")){
-					e.getRecipients().removeAll(Bukkit.getOnlinePlayers());
-					for(Player pl : Bukkit.getOnlinePlayers()){
-						if(plugin.data.getString(pl.getUniqueId() + ".channel").equals(channel)){
-							if(pl.hasPermission(plugin.channel.getString(channel + ".permission")) || plugin.channel.getString(channel + ".permission").equalsIgnoreCase("none")){
-								e.getRecipients().add(pl);
-							}
-						}
-
-						}
-					}
-					e.setFormat(ChatColor.translateAlternateColorCodes('&', plugin.channel.getString(channel + ".prefix")) + ChatColor.translateAlternateColorCodes('&', plugin.channel.getString(channel + ".format").replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", "%s") + color + "%s"));	
-			}
+			// Non-JSON channel handling moved to Channels.java
 		}
 		/*
 		 * Channels are not enabled
 		 */
-		else{
+		else {
 			/*
 			 * JSON without channels
 			 */

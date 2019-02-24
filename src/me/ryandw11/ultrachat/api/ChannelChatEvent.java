@@ -3,7 +3,6 @@ package me.ryandw11.ultrachat.api;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.Set;
 
@@ -15,29 +14,37 @@ import java.util.Set;
 public class ChannelChatEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
     private Player player;
-    private String chat;
+    private String messageBody;
+    private String messageFormat;
+    private String channelName;
+    private Set<Player> recipients;
     private boolean cancelled;
 
-    public ChannelChatEvent(Player p, String channel, String chat) {
-        player = p;
-        this.chat = chat;
+    public ChannelChatEvent(Player p, Set<Player> recipients, String channelName, String messageFormat, String messageBody) {
+        this.player = p;
+        this.recipients = recipients;
+        this.channelName = channelName;
+        this.messageFormat = messageFormat;
+        this.messageBody = messageBody;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
+    public Player getPlayer() { return player; }
 
-    public String getMessage() {
-        return chat;
-    }
+    public Set<Player> getRecipients() { return recipients; }
 
-    public void setMessage(String message){
-        chat = message;
-    }
+    public void setRecipients(Set<Player> recipients) { this.recipients = recipients; }
 
-    public boolean isCancelled(){
-        return cancelled;
-    }
+    public String getMessage() { return messageBody; }
+
+    public void setMessage(String message) { this.messageBody = message; }
+
+    public void setMessageFormat(String format) { this.messageFormat = format; }
+
+    public String getMessageFormat() { return this.messageFormat;}
+
+    public void getChannelName() { this.channelName = channelName; }
+
+    public boolean isCancelled(){ return cancelled; }
 
     public void setCancelled(boolean cancel){
         cancelled = cancel;

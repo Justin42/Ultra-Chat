@@ -1,5 +1,6 @@
 package me.ryandw11.ultrachat.formatting;
 
+import me.ryandw11.ultrachat.api.ChannelChatEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -9,8 +10,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.ryandw11.ultrachat.UltraChat;
-
-import java.util.UnknownFormatConversionException;
 
 /**
  * Channels without any kind of json involved.
@@ -27,7 +26,8 @@ public class Channels implements Listener {
 	public void onChat(AsyncPlayerChatEvent e){
 		PlayerFormatting pf = new PlayerFormatting(e.getPlayer());
 		Player p = e.getPlayer();
-		
+
+		// Set recipients
 		String channel = plugin.data.getString(p.getUniqueId() + ".channel");
 		if(!plugin.channel.getBoolean(channel + ".always_appear")){
 			e.getRecipients().removeAll(Bukkit.getOnlinePlayers());
@@ -44,17 +44,38 @@ public class Channels implements Listener {
 				}
 			}
 		}
-		try {
-			e.setFormat(PlaceholderAPI.setPlaceholders(p,
-					ChatColor.translateAlternateColorCodes('&', plugin.channel.getString(channel + ".prefix"))
-							+ ChatColor.translateAlternateColorCodes('&', plugin.channel.getString(channel + ".format")
-							.replace("%prefix%", pf.getPrefix())
-							.replace("%suffix%", pf.getSuffix())
-							.replace("%player%", "%s")
-							+ pf.getColor() + "%s")));
+		String chatFormat = plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format");
+		/*e.setFormat(PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Custom_Chat." + i +".Format").replace("%player%", "%s").replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix())) + pf.getColor() + "%s"));
+		e.setFormat(PlaceholderAPI.setPlaceholders(p,
+				ChatColor.translateAlternateColorCodes('&', plugin.channel.getString(channel + ".prefix"))
+						+ ChatColor.translateAlternateColorCodes('&', plugin.channel.getString(channel + ".format")
+						.replace("%prefix%", pf.getPrefix())
+						.replace("%suffix%", pf.getSuffix())
+						.replace("%player%", "%s")
+						+ pf.getColor() + "%s")));*/
+		e.setCancelled(true);
+		ChannelChatEvent chatEvent = new ChannelChatEvent(e.getPlayer(), e.getRecipients(), channel, chatFormat, e.getMessage());
+		Bukkit.getServer().getPluginManager().callEvent(chatEvent);
+	}
+
+	@EventHandler
+	public void onChannelChat(ChannelChatEvent e) {
+		String chatMessage = formatMessage(e.getPlayer(), e.getMessageFormat(), e.getMessage());
+		for(Player recipient : e.getRecipients()) {
+			recipient.sendRawMessage(chatMessage);
 		}
-		catch(UnknownFormatConversionException ex) {
-			System.out.println(String.format("Unable to format chat message\nMessage: %s\nFormat: %s", e.getMessage(), e.getFormat()));
-        }
+	}
+
+	private static String formatMessage(Player p, String msgFormat, String msg) {
+		PlayerFormatting pf = new PlayerFormatting(p);
+		if (p.hasPermission("ultrachat.chat.color")) {
+			msg = ChatColor.translateAlternateColorCodes('&', msg);
+		}
+		String outgoingMsg = msgFormat.replace("%player%", p.getDisplayName())
+				.replace("%prefix%", pf.getPrefix())
+				.replace("%suffix%", pf.getSuffix());
+		outgoingMsg = PlaceholderAPI.setPlaceholders(p, outgoingMsg);
+		outgoingMsg += pf.getColor() + msg;
+		return outgoingMsg;
 	}
 }
