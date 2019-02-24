@@ -43,6 +43,7 @@ public class Format implements Listener {
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent e){
 		if(!plugin.getConfig().getBoolean("Custom_Chat_Enabled")) return;
+		if(plugin.channelEnabled) return;
 		
 		Player p = e.getPlayer();
 		color = ChatColor.getByChar(ChatColor.translateAlternateColorCodes('&', plugin.data.getString(p.getUniqueId() + ".color")).replace("&", ""));
@@ -53,101 +54,63 @@ public class Format implements Listener {
 		PlayerFormatting pFormat = new PlayerFormatting(e.getPlayer());
 		formatOp = PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Custom_Chat.Op_Chat.Format")));
 		defaults = PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Custom_Chat.Default_Chat.Format")));
-
-		if(plugin.channelEnabled){
-			/*
-			 * If json and channels are enabled
-			 */
-			if(plugin.JSON){
-				e.setCancelled(true);
-				String channel = plugin.data.getString(p.getUniqueId() + ".channel");
-				if(!plugin.channel.getBoolean(channel + ".always_appear")){
-					JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>());
-					Bukkit.getServer().getPluginManager().callEvent(event);
-					if(!event.isCancelled())
-					for(Player pl : Bukkit.getOnlinePlayers()){
-						if(plugin.data.getString(pl.getUniqueId() + ".channel").equals(channel)){
-							if(pl.hasPermission(plugin.channel.getString(channel + ".permission")) || plugin.channel.getString(channel + ".permission").equalsIgnoreCase("none")){
-
-									pl.sendRawMessage(json.hoverMessage(plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format").replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", p.getDisplayName()),  (ArrayList<String>) plugin.channel.get(channel + ".JSON"), event.getMessage(), color, p).toString());
-							}
-						}
-
-						}
-					}
-				else{
-					JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>());
-					Bukkit.getServer().getPluginManager().callEvent(event);
-					if(!event.isCancelled())
-						for(Player pl : Bukkit.getOnlinePlayers()){
-							pl.sendRawMessage(json.hoverMessage(plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format").replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", p.getDisplayName()),  (ArrayList<String>) plugin.channel.get(channel + ".JSON"), event.getMessage(), color, p).toString());
-						}
-				}
-			}
-			// Non-JSON channel handling moved to ChannelChatListener.java
-		}
-		/*
-		 * ChannelChatListener are not enabled
-		 */
-		else {
 			/*
 			 * JSON without channels
 			 */
-			if(plugin.JSON){
-				boolean complete = false;
-				e.setCancelled(true);
-				if(p.isOp() && pFormat.getOpFormatEnabled()){
-					JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>());
-					Bukkit.getServer().getPluginManager().callEvent(event);
-					if(!event.isCancelled())
-						for(Player pl : Bukkit.getOnlinePlayers()){
-							pl.sendRawMessage(json.hoverMessage(formatOp.replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", p.getDisplayName()), (ArrayList<String>) plugin.getConfig().get("Custom_Chat.Op_Chat.JSON"), event.getMessage(), color, p).toString());
-						}
-				}else{
-					int i = 1;
-					JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>());
-					Bukkit.getServer().getPluginManager().callEvent(event);
-					if(!event.isCancelled()){
-						while(i <= plugin.getConfig().getInt("Custom_Chat.Chat_Count")){
-							if(p.hasPermission(plugin.getConfig().getString("Custom_Chat." + i + ".Permission"))){
-								for(Player pl : Bukkit.getOnlinePlayers()){
-									pl.sendMessage(json.hoverMessage(plugin.getConfig().getString("Custom_Chat." + i +".Format").replace("%player%", p.getDisplayName()).replace("%prefix%", prefix).replace("%suffix%", suffix), (ArrayList<String>) plugin.getConfig().get("Custom_Chat." + i +".JSON"), event.getMessage(), color, p).toString());
-									complete = true;
-								}
-							}
-							i++; // Fixed
-						}
+		if(plugin.JSON){
+			boolean complete = false;
+			e.setCancelled(true);
+			if(p.isOp() && pFormat.getOpFormatEnabled()){
+				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>());
+				Bukkit.getServer().getPluginManager().callEvent(event);
+				if(!event.isCancelled())
+					for(Player pl : Bukkit.getOnlinePlayers()){
+						pl.sendRawMessage(json.hoverMessage(formatOp.replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", p.getDisplayName()), (ArrayList<String>) plugin.getConfig().get("Custom_Chat.Op_Chat.JSON"), event.getMessage(), color, p).toString());
 					}
-					/*
-					 * Normal player check
-					 */
-					if(!complete){
-						JsonChatEvent events = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>());
-						Bukkit.getServer().getPluginManager().callEvent(events);
-						if(!event.isCancelled())
-							for(Player pl : Bukkit.getOnlinePlayers()){ // Fixed for normal players
-								pl.sendMessage(json.hoverMessage(defaults.replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", p.getDisplayName()), (ArrayList<String>) plugin.getConfig().get("Custom_Chat.Default_Chat.JSON"), event.getMessage(), color, p).toString());
-							}
-					}
-				}
-			}
-			/*
-			 * Normal chat with no JSON and channels.
-			 */
-			else{
-				if(p.isOp() && pFormat.getOpFormatEnabled()){
-					e.setFormat(formatOp.replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", "%s") + color + "%s");
-				}else{
-					int i = 1;
-					e.setFormat(defaults.replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", "%s") + color + "%s");
+			}else{
+				int i = 1;
+				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>());
+				Bukkit.getServer().getPluginManager().callEvent(event);
+				if(!event.isCancelled()){
 					while(i <= plugin.getConfig().getInt("Custom_Chat.Chat_Count")){
 						if(p.hasPermission(plugin.getConfig().getString("Custom_Chat." + i + ".Permission"))){
-							e.setFormat(PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Custom_Chat." + i +".Format").replace("%player%", "%s").replace("%prefix%", prefix).replace("%suffix%", suffix)) + color + "%s"));	
+							for(Player pl : Bukkit.getOnlinePlayers()){
+								pl.sendMessage(json.hoverMessage(plugin.getConfig().getString("Custom_Chat." + i +".Format").replace("%player%", p.getDisplayName()).replace("%prefix%", prefix).replace("%suffix%", suffix), (ArrayList<String>) plugin.getConfig().get("Custom_Chat." + i +".JSON"), event.getMessage(), color, p).toString());
+								complete = true;
+							}
 						}
-						i++; //Fixed
-					}	
+						i++; // Fixed
+					}
 				}
-			}// end of json op
+				/*
+				 * Normal player check
+				 */
+				if(!complete){
+					JsonChatEvent events = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>());
+					Bukkit.getServer().getPluginManager().callEvent(events);
+					if(!event.isCancelled())
+						for(Player pl : Bukkit.getOnlinePlayers()){ // Fixed for normal players
+							pl.sendMessage(json.hoverMessage(defaults.replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", p.getDisplayName()), (ArrayList<String>) plugin.getConfig().get("Custom_Chat.Default_Chat.JSON"), event.getMessage(), color, p).toString());
+						}
+				}
+			}
 		}
-	}//END
+		/*
+		 * Normal chat with no JSON and channels.
+		 */
+		else{
+			if(p.isOp() && pFormat.getOpFormatEnabled()){
+				e.setFormat(formatOp.replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", "%s") + color + "%s");
+			}else{
+				int i = 1;
+				e.setFormat(defaults.replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", "%s") + color + "%s");
+				while(i <= plugin.getConfig().getInt("Custom_Chat.Chat_Count")){
+					if(p.hasPermission(plugin.getConfig().getString("Custom_Chat." + i + ".Permission"))){
+						e.setFormat(PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Custom_Chat." + i +".Format").replace("%player%", "%s").replace("%prefix%", prefix).replace("%suffix%", suffix)) + color + "%s"));
+					}
+					i++; //Fixed
+				}
+			}
+		}// end of json op
+	}
 }

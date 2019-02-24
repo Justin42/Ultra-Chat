@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //import me.ryandw11.ultrachat.UltraChat;
 
@@ -25,7 +26,7 @@ public class JSON {
 	 * @param p The player it is being applied to.
 	 * @return TextComponent with hover message.
 	 */
-	public JSONMessage hoverMessage(String msg, ArrayList<String> lore, String chat, ChatColor color, Player p){
+	public JSONMessage hoverMessage(String msg, List<String> lore, String chat, ChatColor color, Player p){
 		PlayerFormatting pf = new PlayerFormatting(p);
 		int i = 0;
 		int l = lore.size() - 1;

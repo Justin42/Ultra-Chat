@@ -141,17 +141,10 @@ public class UltraChat extends JavaPlugin{
 			getLogger().info("Json chat activated!");
 			break;
 		case "channel":
-			if(getConfig().getBoolean("Channel_Json")){
-				JSON = true;
-				channelEnabled = true;
-				Bukkit.getServer().getPluginManager().registerEvents(new Chat_Json(), this);
-				getLogger().info("Channel chat mode enabled with json.");
-			}else{
-				channelEnabled = true;
-				JSON = false;
-				Bukkit.getServer().getPluginManager().registerEvents(new ChannelChatListener(), this);
-				getLogger().info("Channel chat mode enabled.");
-			}
+			channelEnabled = true;
+			JSON = true;
+			Bukkit.getServer().getPluginManager().registerEvents(new ChannelChatListener(), this);
+			getLogger().info("Channel chat mode enabled.");
 			break;
 		case "range":
 			Bukkit.getServer().getPluginManager().registerEvents(new Range(), this);

@@ -4,7 +4,7 @@ plugin-prefix: '&7[&aUltraChat&7]'
 no-perm: '&cYou do not have permission for this command.'
 error-channel-enabled: '&cError: Chat channels are not enabled on this server!'
 error-channel-usage: '&cError: Use /channel {channel}!'
-channel-json-hover: '&5Click to join the channel!'
+channel-json-hover: "&5Click to join the '%channel%' channel!"
 chat-stop-off: '&eThe chat has been &2Enabled &eby:&5 %p&e!'
 chat-stop-on: '&eThe chat has been &4disabled 7eby:&5 %p&e!'
 stop-chat-message: '&cThe chat is currently not active.'

@@ -16,11 +16,11 @@ public class ChannelChatEvent extends Event {
     private Player player;
     private String messageBody;
     private String messageFormat;
-    private String channelName;
+    private final String channelName;
     private Set<Player> recipients;
     private boolean cancelled;
 
-    public ChannelChatEvent(Player p, Set<Player> recipients, String channelName, String messageFormat, String messageBody) {
+    public ChannelChatEvent(Player p, Set<Player> recipients,final String channelName, String messageFormat, String messageBody) {
         this.player = p;
         this.recipients = recipients;
         this.channelName = channelName;
@@ -42,7 +42,7 @@ public class ChannelChatEvent extends Event {
 
     public String getMessageFormat() { return this.messageFormat;}
 
-    public void getChannelName() { this.channelName = channelName; }
+    public String getChannelName() { return channelName; }
 
     public boolean isCancelled(){ return cancelled; }
 

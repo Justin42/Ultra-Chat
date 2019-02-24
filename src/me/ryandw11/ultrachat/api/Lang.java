@@ -11,7 +11,7 @@ public enum Lang {
 	NO_PERM("no-perm", "&cYou do not have permission for this command!"),
 	ERROR_CHANNEL_ENABLED("error-channel-enabled", "&cError: Chat channels are not enabled on this server!"),
 	ERROR_CHANNEL_USAGE("error-channel-usage", "&cError: Use /channel {channel}!"),
-	CHANNEL_JSON_HOVER("channel-json-hover", "&5Click to join the channel!"),
+	CHANNEL_JSON_HOVER("channel-json-hover", "&5Click to join the '%channel%' channel!"),
 	CHAT_STOP_OFF("chat-stop-off", "&eThe chat has been &2Enabled &eby:&5 %p&e!"),
 	CHAT_STOP_ON("chat-stop-on", "&eThe chat has been &4disabled &eby:&5 %p&e!"),
 	BROADCAST_PREFIX("broadcast-prefix", "&7[&4UltraChat&7] "),

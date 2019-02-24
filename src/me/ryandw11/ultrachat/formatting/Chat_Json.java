@@ -33,31 +33,7 @@ public class Chat_Json implements Listener{
 		/*
 		 * Check if Channel and JSON is enabled.
 		 */
-		if(plugin.channelEnabled){
-			e.setCancelled(true);
-			String channel = plugin.data.getString(p.getUniqueId() + ".channel");
-			if(!plugin.channel.getBoolean(channel + ".always_appear")){
-				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>(Bukkit.getOnlinePlayers()));
-				Bukkit.getServer().getPluginManager().callEvent(event);
-				if(!event.isCancelled())
-				for(Player pl : event.getRecipients()){
-					if(plugin.data.getString(pl.getUniqueId() + ".channel").equals(channel)){
-						if(pl.hasPermission(plugin.channel.getString(channel + ".permission")) || plugin.channel.getString(channel + ".permission").equalsIgnoreCase("none")){
-							pl.sendRawMessage(json.hoverMessage(plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format").replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace("%player%", p.getDisplayName()),  (ArrayList<String>) plugin.channel.get(channel + ".JSON"), event.getMessage(), pf.getColor(), p).toString());
-						}
-					}
-
-					}
-				}
-			else{
-				JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>(Bukkit.getOnlinePlayers()));
-				Bukkit.getServer().getPluginManager().callEvent(event);
-				if(!event.isCancelled())
-					for(Player pl : event.getRecipients()){
-						pl.sendRawMessage(json.hoverMessage(plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format").replace("%prefix%", pf.getPrefix()).replace("%suffix%", pf.getSuffix()).replace("%player%", p.getDisplayName()),  (ArrayList<String>) plugin.channel.get(channel + ".JSON"), event.getMessage(), pf.getColor(), p).toString()); //fixed suffix bug
-					}
-			}
-		}else{ //if Channel is not enabled.
+		if (!plugin.channelEnabled){ //if Channel is not enabled.
 			boolean complete = false;
 			e.setCancelled(true);
 			JsonChatEvent event = new JsonChatEvent(p, e.getMessage(), new HashSet<Player>(Bukkit.getOnlinePlayers()));
