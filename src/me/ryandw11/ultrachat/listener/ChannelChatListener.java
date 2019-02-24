@@ -3,6 +3,7 @@ package me.ryandw11.ultrachat.listener;
 import me.clip.placeholderapi.util.jsonmessage.JSONMessage;
 import me.ryandw11.ultrachat.api.ChannelChatEvent;
 import me.ryandw11.ultrachat.api.JSON;
+import me.ryandw11.ultrachat.api.Util;
 import me.ryandw11.ultrachat.formatting.PlayerFormatting;
 import org.apache.logging.log4j.core.jackson.Log4jJsonObjectMapper;
 import org.bukkit.Bukkit;
@@ -47,9 +48,8 @@ public class ChannelChatListener implements Listener {
 			}
 			for(Player pl : Bukkit.getOnlinePlayers()){
 				if(plugin.data.getString(pl.getUniqueId() + ".channel").equals(channel)){
-					if (pl.hasPermission(plugin.channel.getString(channel + ".permission"))) {
-						e.getRecipients().add(pl);
-					} else if (plugin.channel.getString(channel + ".permission").equalsIgnoreCase("none")) {
+					String permission = plugin.channel.getString(channel + ".permission", "none");
+					if(permission.equalsIgnoreCase("none") || pl.hasPermission(permission)) {
 						e.getRecipients().add(pl);
 					}
 				}
@@ -64,24 +64,38 @@ public class ChannelChatListener implements Listener {
 
 	@EventHandler
 	public void onChannelChat(ChannelChatEvent e) {
-		String chatMessage = formatMessage(e.getPlayer(), e.getMessageFormat(), e.getMessage());
-		PlayerFormatting pf = new PlayerFormatting(e.getPlayer());
 		if(plugin.JSON) {
-			//noinspection unchecked
-			List<String> lore = (List<String>)plugin.channel.getList(e.getChannelName() + ".JSON");
-			StringBuilder loreText = new StringBuilder();
-			for(String loreLine : lore) {
-				loreText.append(PlaceholderAPI.setPlaceholders(e.getPlayer(), ChatColor.translateAlternateColorCodes('&', loreLine))).append("\n");
-			}
-			JSONMessage msg = JSONMessage.create(chatMessage);
-			msg.tooltip(loreText.toString());
+			JSONMessage jsonMessage = buildJSONMessage(e);
 			for(Player recipient : e.getRecipients()) {
-				msg.send(recipient);
+				jsonMessage.send(recipient);
 			}
 		}
 		else for(Player recipient : e.getRecipients()) {
+			String chatMessage = formatMessage(e.getPlayer(), e.getMessageFormat(), e.getMessage());
 			recipient.sendRawMessage(chatMessage);
 		}
+	}
+
+
+	private JSONMessage buildJSONMessage(ChannelChatEvent e) {
+		String chatMessage = formatMessage(e.getPlayer(), e.getMessageFormat(), e.getMessage());
+		PlayerFormatting pf = new PlayerFormatting(e.getPlayer());
+
+		String nameHover = Util.buildLore(plugin.channel.getList(e.getChannelName() + ".format-hover"), e.getPlayer());
+		String messageHover = Util.buildLore(plugin.channel.getList(e.getChannelName() + ".message-hover"), e.getPlayer());
+		String message = e.getMessage();
+		if(e.getPlayer().hasPermission("ultrachat.chat.color")) {
+			message = ChatColor.translateAlternateColorCodes('&', pf.getColor() + message);
+		}
+		/*if(e.getPlayer().hasPermission("ultrachat.itemlink")) {
+			message = message; // TODO
+		}*/
+
+		JSONMessage msg = JSONMessage.create(formatMessagePrepends(e.getPlayer(), e.getMessageFormat()));
+		if(!nameHover.isEmpty()) msg.tooltip(nameHover);
+		msg.then(message);
+		if(!messageHover.isEmpty()) msg.tooltip(messageHover);
+		return msg;
 	}
 
 	private String formatMessage(Player p, String msgFormat, String msg) {
@@ -95,9 +109,16 @@ public class ChannelChatListener implements Listener {
 				.replace("%suffix%", pf.getSuffix());
 		outgoingMsg = PlaceholderAPI.setPlaceholders(p, outgoingMsg);
 		outgoingMsg += pf.getColor() + msg;
-		if(plugin.JSON) {
-			//json.hoverMessage(plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format").replace("%prefix%", prefix).replace("%suffix%", suffix).replace("%player%", p.getDisplayName()),  (ArrayList<String>) plugin.channel.get(channel + ".JSON"), event.getMessage(), color, p).toString()
-		}
+		return outgoingMsg;
+	}
+
+	private String formatMessagePrepends(Player p, String msgFormat) {
+		PlayerFormatting pf = new PlayerFormatting(p);
+		String outgoingMsg = msgFormat.replace("%player%", p.getDisplayName())
+				.replace("%prefix%", pf.getPrefix())
+				.replace("%suffix%", pf.getSuffix());
+		outgoingMsg = PlaceholderAPI.setPlaceholders(p, outgoingMsg);
+		System.out.println(outgoingMsg);
 		return outgoingMsg;
 	}
 }

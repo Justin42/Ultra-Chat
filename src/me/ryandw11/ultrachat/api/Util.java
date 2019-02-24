@@ -1,7 +1,13 @@
 package me.ryandw11.ultrachat.api;
 
 
+import me.clip.placeholderapi.PlaceholderAPI;
+import me.clip.placeholderapi.util.jsonmessage.JSONMessage;
+import me.ryandw11.ultrachat.formatting.PlayerFormatting;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
+import java.util.List;
 
 public class Util {
 	/**
@@ -44,6 +50,25 @@ public class Util {
 			return ChatColor.AQUA;
 		}
 		return null;
+	}
+
+	public static String buildLore(List<?> loreLines, Player p) {
+		if(loreLines == null || loreLines.size() == 0) return "";
+		StringBuilder loreText = new StringBuilder(100);
+		for(int i = 0; i < loreLines.size(); i++) {
+			String loreLine = (String) loreLines.get(i);
+			if(p != null) {
+				loreLine = PlaceholderAPI.setPlaceholders(p, loreLine);
+			}
+			loreLine = ChatColor.translateAlternateColorCodes('&', loreLine);
+			loreText.append(loreLine);
+			if(i < loreLines.size() - 1) loreText.append("\n");
+		}
+		return loreText.toString();
+	}
+
+	public static String buildLore(List<String> loreLines) {
+		return buildLore(loreLines, null);
 	}
 	
 

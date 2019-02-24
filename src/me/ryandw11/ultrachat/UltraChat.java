@@ -240,7 +240,6 @@ public class UltraChat extends JavaPlugin{
 	 * Save the channel file.
 	 */
     public void saveChannel(){
-		
 		try{
 			channel.save(channelfile);
 		}catch(IOException e){
