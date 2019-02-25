@@ -43,6 +43,7 @@ public class ChannelChatListener implements Listener {
 
 		// Set recipients
 		String channel = plugin.data.getString(p.getUniqueId() + ".channel");
+		String defaultChannel = plugin.data.getString("Default_Channel", "global");
 		if(!plugin.channel.getBoolean(channel + ".always_appear") || plugin.towny != null){
 			e.getRecipients().removeAll(Bukkit.getOnlinePlayers());
 			if(p.hasPermission("ultrachat.chat.color")){
@@ -96,8 +97,7 @@ public class ChannelChatListener implements Listener {
 		e.setCancelled(true);
 
 		// TODO Add configuration options for empty-channel-message and default-on-empty
-		if(e.getRecipients().size() <= 1) {
-			String defaultChannel = plugin.data.getString("Default_Channel", "global");
+		if(e.getRecipients().size() <= 1 && !channel.equalsIgnoreCase(defaultChannel)) {
 			p.sendRawMessage(String.format(ChatColor.RED + "There is nobody else in the channel '%s'", channel));
 			if(!channel.equalsIgnoreCase(defaultChannel)) {
 				plugin.data.set(p.getUniqueId() + ".channel", defaultChannel);
