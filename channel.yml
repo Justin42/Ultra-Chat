@@ -26,6 +26,7 @@ global:
     #message-hover:
     #message-click-suggest:
     #message-click-command:
+    #command-on-send:
     swear-filter: True
 #Example Channel:
 vip:

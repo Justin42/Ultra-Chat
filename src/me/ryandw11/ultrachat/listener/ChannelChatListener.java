@@ -8,7 +8,6 @@ import me.ryandw11.ultrachat.api.ChannelChatEvent;
 import me.ryandw11.ultrachat.api.JSON;
 import me.ryandw11.ultrachat.api.Util;
 import me.ryandw11.ultrachat.formatting.PlayerFormatting;
-import org.apache.logging.log4j.core.jackson.Log4jJsonObjectMapper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -19,10 +18,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.ryandw11.ultrachat.UltraChat;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * ChannelChatListener without any kind of json involved.
@@ -113,6 +109,21 @@ public class ChannelChatListener implements Listener {
 
 	@EventHandler
 	public void onChannelChat(ChannelChatEvent e) {
+		if(!e.getRecipients().isEmpty()) {
+			// Handle command-on-send if there are recipients.
+			List<?> commands = plugin.channel.getList(e.getChannelName() + ".command-on-send", null);
+			if (commands != null) {
+				//noinspection unchecked
+				for (String command : (List<String>) commands) {
+					command = PlaceholderAPI.setPlaceholders(e.getPlayer(), command);
+					if(!command.trim().isEmpty()) {
+						plugin.getLogger().info(String.format("[%s] Issuing command:\n'%s'\n	triggered by user `%s` command-on-send handler for channel `%s`",
+								plugin.getDescription().getName(), command,  e.getPlayer().getName(), e.getChannelName()));
+						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
+					}
+				}
+			}
+		}
 		if(plugin.JSON) {
 			JSONMessage jsonMessage = buildJSONMessage(e);
 			for(Player recipient : e.getRecipients()) {
@@ -125,7 +136,6 @@ public class ChannelChatListener implements Listener {
 		}
 	}
 
-
 	private JSONMessage buildJSONMessage(ChannelChatEvent e) {
 		String chatMessage = formatMessage(e.getPlayer(), e.getMessageFormat(), e.getMessage());
 		PlayerFormatting pf = new PlayerFormatting(e.getPlayer());
@@ -133,6 +143,7 @@ public class ChannelChatListener implements Listener {
 		JSONMessage nameHover = Util.buildLore(plugin.channel.getList(e.getChannelName() + ".format-hover"), e.getPlayer());
 		JSONMessage messageHover = Util.buildLore(plugin.channel.getList(e.getChannelName() + ".message-hover"), e.getPlayer());
 		String nameSuggestCmd = PlaceholderAPI.setPlaceholders(e.getPlayer(), plugin.channel.getString(e.getChannelName() + ".format-click-suggest", ""));
+		String messageSuggestCmd = PlaceholderAPI.setPlaceholders(e.getPlayer(), plugin.channel.getString(e.getChannelName() + ".message-click-suggest", ""));
 		String message = e.getMessage();
 		/*if(e.getPlayer().hasPermission("ultrachat.itemlink")) {
 			message = message; // TODO
@@ -148,6 +159,7 @@ public class ChannelChatListener implements Listener {
 		else {
 			msg.then(message);
 		}
+		if(!messageSuggestCmd.isEmpty()) msg.suggestCommand(messageSuggestCmd);
 		if(messageHover != null) msg.tooltip(messageHover);
 		return msg;
 	}
