@@ -83,6 +83,7 @@ public class ChannelChatListener implements Listener {
 
 		String nameHover = Util.buildLore(plugin.channel.getList(e.getChannelName() + ".format-hover"), e.getPlayer());
 		String messageHover = Util.buildLore(plugin.channel.getList(e.getChannelName() + ".message-hover"), e.getPlayer());
+		String nameSuggestCmd = PlaceholderAPI.setPlaceholders(e.getPlayer(), plugin.channel.getString(e.getChannelName() + ".format-click-suggest", ""));
 		String message = e.getMessage();
 		if(e.getPlayer().hasPermission("ultrachat.chat.color")) {
 			message = ChatColor.translateAlternateColorCodes('&', pf.getColor() + message);
@@ -93,6 +94,7 @@ public class ChannelChatListener implements Listener {
 
 		JSONMessage msg = JSONMessage.create(formatMessagePrepends(e.getPlayer(), e.getMessageFormat()));
 		if(!nameHover.isEmpty()) msg.tooltip(nameHover);
+		if(!nameSuggestCmd.isEmpty()) msg.suggestCommand(nameSuggestCmd);
 		msg.then(message);
 		if(!messageHover.isEmpty()) msg.tooltip(messageHover);
 		return msg;

@@ -19,13 +19,12 @@ global:
     #This is the JSON format:
     format-hover:
         - %player%
-    format-click-suggest:
-        - /msg %player_name%
-    format-click-command:
+    format-click-suggest: '/msg %player_name%'
+    #format-click-command:
 
-    message-hover:
-    message-click-suggest:
-    message-click-command:
+    #message-hover:
+    #message-click-suggest:
+    #message-click-command:
     enable-swear-filter: True
 #Example Channel:
 vip:
