@@ -117,8 +117,8 @@ public class UltraChat extends JavaPlugin{
 	private void setupTowny() {
 		if (Bukkit.getPluginManager().isPluginEnabled("Towny")) {
 			if(!plugin.getConfig().getBoolean("pluginhooks.Towny", false)) {
-				getLogger().info(String.format("[%s] Towny plugin found, but support disabled in configuration.", getDescription().getName()));
-				getLogger().info(String.format("[%s] Consider using channel scopes to replace TownyChat", getDescription().getName()));
+				getLogger().info("Towny plugin found, but support disabled in configuration.");
+				getLogger().info("Consider using channel scopes to replace TownyChat");
 				return;
 			}
 			getLogger().info(String.format("[%s] Hooked into Towny!", getDescription().getName()));
