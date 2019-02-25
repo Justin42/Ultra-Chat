@@ -58,15 +58,17 @@ public class Util {
 	public static JSONMessage buildLore(List<?> loreLines, Player p) {
 		if(loreLines == null || loreLines.size() == 0) return null;
 		JSONMessage loreJson = JSONMessage.create();
+		// TODO Cleanup use the then() builder methods instead of string concats
 		boolean isEmpty = true;
 		for(int i = 0; i < loreLines.size(); i++) {
 			String loreLine = (String) loreLines.get(i);
 			if(p != null) {
 				loreLine = PlaceholderAPI.setPlaceholders(p, loreLine);
+				// Double parse to support placeholders within luckperms meta
+				loreLine = PlaceholderAPI.setPlaceholders(p, loreLine);
 			}
 			loreLine = ChatColor.translateAlternateColorCodes('&', loreLine);
 			if(loreLine.trim().length() > 0) {
-				loreLine = loreLine + (i < loreLines.size()-1 ? "\n" : "");
 				loreJson.then(loreLine);
 				// TODO Cache sequences
 				if(loreLine.contains("§"+ChatColor.BOLD.getChar())) loreJson.style(ChatColor.BOLD);
@@ -74,6 +76,7 @@ public class Util {
 				if(loreLine.contains("§"+ChatColor.ITALIC.getChar())) loreJson.style(ChatColor.ITALIC);
 				if(loreLine.contains("§"+ChatColor.STRIKETHROUGH.getChar())) loreJson.style(ChatColor.STRIKETHROUGH);
 				if(loreLine.contains("§"+ChatColor.UNDERLINE.getChar())) loreJson.style(ChatColor.UNDERLINE);
+				if(i < loreLines.size()-1)loreJson.newline();
 				isEmpty = false;
 			}
 		}

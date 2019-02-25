@@ -171,8 +171,9 @@ public class ChannelChatListener implements Listener {
 		String outgoingMsg = msgFormat.replace("%player%", p.getDisplayName())
 				.replace("%prefix%", pf.getPrefix())
 				.replace("%suffix%", pf.getSuffix());
-		outgoingMsg = ChatColor.translateAlternateColorCodes('&', outgoingMsg);
+		//outgoingMsg = ChatColor.translateAlternateColorCodes('&', outgoingMsg);
 		outgoingMsg = PlaceholderAPI.setPlaceholders(p, outgoingMsg);
+		outgoingMsg = ChatColor.translateAlternateColorCodes('&', outgoingMsg);
 		System.out.println(outgoingMsg);
 		return outgoingMsg;
 	}
