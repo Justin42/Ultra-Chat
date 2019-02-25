@@ -102,7 +102,7 @@ public class ChannelChatListener implements Listener {
 			if(!channel.equalsIgnoreCase(defaultChannel)) {
 				plugin.data.set(p.getUniqueId() + ".channel", defaultChannel);
 				plugin.saveFile();
-				p.sendMessage(String.format(ChatColor.RED + "You have been moved to the default channel '%s'", channel));
+				p.sendMessage(String.format(ChatColor.RED + "You have been moved to the default channel '%s'", defaultChannel));
 			}
 		}
 		else {
