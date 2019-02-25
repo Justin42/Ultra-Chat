@@ -121,8 +121,8 @@ public class UltraChat extends JavaPlugin{
 				getLogger().info("Consider using channel scopes to replace TownyChat");
 				return;
 			}
-			getLogger().info(String.format("[%s] Hooked into Towny!", getDescription().getName()));
-			getLogger().info(String.format("[%s] Enabled 'town' and 'nation' channel scopes", getDescription().getName()));
+			getLogger().info("Hooked into Towny!");
+			getLogger().info("Enabled 'town' and 'nation' channel scopes");
 			//getLogger().info(String.format("[%s] Enabled /nc and /tc aliases", getDescription().getName()));
 			this.towny = (Towny) Bukkit.getPluginManager().getPlugin("Towny");
 		}
