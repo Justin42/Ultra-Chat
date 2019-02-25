@@ -70,10 +70,7 @@ public class ChannelChatListener implements Listener {
 						// This can probably be removed or done when setting channels.
 						if (!residentSender.hasTown() || !residentReceiver.hasTown()) {
 							e.setCancelled(true);
-							String defaultChannel = plugin.data.getString("Default_Channel", "global");
-							plugin.data.set(p.getUniqueId() + ".channel", defaultChannel);
-							plugin.saveFile();
-							p.sendMessage(ChatColor.RED + "You have been moved to the default channel.");
+							break;
 						}
 						// Town scope recipients
 						else if (scope.equalsIgnoreCase("town")) {
@@ -98,8 +95,20 @@ public class ChannelChatListener implements Listener {
 		String chatFormat = plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format");
 		e.setCancelled(true);
 
-		ChannelChatEvent chatEvent = new ChannelChatEvent(e.getPlayer(), e.getRecipients(), channel, chatFormat, e.getMessage());
-		Bukkit.getServer().getPluginManager().callEvent(chatEvent);
+		// TODO Add configuration options for empty-channel-message and default-on-empty
+		if(e.getRecipients().size() <= 1) {
+			String defaultChannel = plugin.data.getString("Default_Channel", "global");
+			p.sendRawMessage(String.format(ChatColor.RED + "There is nobody else in the channel '%s'", channel));
+			if(!channel.equalsIgnoreCase(defaultChannel)) {
+				plugin.data.set(p.getUniqueId() + ".channel", defaultChannel);
+				plugin.saveFile();
+				p.sendMessage(String.format(ChatColor.RED + "You have been moved to the default channel '%s'", channel));
+			}
+		}
+		else {
+			ChannelChatEvent chatEvent = new ChannelChatEvent(e.getPlayer(), e.getRecipients(), channel, chatFormat, e.getMessage());
+			Bukkit.getServer().getPluginManager().callEvent(chatEvent);
+		}
 	}
 
 	@EventHandler

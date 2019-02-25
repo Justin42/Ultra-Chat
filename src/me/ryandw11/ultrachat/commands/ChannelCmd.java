@@ -60,7 +60,7 @@ public class ChannelCmd implements CommandExecutor {
 		}
 		else{
 			if(!plugin.channel.contains(args[0])){
-				p.sendMessage(ChatColor.RED + "That channel does not exsist!");
+				p.sendMessage(ChatColor.RED + "That channel does not exist!");
 				return true;
 			}
 			if(plugin.data.getString(p.getUniqueId() + ".channel").equalsIgnoreCase(args[0])){
@@ -69,7 +69,7 @@ public class ChannelCmd implements CommandExecutor {
 			else if(p.hasPermission(plugin.channel.getString(args[0] + ".permission")) || plugin.channel.getString(args[0] + ".permission").equalsIgnoreCase("none")){
 				plugin.data.set(p.getUniqueId() + ".channel", args[0]);
 				plugin.saveFile();
-				p.sendMessage(ChatColor.BLUE + "You are now in the channel " + args[0] + "!");
+				p.sendMessage(ChatColor.BLUE + "You are now in the channel '" + args[0] + "'!");
 			}
 			else{
 				p.sendMessage(ChatColor.RED + "You do not have permission to join that channel.");
