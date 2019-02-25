@@ -61,7 +61,9 @@ public class Util {
 				loreLine = PlaceholderAPI.setPlaceholders(p, loreLine);
 			}
 			loreLine = ChatColor.translateAlternateColorCodes('&', loreLine);
-			loreText.append(loreLine);
+			if(loreLine.length() > 0) {
+				loreText.append(loreLine);
+			}
 			if(i < loreLines.size() - 1) loreText.append("\n");
 		}
 		return loreText.toString();
