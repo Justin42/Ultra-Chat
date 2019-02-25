@@ -10,6 +10,7 @@
 global:
     #Channel prefix.
     prefix: '&a[Global]&r'
+    scope: global
     #Channel permission, Use none for no permission.
     permission: 'none'
     #Messages from this channel will always appear no matter what channel the player is in.
@@ -25,13 +26,31 @@ global:
     #message-hover:
     #message-click-suggest:
     #message-click-command:
-    enable-swear-filter: True
+    swear-filter: True
 #Example Channel:
 vip:
     prefix: '&a[&6VIP&a]&r'
-    permission: 'channel.vip'
+    permission: 'ultrachat.channel.vip'
     always_appear: false
     format: '%prefix% %player% %suffix%&7>> '
-    JSON:
-        - '&3Money: $&b%vault_eco_balance_fixed%'
-        - '&3Username: &f%player_name%'
+#Support for towny town/nation scopes and PlaceholderAPI inside json hovers
+town:
+    prefix: '[T]'
+    permission: ultrachat.channel.town
+    scope: town
+    always_appear: true
+    format: '%prefix% %player% %suffix%&7>> '
+    format-hover:
+        - '%towny_title%'
+    format-click-suggest: '/msg %player_name% '
+    swear-filter: False
+nation:
+    prefix: '[N]'
+    permission: ultrachat.channel.nation
+    scope: nation
+    always_appear: true
+    format: '%prefix% %player% %suffix%&7>> '
+    format-hover:
+        - '%towny_title% of %towny_town%'
+    format-click-suggest: '/msg %player_name% '
+    swear-filter: False

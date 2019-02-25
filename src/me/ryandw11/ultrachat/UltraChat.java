@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import com.palmergames.bukkit.towny.Towny;
 import me.ryandw11.ultrachat.api.Lang;
 import me.ryandw11.ultrachat.commands.ChannelCmd;
 import me.ryandw11.ultrachat.commands.ChatCommand;
@@ -61,7 +62,7 @@ public class UltraChat extends JavaPlugin{
 	public String prefix;
 	public static YamlConfiguration LANG;
 	public static File LANG_FILE;
-
+	public Towny towny;
 	
 
 	@Override
@@ -104,6 +105,7 @@ public class UltraChat extends JavaPlugin{
 
 		setupPermissions();
 		setupChat();
+		setupTowny();
 		setupFormatting();
 		loadLang();
 		if(plugin.getConfig().getBoolean("bstats")){
@@ -111,7 +113,21 @@ public class UltraChat extends JavaPlugin{
 			Metrics m = new Metrics(this);
 		}
 	}
-	
+
+	private void setupTowny() {
+		if (Bukkit.getPluginManager().isPluginEnabled("Towny")) {
+			if(!plugin.getConfig().getBoolean("pluginhooks.Towny", false)) {
+				getLogger().info(String.format("[%s] Towny plugin found, but support disabled in configuration.", getDescription().getName()));
+				getLogger().info(String.format("[%s] Consider using channel scopes to replace TownyChat", getDescription().getName()));
+				return;
+			}
+			getLogger().info(String.format("[%s] Hooked into Towny!", getDescription().getName()));
+			getLogger().info(String.format("[%s] Enabled 'town' and 'nation' channel scopes", getDescription().getName()));
+			//getLogger().info(String.format("[%s] Enabled /nc and /tc aliases", getDescription().getName()));
+			this.towny = (Towny) Bukkit.getPluginManager().getPlugin("Towny");
+		}
+	}
+
 	@Override
 	public void onDisable(){
 		getLogger().info("[UltraChat] has been disabled correctly!");

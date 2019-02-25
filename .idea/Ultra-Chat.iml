@@ -13,5 +13,6 @@
     <orderEntry type="library" name="Vault" level="project" />
     <orderEntry type="library" name="AdvancedBan-2.1.5-RELEASE" level="project" />
     <orderEntry type="library" name="EssentialsX-2.16.0.34" level="project" />
+    <orderEntry type="library" name="Towny" level="project" />
   </component>
 </module>
