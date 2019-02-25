@@ -10,6 +10,7 @@ import me.ryandw11.ultrachat.api.Util;
 import me.ryandw11.ultrachat.formatting.PlayerFormatting;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,6 +20,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.ryandw11.ultrachat.UltraChat;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * ChannelChatListener without any kind of json involved.
@@ -26,115 +28,118 @@ import java.util.List;
  *
  */
 public class ChannelChatListener implements Listener {
-	private UltraChat plugin;
-	private JSON json = new JSON();
+    private UltraChat plugin;
+    private JSON json = new JSON();
 
-	public ChannelChatListener(){
-		plugin = UltraChat.plugin;
-	}
-	
-	@EventHandler
-	public void onChat(AsyncPlayerChatEvent e){
-		Player p = e.getPlayer();
+    public ChannelChatListener() {
+        plugin = UltraChat.plugin;
+    }
 
-		// Set recipients
-		String channel = plugin.data.getString(p.getUniqueId() + ".channel");
-		String defaultChannel = plugin.data.getString("Default_Channel", "global");
-		if(!plugin.channel.getBoolean(channel + ".always_appear") || plugin.towny != null){
-			e.getRecipients().removeAll(Bukkit.getOnlinePlayers());
-			if(p.hasPermission("ultrachat.chat.color")){
-				e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
-			}
-			else {
-				e.setMessage(ChatColor.stripColor(e.getMessage()));
-			}
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent e) {
+        Player p = e.getPlayer();
 
-			String permission = plugin.channel.getString(channel + ".permission", "none");
-			String scope = plugin.channel.getString(channel + ".scope", "global");
+        // Set recipients
+        String channel = plugin.data.getString(p.getUniqueId() + ".channel");
+        String defaultChannel = plugin.data.getString("Default_Channel", "global");
+        if (!plugin.channel.getBoolean(channel + ".always_appear") || plugin.towny != null) {
+            e.getRecipients().removeAll(Bukkit.getOnlinePlayers());
+            if (p.hasPermission("ultrachat.chat.color")) {
+                e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
+            } else {
+                e.setMessage(ChatColor.stripColor(e.getMessage()));
+            }
 
-			for(Player pl : Bukkit.getOnlinePlayers()){
-				if(!permission.equalsIgnoreCase("none") && !pl.hasPermission(permission)) continue;
-				// Global scope recipients
-				if(scope.equalsIgnoreCase("global")) {
-					if(plugin.data.getString(pl.getUniqueId() + ".channel").equals(channel)){
-						e.getRecipients().add(pl);
-					}
-				}
-				else if(plugin.towny != null) {
-					try {
-						Resident residentSender = TownyUniverse.getDataSource().getResident(p.getName());
-						Resident residentReceiver = TownyUniverse.getDataSource().getResident(p.getName());
-						// This can probably be removed or done when setting channels.
-						if (!residentSender.hasTown() || !residentReceiver.hasTown()) {
-							e.setCancelled(true);
-							break;
-						}
-						// Town scope recipients
-						else if (scope.equalsIgnoreCase("town")) {
-							if (residentSender.getTown().hasResident(residentReceiver)) {
-								e.getRecipients().add(pl);
-							}
-						}
-						// Nation scope recipients
-						else if (scope.equalsIgnoreCase("nation")) {
-							if (residentSender.getTown().getNation() == residentReceiver.getTown().getNation()) {
-								e.getRecipients().add(pl);
-							}
-						}
-					} catch(NotRegisteredException ignored) {
-					}
-				}
-				else {
-					plugin.getLogger().warning(String.format("Undefined behavior for scope '%s'", scope));
-				}
-			}
-		}
-		String chatFormat = plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format");
-		e.setCancelled(true);
+            String permission = plugin.channel.getString(channel + ".permission", "none");
+            String scope = plugin.channel.getString(channel + ".scope", "global");
 
-		// TODO Add configuration options for empty-channel-message and default-on-empty
-		if(e.getRecipients().size() <= 1 && !channel.equalsIgnoreCase(defaultChannel)) {
-			p.sendRawMessage(String.format(ChatColor.RED + "There is nobody else in the channel '%s'", channel));
-			if(!channel.equalsIgnoreCase(defaultChannel)) {
-				plugin.data.set(p.getUniqueId() + ".channel", defaultChannel);
-				plugin.saveFile();
-				p.sendMessage(String.format(ChatColor.RED + "You have been moved to the default channel '%s'", defaultChannel));
-			}
-		}
-		else {
-			ChannelChatEvent chatEvent = new ChannelChatEvent(e.getPlayer(), e.getRecipients(), channel, chatFormat, e.getMessage());
-			Bukkit.getServer().getPluginManager().callEvent(chatEvent);
-		}
-	}
+            for (Player pl : Bukkit.getOnlinePlayers()) {
+                if (!permission.equalsIgnoreCase("none") && !pl.hasPermission(permission)) continue;
+                // Global scope recipients
+                if (scope.equalsIgnoreCase("global")) {
+                    if (plugin.data.getString(pl.getUniqueId() + ".channel").equals(channel)) {
+                        e.getRecipients().add(pl);
+                    }
+                } else if (plugin.towny != null) {
+                    try {
+                        Resident residentSender = TownyUniverse.getDataSource().getResident(p.getName());
+                        Resident residentReceiver = TownyUniverse.getDataSource().getResident(p.getName());
+                        // This can probably be removed or done when setting channels.
+                        if (!residentSender.hasTown() || !residentReceiver.hasTown()) {
+                            e.setCancelled(true);
+                            break;
+                        }
+                        // Town scope recipients
+                        else if (scope.equalsIgnoreCase("town")) {
+                            if (residentSender.getTown().hasResident(residentReceiver)) {
+                                e.getRecipients().add(pl);
+                            }
+                        }
+                        // Nation scope recipients
+                        else if (scope.equalsIgnoreCase("nation")) {
+                            if (residentSender.getTown().getNation() == residentReceiver.getTown().getNation()) {
+                                e.getRecipients().add(pl);
+                            }
+                        }
+                    } catch (NotRegisteredException ignored) {
+                    }
+                } else {
+                    plugin.getLogger().warning(String.format("Undefined behavior for scope '%s'", scope));
+                }
+            }
+        }
+        // TODO Add configuration options for empty-channel-message and default-on-empty
+        else if (e.getRecipients().size() <= 1 && !channel.equalsIgnoreCase(defaultChannel)) {
+            p.sendRawMessage(String.format(ChatColor.RED + "There is nobody else in the channel '%s'", channel));
+            if (!channel.equalsIgnoreCase(defaultChannel)) {
+                plugin.data.set(p.getUniqueId() + ".channel", defaultChannel);
+                plugin.saveFile();
+                p.sendMessage(String.format(ChatColor.RED + "You have been moved to the default channel '%s'", defaultChannel));
+            }
+        }
+        e.setCancelled(true);
+        String chatFormat = plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format");
+        ChannelChatEvent chatEvent = new ChannelChatEvent(e.getPlayer(), e.getRecipients(), channel, chatFormat, e.getMessage());
+        Bukkit.getServer().getPluginManager().callEvent(chatEvent);
+    }
 
-	@EventHandler
-	public void onChannelChat(ChannelChatEvent e) {
-		if(!e.getRecipients().isEmpty()) {
-			// Handle command-on-send if there are recipients.
-			List<?> commands = plugin.channel.getList(e.getChannelName() + ".command-on-send", null);
-			if (commands != null) {
-				//noinspection unchecked
-				for (String command : (List<String>) commands) {
-					command = PlaceholderAPI.setPlaceholders(e.getPlayer(), command);
-					if(!command.trim().isEmpty()) {
-						plugin.getLogger().info(String.format("[%s] Issuing command:\n'%s'\n	triggered by user `%s` command-on-send handler for channel `%s`",
-								plugin.getDescription().getName(), command,  e.getPlayer().getName(), e.getChannelName()));
-						plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
-					}
-				}
-			}
-		}
-		if(plugin.JSON) {
-			JSONMessage jsonMessage = buildJSONMessage(e);
-			for(Player recipient : e.getRecipients()) {
-				jsonMessage.send(recipient);
-			}
-		}
-		else for(Player recipient : e.getRecipients()) {
-			String chatMessage = formatMessage(e.getPlayer(), e.getMessageFormat(), e.getMessage());
-			recipient.sendRawMessage(chatMessage);
-		}
-	}
+    @EventHandler
+    public void onChannelChat(ChannelChatEvent e) {
+        if (plugin.JSON) {
+            JSONMessage jsonMessage = buildJSONMessage(e);
+            for (Player recipient : e.getRecipients()) {
+                jsonMessage.send(recipient);
+            }
+        } else for (Player recipient : e.getRecipients()) {
+            String chatMessage = formatMessage(e.getPlayer(), e.getMessageFormat(), e.getMessage());
+            recipient.sendRawMessage(chatMessage);
+        }
+    }
+
+    @EventHandler
+    private void onCommandOnSend(ChannelChatEvent e) {
+        if (!e.getRecipients().isEmpty()) {
+            // Handle command-on-send if there are recipients.
+            List<?> commands = plugin.channel.getList(e.getChannelName() + ".command-on-send", null);
+            if (commands != null) {
+                //noinspection unchecked
+                for (String command : (List<String>) commands) {
+                    command = PlaceholderAPI.setPlaceholders(e.getPlayer(), command);
+                    if (!command.trim().isEmpty()) {
+                        plugin.getLogger().info(String.format("[%s] Issuing command:\n'%s'\n	triggered by user `%s` command-on-send handler for channel `%s`",
+                                plugin.getDescription().getName(), command, e.getPlayer().getName(), e.getChannelName()));
+                        runSyncCmd(plugin.getServer().getConsoleSender(), command);
+                    }
+                }
+            }
+        }
+    }
+
+    private void runSyncCmd(CommandSender sender, String cmd) {
+        Bukkit.getScheduler().callSyncMethod( plugin, () ->
+                Bukkit.dispatchCommand( sender, cmd)
+        );
+    }
 
 	private JSONMessage buildJSONMessage(ChannelChatEvent e) {
 		String chatMessage = formatMessage(e.getPlayer(), e.getMessageFormat(), e.getMessage());
