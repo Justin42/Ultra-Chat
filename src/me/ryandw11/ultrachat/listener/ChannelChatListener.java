@@ -57,7 +57,7 @@ public class ChannelChatListener implements Listener {
 			String scope = plugin.channel.getString(channel + ".scope", "global");
 
 			for(Player pl : Bukkit.getOnlinePlayers()){
-				if(!permission.equalsIgnoreCase("none") && pl.hasPermission(permission)) continue;
+				if(!permission.equalsIgnoreCase("none") && !pl.hasPermission(permission)) continue;
 				// Global scope recipients
 				if(scope.equalsIgnoreCase("global")) {
 					if(plugin.data.getString(pl.getUniqueId() + ".channel").equals(channel)){
