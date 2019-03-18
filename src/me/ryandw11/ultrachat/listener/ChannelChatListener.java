@@ -6,6 +6,7 @@ import com.palmergames.bukkit.towny.object.TownyUniverse;
 import me.clip.placeholderapi.util.jsonmessage.JSONMessage;
 import me.ryandw11.ultrachat.api.ChannelChatEvent;
 import me.ryandw11.ultrachat.api.JSON;
+import me.ryandw11.ultrachat.api.Lang;
 import me.ryandw11.ultrachat.api.Util;
 import me.ryandw11.ultrachat.formatting.PlayerFormatting;
 import org.bukkit.Bukkit;
@@ -21,6 +22,7 @@ import me.ryandw11.ultrachat.UltraChat;
 
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.logging.Level;
 
 /**
  * ChannelChatListener without any kind of json involved.
@@ -109,6 +111,7 @@ public class ChannelChatListener implements Listener {
             JSONMessage jsonMessage = buildJSONMessage(e);
             for (Player recipient : e.getRecipients()) {
                 jsonMessage.send(recipient);
+                Bukkit.getLogger().log(Level.INFO, Lang.CONSOLE_CHANNEL_CHAT_LOG.toString().replace("%c", plugin.channel.getString(e.getChannelName() + ".prefix")).replace("%p", e.getPlayer().getName()).replace("%s", e.getMessage()).replace('&', '§'));
             }
         } else for (Player recipient : e.getRecipients()) {
             String chatMessage = formatMessage(e.getPlayer(), e.getMessageFormat(), e.getMessage());
