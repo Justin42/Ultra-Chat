@@ -98,6 +98,11 @@ public class UltraChat extends JavaPlugin{
 			 getLogger().info("Mutes will now work with the chat types.");
 			 Bukkit.getServer().getPluginManager().registerEvents(new EssentialsMute(), this);
 		 }
+		if(getServer().getPluginManager().getPlugin("DiscordSRV") != null && getConfig().getBoolean("pluginhooks.DiscordSRV")){
+			getLogger().info("DiscordSRV detected! Activating hook!");
+			getLogger().info("Set 'discord: true' in channel configuration for Discord forwarding.");
+			Bukkit.getServer().getPluginManager().registerEvents(new EssentialsMute(), this);
+		}
 		loadMethod();
 		registerConfig();
 		loadFile();

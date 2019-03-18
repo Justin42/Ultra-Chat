@@ -17,6 +17,7 @@ pluginhooks:
     Essentials: true
     AdvancedBan: true
     Towny: true
+    DiscordSRV: true
 #Join / Leave messages:
 Join_Message: '&e %player% has joined the server!'
 Leave_Message: '&e %player% has left the server!'

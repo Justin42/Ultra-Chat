@@ -266,6 +266,12 @@ public class UltraChatAPI{
 		if(Bukkit.getServer().getPluginManager().getPlugin("Essentials") != null && plugin.getConfig().getBoolean("pluginhooks.AdvancedBan")){
 			s.add("AdvancedBan");
 		}
+		if(Bukkit.getServer().getPluginManager().getPlugin("Towny") != null && plugin.getConfig().getBoolean("pluginhooks.Towny")){
+			s.add("Towny");
+		}
+		if(Bukkit.getServer().getPluginManager().getPlugin("DiscordSRV") != null && plugin.getConfig().getBoolean("pluginhooks.DiscordSRV")){
+			s.add("DiscordSRV");
+		}
 		
 		return s;
 	}

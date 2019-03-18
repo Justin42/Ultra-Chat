@@ -7,12 +7,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="paperclip-524" level="project" />
     <orderEntry type="library" name="craftbukkit-1.13.2" level="project" />
     <orderEntry type="library" name="PlaceholderAPI-2.9.2" level="project" />
     <orderEntry type="library" name="Vault" level="project" />
     <orderEntry type="library" name="AdvancedBan-2.1.5-RELEASE" level="project" />
     <orderEntry type="library" name="EssentialsX-2.16.0.34" level="project" />
     <orderEntry type="library" name="Towny" level="project" />
+    <orderEntry type="library" name="DiscordSRV-Build-1.16.7" level="project" />
   </component>
 </module>

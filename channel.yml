@@ -11,6 +11,7 @@ global:
     #Channel prefix.
     prefix: '&a[Global]&r'
     scope: global
+    discord: true
     #Channel permission, Use none for no permission.
     permission: 'none'
     #Messages from this channel will always appear no matter what channel the player is in.
