@@ -33,7 +33,7 @@ public enum Lang {
 	CMD_SPY_FORMAT("cmd-spy-format", "&3[&6CommandSpy&3]&b %p: &3%s"),
 	STOP_CHAT_MESSAGE("stop-chat-message", "&cThe chat is currently not active."),
 	CONSOLE_CHAT_LOG("console-chat-log", "%p: %s"),
-	CONSOLE_CHANNEL_CHAT_LOG("console-channel-chat-log", "[%c] %p: %s");
+	CONSOLE_CHANNEL_CHAT_LOG("console-channel-chat-log", "%c %p: %s");
 
 	
 	 private String path;

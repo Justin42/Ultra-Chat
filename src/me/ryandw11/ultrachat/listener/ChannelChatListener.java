@@ -111,7 +111,6 @@ public class ChannelChatListener implements Listener {
             JSONMessage jsonMessage = buildJSONMessage(e);
             for (Player recipient : e.getRecipients()) {
                 jsonMessage.send(recipient);
-                Bukkit.getLogger().log(Level.INFO, Lang.CONSOLE_CHANNEL_CHAT_LOG.toString().replace("%c", plugin.channel.getString(e.getChannelName() + ".prefix")).replace("%p", e.getPlayer().getName()).replace("%s", e.getMessage()).replace('&', '§'));
             }
         } else for (Player recipient : e.getRecipients()) {
             String chatMessage = formatMessage(e.getPlayer(), e.getMessageFormat(), e.getMessage());

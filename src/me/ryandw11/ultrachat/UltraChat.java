@@ -358,8 +358,9 @@ public class UltraChat extends JavaPlugin{
 		//Bukkit.getServer().getPluginManager().registerEvents(new Format(this), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new ColorGUI(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new Notify(), this);
-		if(getConfig().getBoolean("console_log"))
-			Bukkit.getServer().getPluginManager().registerEvents(new ConsoleLogChat(), this);
+		if(getConfig().getBoolean("console_log", true)) {
+			Bukkit.getServer().getPluginManager().registerEvents(new ConsoleLogChat(this), this);
+		}
 		
 	}
 	
