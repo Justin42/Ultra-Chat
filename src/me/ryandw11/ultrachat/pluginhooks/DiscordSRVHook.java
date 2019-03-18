@@ -22,7 +22,7 @@ public class DiscordSRVHook implements Listener {
 	public void onChannelChat(ChannelChatEvent e){
 		String msg = e.getMessage();
 		String pname = e.getPlayer().getDisplayName();
-		if(plugin.channel.getBoolean("discord", false)) {
+		if(plugin.channel.getBoolean(e.getChannelName() + ".discord", false)) {
 			DiscordSRV.getPlugin().processChatMessage(e.getPlayer(), e.getMessage(), e.getChannelName(), e.isCancelled());
 		}
 	}
