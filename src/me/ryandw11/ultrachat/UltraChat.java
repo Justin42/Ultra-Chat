@@ -23,6 +23,7 @@ import me.ryandw11.ultrachat.formatting.Normal;
 import me.ryandw11.ultrachat.formatting.Range;
 import me.ryandw11.ultrachat.gui.ColorGUI;
 import me.ryandw11.ultrachat.pluginhooks.AdvancedBanMute;
+import me.ryandw11.ultrachat.pluginhooks.DiscordSRVHook;
 import me.ryandw11.ultrachat.pluginhooks.EssentialsMute;
 import me.ryandw11.ultrachat.util.Metrics;
 import net.milkbowl.vault.chat.Chat;
@@ -101,7 +102,7 @@ public class UltraChat extends JavaPlugin{
 		if(getServer().getPluginManager().getPlugin("DiscordSRV") != null && getConfig().getBoolean("pluginhooks.DiscordSRV")){
 			getLogger().info("DiscordSRV detected! Activating hook!");
 			getLogger().info("Set 'discord: true' in channel configuration for Discord forwarding.");
-			Bukkit.getServer().getPluginManager().registerEvents(new EssentialsMute(), this);
+			Bukkit.getServer().getPluginManager().registerEvents(new DiscordSRVHook(this), this);
 		}
 		loadMethod();
 		registerConfig();
