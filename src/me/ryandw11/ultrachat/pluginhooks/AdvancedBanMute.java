@@ -1,5 +1,6 @@
 package me.ryandw11.ultrachat.pluginhooks;
 
+import me.ryandw11.ultrachat.api.ChannelChatEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,6 +17,14 @@ public class AdvancedBanMute implements Listener{
 	public void jsonChat(JsonChatEvent e){
 		Player p = e.getPlayer();
 		if(PunishmentManager.get().isMuted(UUIDManager.get().getUUID(p.getName()))){	
+			e.setCancelled(true);
+		}
+	}
+
+	@EventHandler
+	public void channelChat(ChannelChatEvent e) {
+		Player p = e.getPlayer();
+		if(PunishmentManager.get().isMuted(UUIDManager.get().getUUID(p.getName()))) {
 			e.setCancelled(true);
 		}
 	}
