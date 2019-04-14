@@ -4,6 +4,7 @@ import github.scarsz.discordsrv.DiscordSRV;
 import me.ryandw11.ultrachat.UltraChat;
 import me.ryandw11.ultrachat.api.ChannelChatEvent;
 import me.ryandw11.ultrachat.api.Lang;
+import me.ryandw11.ultrachat.api.UltraChatHookType;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,9 +21,7 @@ public class DiscordSRVHook implements Listener {
 
 	@EventHandler
 	public void onChannelChat(ChannelChatEvent e){
-		String msg = e.getMessage();
-		String pname = e.getPlayer().getDisplayName();
-		if(plugin.channel.getBoolean(e.getChannelName() + ".discord", false)) {
+		if(plugin.getAPI().isHookActive(UltraChatHookType.DiscordSRV) && plugin.channel.getBoolean(e.getChannelName() + ".discord", false)) {
 			DiscordSRV.getPlugin().processChatMessage(e.getPlayer(), e.getMessage(), e.getChannelName(), e.isCancelled());
 		}
 	}
