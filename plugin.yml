@@ -1,11 +1,11 @@
 name: UltraChat
-version: 2.2
+version: '2.3-STech'
 main: me.ryandw11.ultrachat.UltraChat
 author: Ryandw11
 description: A chat formatting plugin.
 depend: [Vault, PlaceholderAPI]
 softdepend: [AdvancedBan, Towny, Essentials, DiscordSRV]
-api-version: 1.13
+api-version: '1.13'
 commands:
     chat:
      description: The main command for the plugin.

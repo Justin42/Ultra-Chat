@@ -3,11 +3,10 @@ package me.ryandw11.ultrachat.listener;
 import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.TownyUniverse;
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.util.jsonmessage.JSONMessage;
-import me.ryandw11.ultrachat.api.ChannelChatEvent;
-import me.ryandw11.ultrachat.api.JSON;
-import me.ryandw11.ultrachat.api.Lang;
-import me.ryandw11.ultrachat.api.Util;
+import me.ryandw11.ultrachat.UltraChat;
+import me.ryandw11.ultrachat.api.*;
 import me.ryandw11.ultrachat.formatting.PlayerFormatting;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,12 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import me.clip.placeholderapi.PlaceholderAPI;
-import me.ryandw11.ultrachat.UltraChat;
-
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.logging.Level;
 
 /**
  * ChannelChatListener without any kind of json involved.
@@ -31,10 +25,12 @@ import java.util.logging.Level;
  */
 public class ChannelChatListener implements Listener {
     private UltraChat plugin;
+    private UltraChatAPI api;
     private JSON json = new JSON();
 
     public ChannelChatListener() {
         plugin = UltraChat.plugin;
+        api = plugin.getAPI();
     }
 
     @EventHandler
@@ -44,49 +40,24 @@ public class ChannelChatListener implements Listener {
         // Set recipients
         String channel = plugin.data.getString(p.getUniqueId() + ".channel");
         String defaultChannel = plugin.data.getString("Default_Channel", "global");
-        if (!plugin.channel.getBoolean(channel + ".always_appear") || plugin.towny != null) {
+        String scope = plugin.channel.getString(channel + ".scope", "global");
+
+        if (p.hasPermission("ultrachat.chat.color")) {
+            e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
+        } else {
+            e.setMessage(ChatColor.stripColor(e.getMessage()));
+        }
+
+        if (!plugin.channel.getBoolean(channel + ".always_appear", false)) {
             e.getRecipients().removeAll(Bukkit.getOnlinePlayers());
-            if (p.hasPermission("ultrachat.chat.color")) {
-                e.setMessage(ChatColor.translateAlternateColorCodes('&', e.getMessage()));
-            } else {
-                e.setMessage(ChatColor.stripColor(e.getMessage()));
-            }
 
             String permission = plugin.channel.getString(channel + ".permission", "none");
-            String scope = plugin.channel.getString(channel + ".scope", "global");
 
-            for (Player pl : Bukkit.getOnlinePlayers()) {
-                if (!permission.equalsIgnoreCase("none") && !pl.hasPermission(permission)) continue;
-                // Global scope recipients
-                if (scope.equalsIgnoreCase("global")) {
-                    if (plugin.data.getString(pl.getUniqueId() + ".channel").equals(channel)) {
-                        e.getRecipients().add(pl);
-                    }
-                } else if (plugin.towny != null) {
-                    try {
-                        Resident residentSender = TownyUniverse.getDataSource().getResident(p.getName());
-                        Resident residentReceiver = TownyUniverse.getDataSource().getResident(pl.getName());
-                        // This can probably be removed or done when setting channels.
-                        if (!residentSender.hasTown()) {
-                            e.setCancelled(true);
-                            break;
-                        }
-                        // Town scope recipients
-                        else if (scope.equalsIgnoreCase("town")) {
-                            if (residentSender.getTown().hasResident(residentReceiver)) {
-                                e.getRecipients().add(pl);
-                            }
-                        }
-                        // Nation scope recipients
-                        else if (scope.equalsIgnoreCase("nation")) {
-                            if (residentSender.getTown().getNation() == residentReceiver.getTown().getNation()) {
-                                e.getRecipients().add(pl);
-                            }
-                        }
-                    } catch (NotRegisteredException ignored) {
-                    }
-                } else {
-                    plugin.getLogger().warning(String.format("Undefined behavior for scope '%s'", scope));
+            if(scope.equalsIgnoreCase("global")) {
+                for (Player pl : Bukkit.getOnlinePlayers()) {
+                    if (!permission.equalsIgnoreCase("none") && !pl.hasPermission(permission)) continue;
+                    if (!plugin.data.getString(pl.getUniqueId() + ".channel").equals(channel)) continue;
+                    e.getRecipients().add(pl);
                 }
             }
         }
@@ -103,6 +74,7 @@ public class ChannelChatListener implements Listener {
             e.setCancelled(true);
             String chatFormat = plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format");
             ChannelChatEvent chatEvent = new ChannelChatEvent(e.getPlayer(), e.getRecipients(), channel, chatFormat, e.getMessage());
+            chatEvent.setScope(scope);
             Bukkit.getServer().getPluginManager().callEvent(chatEvent);
         }
         e.setCancelled(true);

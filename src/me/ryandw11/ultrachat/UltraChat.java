@@ -6,8 +6,11 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import com.iwebpp.crypto.TweetNaclFast;
 import com.palmergames.bukkit.towny.Towny;
+import github.scarsz.discordsrv.hooks.chat.TownyChatHook;
 import me.ryandw11.ultrachat.api.Lang;
+import me.ryandw11.ultrachat.api.UltraChatAPI;
 import me.ryandw11.ultrachat.commands.ChannelCmd;
 import me.ryandw11.ultrachat.commands.ChatCommand;
 import me.ryandw11.ultrachat.commands.CommandTabCompleter;
@@ -48,11 +51,9 @@ public class UltraChat extends JavaPlugin{
 	public static UltraChat plugin;
 	public Permission perms = null;
 	public Chat chat = null;
-	public Boolean Vault;
 	public Boolean chatStop = false;
 	public Boolean channelEnabled = false;
 	public Boolean JSON = false;
-	public String defaultChannel;
 	public ArrayList<UUID> stafftoggle = new ArrayList<>();
 	public ArrayList<UUID> spytoggle = new ArrayList<>();
 	 
@@ -63,8 +64,8 @@ public class UltraChat extends JavaPlugin{
 	public String prefix;
 	public static YamlConfiguration LANG;
 	public static File LANG_FILE;
-	public Towny towny;
-	
+
+	protected UltraChatAPI api;
 
 	@Override
 	public void onEnable(){
@@ -74,6 +75,7 @@ public class UltraChat extends JavaPlugin{
 		 * Plugin setup area
 		 */
 		plugin = this;
+		api = new UltraChatAPI(this);
 		 if (getServer().getPluginManager().getPlugin("Vault") == null && !setupChat()) {
 			 	getLogger().info(String.format("[%s] - Vault is not found!", getDescription().getName()));
 				getLogger().severe("�cWarning: You do not have Vault installed! This plugin has been disabled!");
@@ -89,20 +91,25 @@ public class UltraChat extends JavaPlugin{
 			 getLogger().info(String.format("UltraChat is enabled and running fine! V: %s", getDescription().getVersion())); 
 			 getLogger().info("Hooked into PlaceholderAPI! You can use the place holders!");
 		 }
-		 if(getServer().getPluginManager().getPlugin("AdvancedBan") != null && getConfig().getBoolean("pluginhooks.AdvancedBan")){
+		 if(getServer().getPluginManager().getPlugin("AdvancedBan") != null && getConfig().getBoolean("pluginhooks.AdvancedBan", false)){
 			 getLogger().info("AdvancedBan detected! Activating hook!");
 			 getLogger().info("Mutes will now work with the chat types.");
 			 Bukkit.getServer().getPluginManager().registerEvents(new AdvancedBanMute(), this);
 		 }
-		 if(getServer().getPluginManager().getPlugin("Essentials") != null && getConfig().getBoolean("pluginhooks.Essentials")){
+		 if(getServer().getPluginManager().getPlugin("Essentials") != null && getConfig().getBoolean("pluginhooks.Essentials", false)){
 			 getLogger().info("Essentials detected! Activating hook!");
 			 getLogger().info("Mutes will now work with the chat types.");
 			 Bukkit.getServer().getPluginManager().registerEvents(new EssentialsMute(), this);
 		 }
-		if(getServer().getPluginManager().getPlugin("DiscordSRV") != null && getConfig().getBoolean("pluginhooks.DiscordSRV")){
+		if(getServer().getPluginManager().getPlugin("DiscordSRV") != null && getConfig().getBoolean("pluginhooks.DiscordSRV", false)){
 			getLogger().info("DiscordSRV detected! Activating hook!");
 			getLogger().info("Set 'discord: true' in channel configuration for Discord forwarding.");
 			Bukkit.getServer().getPluginManager().registerEvents(new DiscordSRVHook(this), this);
+		}
+		if(getServer().getPluginManager().getPlugin("Towny") != null && getConfig().getBoolean("pluginhooks.Towny", false)) {
+			getLogger().info("Hooked into Towny!");
+			getLogger().info("Enabled 'town' and 'nation' channel scopes");
+			Bukkit.getServer().getPluginManager().registerEvents(new TownyChatHook(), this);
 		}
 		loadMethod();
 		registerConfig();
@@ -111,7 +118,6 @@ public class UltraChat extends JavaPlugin{
 
 		setupPermissions();
 		setupChat();
-		setupTowny();
 		setupFormatting();
 		loadLang();
 		if(plugin.getConfig().getBoolean("bstats")){
@@ -120,25 +126,15 @@ public class UltraChat extends JavaPlugin{
 		}
 	}
 
-	private void setupTowny() {
-		if (Bukkit.getPluginManager().isPluginEnabled("Towny")) {
-			if(!plugin.getConfig().getBoolean("pluginhooks.Towny", false)) {
-				getLogger().info("Towny plugin found, but support disabled in configuration.");
-				getLogger().info("Consider using channel scopes to replace TownyChat");
-				return;
-			}
-			getLogger().info("Hooked into Towny!");
-			getLogger().info("Enabled 'town' and 'nation' channel scopes");
-			//getLogger().info(String.format("[%s] Enabled /nc and /tc aliases", getDescription().getName()));
-			this.towny = (Towny) Bukkit.getPluginManager().getPlugin("Towny");
-		}
+	public UltraChatAPI getAPI() {
+		return this.api;
 	}
 
 	@Override
 	public void onDisable(){
-		getLogger().info("[UltraChat] has been disabled correctly!");
 		saveFile();
 		saveChannel();
+		getLogger().info("[UltraChat] has been disabled correctly!");
 	}
 	/**
 	 * Setup the chat formatting.

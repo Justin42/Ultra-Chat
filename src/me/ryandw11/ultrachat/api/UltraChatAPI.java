@@ -1,6 +1,7 @@
 package me.ryandw11.ultrachat.api;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +16,9 @@ import me.ryandw11.ultrachat.UltraChat;
  */
 
 public class UltraChatAPI{
+	private UltraChat plugin;
+	private EnumMap<UltraChatHookType, String> hookPluginName;
+
 	/*
 	 * 
 	 * 		UltraChatAPI ch = new UltraChatAPI(UltraChat.plugin); < Method
@@ -22,19 +26,29 @@ public class UltraChatAPI{
 	 * 
 	 * 
 	 */
+	public UltraChatAPI(UltraChat plugin){
+
+		this.plugin = plugin;
+		this.setHookPluginNames();
+	}
+
+	protected void setHookPluginNames() {
+		hookPluginName = new EnumMap<>(UltraChatHookType.class);
+		hookPluginName.put(UltraChatHookType.AdvancedBan, "AdvancedBan");
+		hookPluginName.put(UltraChatHookType.Essentials, "Essentials");
+		hookPluginName.put(UltraChatHookType.DiscordSRV, "DiscordSRV");
+		hookPluginName.put(UltraChatHookType.Towny, "Towny");
+	}
+
+
 	/**
 	 * Grab the Instance
-	 * @return #getPlugin()
-	 * @deprecated
+	 * @return UltraChatAPI instance
 	 */
-	public static UltraChat getInstance(){
-		return getPlugin();
+	public static UltraChatAPI getInstance(){
+		return UltraChat.plugin.getAPI();
 	}
-	
-	private UltraChat plugin;
-	public UltraChatAPI(UltraChat plugin){
-		this.plugin = plugin;
-	}
+
 	/**
 	 * Grab the player's current channel.
 	 * @param player
@@ -43,6 +57,7 @@ public class UltraChatAPI{
 	public String getPlayerChannel(Player player){
 		return plugin.data.getString(player.getUniqueId() + ".channel");
 	}
+
 	/**
 	 * Get the servers default channel.
 	 * @return Default Channel
@@ -50,6 +65,7 @@ public class UltraChatAPI{
 	public String getDefaultChannel(){
 		return plugin.getConfig().getString("Default_Channel");
 	}
+
 	/**
 	 * Set the player's channel.
 	 * @param player
@@ -59,6 +75,7 @@ public class UltraChatAPI{
 		plugin.data.set(player.getUniqueId() + ".channel", channel);
 		plugin.saveFile();
 	}
+
 	/**
 	 * Set the default channel
 	 * @param channel
@@ -67,6 +84,7 @@ public class UltraChatAPI{
 		plugin.getConfig().set("Default_Config", channel);
 		plugin.saveConfig();
 	}
+
 	/**
 	 * Get a channel's json.
 	 * @param channel
@@ -76,6 +94,7 @@ public class UltraChatAPI{
 	public ArrayList<String> getChannelJson(String channel){
 		return (ArrayList<String>) plugin.channel.get(channel + ".JSON");
 	}
+
 	/**
 	 * Get a format's json.
 	 * @param number
@@ -85,6 +104,7 @@ public class UltraChatAPI{
 	public ArrayList<String> getChatFormatJson(String number){
 		return (ArrayList<String>) plugin.getConfig().get("Custom_Chat." + number + ".JSON");
 	}
+
 	/**
 	 * Set a channel's json.
 	 * @param json
@@ -94,6 +114,7 @@ public class UltraChatAPI{
 		plugin.channel.set(channel + ".json", json);
 		plugin.saveChannel();
 	}
+
 	/**
 	 * Set a format's json.
 	 * @param json
@@ -104,6 +125,7 @@ public class UltraChatAPI{
 		plugin.getConfig().set("Custom_Chat." + number + ".JSON", json);
 		plugin.saveConfig();
 	}
+
 	/**
 	 * Check to see if channels are enabled.
 	 * @return boolean
@@ -111,6 +133,7 @@ public class UltraChatAPI{
 	public boolean isChannelEnabled(){
 		return plugin.getConfig().getBoolean("ChannelChatListener");
 	}
+
 	/**
 	 * Check to see if json is enabled.
 	 * @return boolean
@@ -118,6 +141,7 @@ public class UltraChatAPI{
 	public boolean isJsonEnabled(){
 		return plugin.getConfig().getBoolean("JSON");
 	}
+
 	/**
 	 * Get a chat format.
 	 * @param number
@@ -126,6 +150,7 @@ public class UltraChatAPI{
 	public String getFormat(String number){
 		return plugin.getConfig().getString("Custom_Chat." + number + ".Format");
 	}
+
 	/**
 	 * Get the op format.
 	 * @return op format.
@@ -133,6 +158,7 @@ public class UltraChatAPI{
 	public String getOpFormat(){
 		return plugin.getConfig().getString("Custom_Chat.Op_Chat.Format");
 	}
+
 	/**
 	 * Get the default format.
 	 * @return op format.
@@ -140,6 +166,7 @@ public class UltraChatAPI{
 	public String getDefaultFormat(){
 		return plugin.getConfig().getString("Custom_Chat.Default.Format");
 	}
+
 	/**
 	 * Get the permission of a chat group.
 	 * @param number
@@ -148,6 +175,7 @@ public class UltraChatAPI{
 	public String getPermission(String number){
 		return plugin.getConfig().getString("Custom_Chat." + number + ".Permission");
 	}
+
 	/**
 	 * Get the number of formats
 	 * @return Chat Count
@@ -155,6 +183,7 @@ public class UltraChatAPI{
 	public int getChatCount(){
 		return plugin.getConfig().getInt("Custom_Chat.Chat_Count");
 	}
+
 	/**
 	 * Get a player's color. Example: &4
 	 * @param player
@@ -163,6 +192,7 @@ public class UltraChatAPI{
 	public String getPlayerColor(Player player){
 		return plugin.data.getString(player.getUniqueId() + ".color");
 	}
+
 	/**
 	 * Set a player's color.
 	 * @param player
@@ -172,6 +202,7 @@ public class UltraChatAPI{
 		plugin.data.set(player.getUniqueId() + ".color", color);
 		plugin.saveFile();
 	}
+
 	/**
 	 * Get the swear word list.
 	 * @return Block swear words.
@@ -180,6 +211,7 @@ public class UltraChatAPI{
 	public ArrayList<String> getSwearWords(){
 		return (ArrayList<String>) plugin.getConfig().get("Blocked_Words");
 	}
+
 	/**
 	 * Set the swear word list.
 	 * @param words
@@ -188,6 +220,7 @@ public class UltraChatAPI{
 		plugin.getConfig().set("Blocked_Words", words);
 		plugin.saveConfig();
 	}
+
 	/**
 	 * Create a channel.
 	 * @param channel
@@ -197,7 +230,6 @@ public class UltraChatAPI{
 	 * @param format
 	 * @param json
 	 */
-	
 	public void createChannel(String channel, String prefix, String permission, boolean always_appear, String format, ArrayList<String> json){
 		plugin.channel.set(channel + ".prefix", prefix);
 		plugin.channel.set(channel + ".permission", permission);
@@ -206,6 +238,7 @@ public class UltraChatAPI{
 		plugin.channel.set(channel + ".JSON", json);
 		plugin.saveChannel();
 	}
+
 	/**
 	 * Remove a channel.
 	 * @param channel
@@ -222,6 +255,7 @@ public class UltraChatAPI{
 	public static UltraChat getPlugin(){
 		return UltraChat.plugin;
 	}
+
 	/**
 	 * Get the current formatting type.
 	 * @return The value of the config.
@@ -229,6 +263,7 @@ public class UltraChatAPI{
 	public String getFormattingType(){
 		return plugin.getConfig().getString("chat_format");
 	}
+
 	/**
 	 * Get if the channel has json enabled or not.
 	 * @return True or false.
@@ -247,6 +282,7 @@ public class UltraChatAPI{
 			return true;
 		return false;
 	}
+
 	/**
 	 * Get if range has json or not.
 	 * @return True or False.
@@ -254,26 +290,35 @@ public class UltraChatAPI{
 	public boolean isRangeJson(){
 		return plugin.getConfig().getBoolean("Range_Json");
 	}
+
 	/**
 	 * Get the current active hooks.
-	 * @return The set witht the names of the plugins. Returns null if no hooks are active.
+	 * @return The set with the names of the plugins. Returns null if no hooks are active.
 	 */
 	public Set<String> getActiveHooks(){
 		Set<String> s = new HashSet<String>();
-		if(Bukkit.getServer().getPluginManager().getPlugin("AdvancedBan") != null && plugin.getConfig().getBoolean("pluginhooks.Essentials")){
+		if(Bukkit.getServer().getPluginManager().isPluginEnabled("Essentials") && plugin.getConfig().getBoolean("pluginhooks.Essentials")){
 			s.add("Essentials");
 		}
-		if(Bukkit.getServer().getPluginManager().getPlugin("Essentials") != null && plugin.getConfig().getBoolean("pluginhooks.AdvancedBan")){
+		if(Bukkit.getServer().getPluginManager().isPluginEnabled("AdvancedBan") && plugin.getConfig().getBoolean("pluginhooks.AdvancedBan")){
 			s.add("AdvancedBan");
 		}
-		if(Bukkit.getServer().getPluginManager().getPlugin("Towny") != null && plugin.getConfig().getBoolean("pluginhooks.Towny")){
+		if(Bukkit.getServer().getPluginManager().isPluginEnabled("Towny") && plugin.getConfig().getBoolean("pluginhooks.Towny")){
 			s.add("Towny");
 		}
-		if(Bukkit.getServer().getPluginManager().getPlugin("DiscordSRV") != null && plugin.getConfig().getBoolean("pluginhooks.DiscordSRV")){
+		if(Bukkit.getServer().getPluginManager().isPluginEnabled("DiscordSRV") && plugin.getConfig().getBoolean("pluginhooks.DiscordSRV")){
 			s.add("DiscordSRV");
 		}
 		
 		return s;
 	}
-	
+
+	public boolean isHookActive(UltraChatHookType hookType) {
+		String pluginName = hookPluginName.get(hookType);
+		if(pluginName != null) {
+			return Bukkit.getServer().getPluginManager().isPluginEnabled(pluginName)
+					&& plugin.getConfig().getBoolean("pluginhooks." + pluginName);
+		}
+		return false;
+	}
 }

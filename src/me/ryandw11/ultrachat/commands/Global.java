@@ -34,7 +34,7 @@ public class Global implements CommandExecutor {
 			p.sendMessage(Lang.NO_PERM.toString());
 			return true;
 		}
-		UltraChatAPI uapi = new UltraChatAPI(plugin);
+		UltraChatAPI uapi = plugin.getAPI();
 		PlayerFormatting pf = new PlayerFormatting(p);
 		if(!uapi.isRangeJson()){
 			GlobalChatEvent e = new GlobalChatEvent(p, this.getMessage(args, p));
@@ -59,13 +59,13 @@ public class Global implements CommandExecutor {
 	}
 	
 	private String getMessage(String[] args, Player p){
-		String end = "";
+		StringBuilder end = new StringBuilder();
 		for(String s : args){
-			end += s + " ";
+			end.append(s).append(" ");
 		}
 		if(p.hasPermission("ultrachat.color"))
-			return ChatColor.translateAlternateColorCodes('&', end);
-		return end;
+			return ChatColor.translateAlternateColorCodes('&', end.toString());
+		return end.toString();
 	}
 
 }

@@ -19,6 +19,7 @@ public class ChannelChatEvent extends Event {
     private final String channelName;
     private Set<Player> recipients;
     private boolean cancelled;
+    private String scope;
 
     public ChannelChatEvent(Player p, Set<Player> recipients,final String channelName, String messageFormat, String messageBody) {
         this.player = p;
@@ -44,11 +45,15 @@ public class ChannelChatEvent extends Event {
 
     public String getChannelName() { return channelName; }
 
+    public String getScope() { return scope; }
+
     public boolean isCancelled(){ return cancelled; }
 
     public void setCancelled(boolean cancel){
         cancelled = cancel;
     }
+
+    public void setScope(String scope) {  this.scope = scope; }
 
     public HandlerList getHandlers() {
         return handlers;
@@ -57,4 +62,5 @@ public class ChannelChatEvent extends Event {
     public static HandlerList getHandlerList() {
         return handlers;
     }
+
 }
