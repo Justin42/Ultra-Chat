@@ -38,8 +38,8 @@ public class ChannelChatListener implements Listener {
         Player p = e.getPlayer();
 
         // Set recipients
-        String channel = plugin.data.getString(p.getUniqueId() + ".channel");
         String defaultChannel = plugin.data.getString("Default_Channel", "global");
+        String channel = plugin.data.getString(p.getUniqueId() + ".channel", defaultChannel);
         String scope = plugin.channel.getString(channel + ".scope", "global");
 
         if (p.hasPermission("ultrachat.chat.color")) {
