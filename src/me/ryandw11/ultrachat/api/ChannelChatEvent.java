@@ -18,7 +18,7 @@ public class ChannelChatEvent extends Event {
     private String messageFormat;
     private final String channelName;
     private Set<Player> recipients;
-    private boolean cancelled;
+    private boolean cancelled = false;
     private String scope;
 
     public ChannelChatEvent(Player p, Set<Player> recipients,final String channelName, String messageFormat, String messageBody) {
