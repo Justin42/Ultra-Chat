@@ -18,7 +18,6 @@ public class DiscordSRVHook implements Listener {
 	@EventHandler
 	public void onChannelChat(ChannelChatEvent e){
 		if(plugin.getAPI().isHookActive(UltraChatHookType.DiscordSRV) && plugin.channel.getBoolean(e.getChannelName() + ".discord", false)) {
-			//plugin.getLogger().info(String.format("Forwarding channel message from %s to discord.", e.getChannelName()));
 			DiscordSRV.getPlugin().processChatMessage(e.getPlayer(), e.getMessage(), e.getChannelName(), e.isCancelled());
 		}
 	}
