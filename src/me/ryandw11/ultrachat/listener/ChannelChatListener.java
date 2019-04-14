@@ -65,9 +65,9 @@ public class ChannelChatListener implements Listener {
                 } else if (plugin.towny != null) {
                     try {
                         Resident residentSender = TownyUniverse.getDataSource().getResident(p.getName());
-                        Resident residentReceiver = TownyUniverse.getDataSource().getResident(p.getName());
+                        Resident residentReceiver = TownyUniverse.getDataSource().getResident(pl.getName());
                         // This can probably be removed or done when setting channels.
-                        if (!residentSender.hasTown() || !residentReceiver.hasTown()) {
+                        if (!residentSender.hasTown()) {
                             e.setCancelled(true);
                             break;
                         }
@@ -99,22 +99,27 @@ public class ChannelChatListener implements Listener {
                 p.sendMessage(String.format(ChatColor.RED + "You have been moved to the default channel '%s'", defaultChannel));
             }
         }
+        if(!e.isCancelled()) {
+            e.setCancelled(true);
+            String chatFormat = plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format");
+            ChannelChatEvent chatEvent = new ChannelChatEvent(e.getPlayer(), e.getRecipients(), channel, chatFormat, e.getMessage());
+            Bukkit.getServer().getPluginManager().callEvent(chatEvent);
+        }
         e.setCancelled(true);
-        String chatFormat = plugin.channel.getString(channel + ".prefix") + plugin.channel.getString(channel + ".format");
-        ChannelChatEvent chatEvent = new ChannelChatEvent(e.getPlayer(), e.getRecipients(), channel, chatFormat, e.getMessage());
-        Bukkit.getServer().getPluginManager().callEvent(chatEvent);
     }
 
     @EventHandler
     public void onChannelChat(ChannelChatEvent e) {
-        if (plugin.JSON) {
-            JSONMessage jsonMessage = buildJSONMessage(e);
-            for (Player recipient : e.getRecipients()) {
-                jsonMessage.send(recipient);
+        if(!e.isCancelled()) {
+            if (plugin.JSON) {
+                JSONMessage jsonMessage = buildJSONMessage(e);
+                for (Player recipient : e.getRecipients()) {
+                    jsonMessage.send(recipient);
+                }
+            } else for (Player recipient : e.getRecipients()) {
+                String chatMessage = formatMessage(e.getPlayer(), e.getMessageFormat(), e.getMessage());
+                recipient.sendRawMessage(chatMessage);
             }
-        } else for (Player recipient : e.getRecipients()) {
-            String chatMessage = formatMessage(e.getPlayer(), e.getMessageFormat(), e.getMessage());
-            recipient.sendRawMessage(chatMessage);
         }
     }
 
